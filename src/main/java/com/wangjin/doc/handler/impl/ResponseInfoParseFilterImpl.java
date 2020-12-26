@@ -1,0 +1,125 @@
+package com.wangjin.doc.handler.impl;
+
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.stmt.Statement;
+import com.wangjin.doc.base.InterfaceDoc;
+import com.wangjin.doc.cache.FileCache;
+import com.wangjin.doc.domain.ResultInfo;
+import com.wangjin.doc.handler.ParseFilter;
+
+import java.nio.file.Paths;
+
+import static com.wangjin.doc.utils.BaseUtils.*;
+
+/**
+ * 统一处理返回值
+ *
+ * @description:
+ * @author: wajn
+ * @create: 2020-04-25 19:32
+ **/
+public class ResponseInfoParseFilterImpl extends ParseFilter {
+
+    @Override
+    protected void filter(InterfaceDoc.MethodDoc doc) {
+        JSONObject obj = getJSONObject();
+
+        JSONArray resultInfos = obj.getJSONArray("resultInfo");
+        resultInfos.clear();
+
+        if ("void".equals(doc.getResponseObject())) {
+            return;
+        }
+
+        final String responseObject = formatResponseObject(doc);
+
+        FileCache.FC fc = FileCache.getFc(responseObject);
+
+        if (fc == null) {
+            //没有查到 说明返回类型不是实体对象
+            resultInfos.add(ResultInfo.builder().paramKey(responseObject)
+                    .paramName(responseObject)
+                    .paramType(paramTypeFormat(responseObject))
+                    .build());
+            return;
+        }
+
+        //直接在缓存中命中, 则说明当前返回值是某个类.  开始解析
+
+        CompilationUnit cu = parseHandler.handler(Paths.get(fc.getFilePath()));
+        TypeDeclaration<?> type = cu.getType(0);
+
+        super.parseMember(resultInfos, type.getMembers(), null, false);
+        super.parseExtend(resultInfos, type, null, false);
+    }
+
+    /**
+     * 格式化接口的返回值
+     *
+     * @param doc
+     * @return
+     */
+    private String formatResponseObject(InterfaceDoc.MethodDoc doc) {
+        String responseObject = doc.getResponseObject();
+        if ("PageInfo".equals(responseObject)) {
+            //没有加泛型 开始容错处理:
+            responseObject = this.parseResponseObject(doc);
+        }
+
+        if (responseObject.startsWith("List<")) {
+            responseObject = responseObject.replace("List<", "");
+            responseObject = responseObject.replace(">", "");
+        }
+
+        if (responseObject.startsWith("PageInfo<")) {
+            responseObject = responseObject.replace("PageInfo<", "");
+            responseObject = responseObject.replace(">", "");
+        }
+        return responseObject;
+    }
+
+
+    /**
+     * 解析返回值,因为部分开发的接口没加泛型,这个方法的作用就是尽可能的推断出返回值
+     *
+     * @param doc
+     * @return
+     */
+    private String parseResponseObject(InterfaceDoc.MethodDoc doc) {
+        String responseObject = doc.getResponseObject();
+        if (doc.getBody().isEmpty()) {
+            return responseObject;
+        }
+        try {
+            Statement statement = doc.getBody().get(doc.getBody().size() - 1);
+            String body = statement.toString();
+            String s = ReUtil.get("PageInfo<\\S+>", body, 0);
+            if (s != null) {
+                return s;
+            }
+
+            String service = ReUtil.get("\\((\\S+Service)", body, 1);
+            if (service == null) {
+                printError("分页返回值泛型推断失败,解析失败.   RequestMapping:{}", doc.getRequestMapping());
+                return responseObject;
+            }
+            service = StrUtil.upperFirst(service);
+            CompilationUnit handler = parseHandler.handler(Paths.get(FileCache.getFc(service).getFilePath()));
+            TypeDeclaration<?> type = handler.getType(0);
+            if (type instanceof ClassOrInterfaceDeclaration) {
+                ClassOrInterfaceDeclaration cid = (ClassOrInterfaceDeclaration) type;
+                return cid.getExtendedTypes().get(0).getTypeArguments().get().getFirst().get().asString();
+            }
+        } catch (Exception e) {
+            printWarn("可忽略的异常");
+        }
+        return responseObject;
+    }
+
+}

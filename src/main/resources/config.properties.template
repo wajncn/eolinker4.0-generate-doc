@@ -1,0 +1,21 @@
+# 项目的绝对路径,不是模块的绝对路径. 路径需要转义下如以下:
+project_path=C:\\Users\\pc\\IdeaProjects\\guanghui-mini
+
+# 接口的绝对路径,不是接口名称. 路径需要转义下如以下:
+# 比如:C:\\Users..controller\\UserController.java 只会生成该类的接口文档
+# 或者C:\\Users..controller\\*   *则代表生成该目录所有的接口文档
+controller_path=C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-wechat\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\WxUsersCarController.java
+
+
+# 是否同步 true/false
+# 同步功能会自动把文档生成到doc系统里面, 如果请求路径和文档说明一样则程序会自动修改. 否则是新增行为
+doc.synchronous=true
+# 如果不同步,则以下参数可以不用配置啦
+# 文档系统登录的账号
+doc.username=wangjin
+# 文档系统登录的密码
+doc.password=
+# 文档系统项目id 具体打开项目参考url的参数
+doc.project_id=340
+# 文档系统分组的id 打开项目后,点击下分组,浏览器地址栏能看到分组的ID
+doc.group_id=2355
