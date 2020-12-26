@@ -45,7 +45,7 @@ public class LoginDocHandler {
             throw new IllegalArgumentException("账号密码错误,无法自动同步到文档系统");
         }
         token = jsonObject.getStr("JSESSIONID");
-        apiLists = LoginDocHandler.getAllApiList().stream().collect(Collectors.toMap(k -> k.getApiName() + k.getApiURI(), v -> v, (v1, v2) -> v1));
+        apiLists = LoginDocHandler.getAllApiList().stream().collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
     }
 
 
@@ -132,9 +132,9 @@ public class LoginDocHandler {
             return;
         }
 
-        ApiList apiList = apiLists.get(doc.getComment() + doc.getRequestMapping());
+        ApiList apiList = apiLists.get(doc.getRequestMapping() + doc.getMethodType().getApiRequestType());
         if (apiList != null) {
-            BaseUtils.printTips("文档{}已存在, 系统正在修改文档...", doc.getComment());
+            BaseUtils.printTips("文档{}已存在, 系统正在修改文档...", doc.getRequestMapping());
             del(apiList.getApiID());
         }
 

@@ -16,7 +16,9 @@ dependencies {
     compile group: 'cn.hutool', name: 'hutool-json', version: '5.4.0'
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    compile group: 'com.konghq', name: 'unirest-java', version: '3.11.06'
+    compile (group: 'com.konghq', name: 'unirest-java', version: '3.11.06'){
+        exclude group: 'com.google.code.gson'
+    }
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: '3.16.1'
 
 
@@ -28,6 +30,6 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      1.0版本.<br>
+      <em>可以自动把controller同步到接口文档系统</em>"""
 }

@@ -1,6 +1,7 @@
 package com.wangjin.doc.handler.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.ui.Messages;
 import com.wangjin.doc.base.Project;
@@ -58,15 +59,13 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         String password = properties.getProperty("doc.password");
         String project_id = properties.getProperty("doc.project_id");
         String group_id = properties.getProperty("doc.group_id");
-        boolean synchronous = Boolean.parseBoolean(properties.getProperty("doc.synchronous"));
-
 
         DocConfig.init(DocConfig.builder().controllerPaths(controller_paths).projectPath(project_path)
                 .username(username)
                 .password(password)
                 .projectId(project_id)
                 .groupId(group_id)
-                .synchronous(synchronous)
+                .synchronous(true)
                 .build());
     }
 
