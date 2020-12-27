@@ -7,12 +7,13 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.wangjin.doc.base.Main;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-/**
+/**令牌无效,无法自动同步到文档系统
  * @program: gen-doc-plugin
  * @description
  * @author: 王进
@@ -28,6 +29,7 @@ public class MainPlugin extends AnAction {
             return;
         }
         Main.BASE_PATH = project.getBasePath();
+        Main.PROJECT = project;
         Main.CONTROLLER_PATHS = Arrays.stream(data).map(file -> {
             return StrUtil.removePrefix(Paths.get(file.getPath()).toString(), "file:/");
         }).collect(Collectors.toList());

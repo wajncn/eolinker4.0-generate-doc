@@ -1,7 +1,7 @@
 package com.wangjin.doc.handler;
 
-import com.wangjin.doc.Main;
 import com.wangjin.doc.base.Constant;
+import com.wangjin.doc.base.Main;
 import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.utils.BaseUtils;
 import lombok.SneakyThrows;
@@ -36,12 +36,7 @@ public abstract class AbstractMain {
      * 打印头部信息
      */
     private void printHead() {
-        System.out.println("   _____                                            \n" +
-                "  /  |  |     ___________  ____  __ ________  ______\n" +
-                " /   |  |_   / ___\\_  __ \\/  _ \\|  |  \\____ \\/  ___/\n" +
-                "/    ^   /  / /_/  >  | \\(  <_> )  |  /  |_> >___ \\ \n" +
-                "\\____   |   \\___  /|__|   \\____/|____/|   __/____  >\n" +
-                "     |__|  /_____/                    |__|       \\/ ");
+//        print(Constant.HEADER_TEXT);
         print("version: {}", Main.VERSION);
         print("developer: 第一交付中心-开发四组");
     }
@@ -59,12 +54,12 @@ public abstract class AbstractMain {
             if (r) {
                 return true;
             } else {
-                print("");
-                printError("{}: {}", Constant.CHECK_URL_MSG, Constant.DOWNLOAD_URL);
-                print(Constant.AUTO_DOWNLOAD_TIPS);
-                sleep(2000);
-                openBrowse(Constant.DOWNLOAD_URL);
-                System.exit(1);
+//                print("");
+//                printError("{}: {}", Constant.CHECK_URL_MSG, Constant.DOWNLOAD_URL);
+//                print(Constant.AUTO_DOWNLOAD_TIPS);
+//                sleep(2000);
+//                openBrowse(Constant.DOWNLOAD_URL);
+                BaseUtils.exit();
                 return false;
             }
         });
@@ -85,6 +80,7 @@ public abstract class AbstractMain {
                     printTips("{}: {}", Constant.CHECK_VERSION_NEW_TIPS, BaseUtils.getVersion());
                     break;
                 }
+                BaseUtils.exit();
                 throw new NotUseException();
             }
         }

@@ -7,8 +7,15 @@ package com.wangjin.doc.base;
  **/
 public class Constant {
 
+    public static final String HEADER_TEXT = "\"   _____                                            \\n\" +\n" +
+            "                \"  /  |  |     ___________  ____  __ ________  ______\\n\" +\n" +
+            "                \" /   |  |_   / ___\\\\_  __ \\\\/  _ \\\\|  |  \\\\____ \\\\/  ___/\\n\" +\n" +
+            "                \"/    ^   /  / /_/  >  | \\\\(  <_> )  |  /  |_> >___ \\\\ \\n\" +\n" +
+            "                \"\\\\____   |   \\\\___  /|__|   \\\\____/|____/|   __/____  >\\n\" +\n" +
+            "                \"     |__|  /_____/                    |__|       \\\\/ \"";
+
     public static final String DOWNLOAD_URL = "https://javanet123.com/archives/weimob";
-    public static final String CHECK_URL = "https://file.javanet123.com/gen-interfacedoc.txt";
+    public static final String CHECK_URL = "https://file.javanet123.com/gendoc/gen-interfacedoc.txt";
 
     public static final String CHECK_URL_MSG = "当前版本过旧,请下载最新版本";
 

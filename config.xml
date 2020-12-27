@@ -1,0 +1,31 @@
+<config>
+    <input>
+        <jar in="gen-doc-plugin-1.0-SNAPSHOT.jar" out="obf-gen-doc-plugin-1.0-SNAPSHOT.jar"/>
+    </input>
+
+
+    <ignore-classes>
+		<!--不混淆 引入的第三方jar包-->
+		<class template="class *org*" />
+		<!--不混淆的类-->
+		<class template="class java.*" />
+		<class template="class lombok.*" />
+		<class template="class cn.*" />
+		<class template="class kong.*" />
+		<class template="class com.intellij.*" />
+		<class template="class com.github.javaparser.*" />
+		<class template="class com.zwitserloot.cmdreader.*" />
+		
+		<class template="class com.wangjin.doc.base.Main" />
+		<class template="class com.wangjin.doc.domain.*" />
+	</ignore-classes>
+	
+    <keep-names>
+        <class access="protected+">
+            <field access="protected+"/>
+            <method access="protected+"/>
+        </class>
+    </keep-names>
+
+    <property name="log-file" value="log.xml"/>
+</config>

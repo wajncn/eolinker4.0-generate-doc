@@ -61,10 +61,12 @@ public class BaseUtils {
 
     public static void printError(String template, Object... values) {
         Console.error("error: ".concat(template), values);
+        MyNotifier.notifyError(StrUtil.format(template, values));
     }
 
     public static void printWarn(String template, Object... values) {
         Console.log("warning: ".concat(template), values);
+        MyNotifier.notifyWarn(StrUtil.format(template, values));
     }
 
     public static void printScanner(String msg) {
@@ -77,6 +79,7 @@ public class BaseUtils {
             return;
         }
         Console.log("info: ".concat(template), values);
+        MyNotifier.notifyInfo(StrUtil.format(template, values));
     }
 
     public static void print() {
@@ -85,6 +88,7 @@ public class BaseUtils {
 
     public static void printTips(String template, Object... values) {
         Console.log("tips: ".concat(template), values);
+        MyNotifier.notifyInfo(StrUtil.format(template, values));
     }
 
 
@@ -221,7 +225,10 @@ public class BaseUtils {
             e.printStackTrace();
         }
         //16是表示转换为16进制数
-        String md5Str = new BigInteger(1, digest).toString(16);
-        return md5Str;
+        return new BigInteger(1, digest).toString(16);
+    }
+
+    public static void exit(){
+        System.exit(1);
     }
 }

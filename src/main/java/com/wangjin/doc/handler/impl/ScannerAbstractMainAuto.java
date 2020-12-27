@@ -1,7 +1,6 @@
 package com.wangjin.doc.handler.impl;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.ui.Messages;
 import com.wangjin.doc.base.Project;
@@ -17,8 +16,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import static com.wangjin.doc.Main.BASE_PATH;
-import static com.wangjin.doc.Main.CONTROLLER_PATHS;
+import static com.wangjin.doc.base.Main.BASE_PATH;
+import static com.wangjin.doc.base.Main.CONTROLLER_PATHS;
 import static com.wangjin.doc.utils.BaseUtils.print;
 import static com.wangjin.doc.utils.BaseUtils.printTips;
 

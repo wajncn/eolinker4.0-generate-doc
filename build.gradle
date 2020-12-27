@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.doc'
-version '1.0-SNAPSHOT'
+version '2.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -31,5 +31,8 @@ intellij {
 patchPluginXml {
     changeNotes """
       1.0版本.<br>
-      <em>可以自动把controller同步到接口文档系统</em>"""
+      <em>可以自动把controller同步到接口文档系统</em><br>
+      2.0版本.<br>
+      <em>fix bug</em><br>
+      """
 }

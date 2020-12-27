@@ -150,7 +150,7 @@ public class LoginDocHandler {
         JSONObject jsonObject = JSONUtil.parseObj(response);
 
         if (!SUCCESS.equals(jsonObject.getStr("statusCode"))) {
-            BaseUtils.printError("令牌无效,无法自动同步到文档系统");
+            BaseUtils.printError("令牌无效,无法自动同步到文档系统 jsonObject:{}     token:{}    body:{}", jsonObject, token, body);
             return;
         }
     }
