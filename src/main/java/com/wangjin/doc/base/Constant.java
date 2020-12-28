@@ -6,24 +6,10 @@ package com.wangjin.doc.base;
  * @create: 2020-04-25 19:32
  **/
 public class Constant {
-
-    public static final String HEADER_TEXT = "\"   _____                                            \\n\" +\n" +
-            "                \"  /  |  |     ___________  ____  __ ________  ______\\n\" +\n" +
-            "                \" /   |  |_   / ___\\\\_  __ \\\\/  _ \\\\|  |  \\\\____ \\\\/  ___/\\n\" +\n" +
-            "                \"/    ^   /  / /_/  >  | \\\\(  <_> )  |  /  |_> >___ \\\\ \\n\" +\n" +
-            "                \"\\\\____   |   \\\\___  /|__|   \\\\____/|____/|   __/____  >\\n\" +\n" +
-            "                \"     |__|  /_____/                    |__|       \\\\/ \"";
-
-    public static final String DOWNLOAD_URL = "https://javanet123.com/archives/weimob";
-    public static final String CHECK_URL = "https://file.javanet123.com/gendoc/gen-interfacedoc.txt";
-
+    public static final String LICENSE = "https://javanet123.com/gendoc/license";
+    public static final String CONFIG_PROPERTIES = "https://javanet123.com/gendoc/config_properties";
     public static final String CHECK_URL_MSG = "当前版本过旧,请下载最新版本";
-
-
     public static final String CHECK_VERSION_NEW_TIPS = "服务器最新版本";
     public static final String CHECK_VERSION_TIPS = "tips: 正在检测版本,请稍后";
-
     public static final String POINT = ".";
-
-    public static final String AUTO_DOWNLOAD_TIPS = "两秒后自动打开下载页面";
 }

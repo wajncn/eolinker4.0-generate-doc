@@ -15,15 +15,16 @@ import java.util.List;
  * @author: wajn
  * @create: 2020-04-25 19:32
  **/
-public class Main {
+public class Application {
 
-    public static final String VERSION = "5.2.2";
+    public static final String VERSION = "5.2.3";
     /**
      * 项目的路径地址 运行jar包后用户捕获jar包所在的文件目录
      */
     public static String BASE_PATH = null;
     public static Project PROJECT = null;
     public static List<String> CONTROLLER_PATHS = null;
+
 
     @SneakyThrows
     public static void execute() {

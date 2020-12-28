@@ -1,7 +1,7 @@
 package com.wangjin.doc.handler;
 
 import com.wangjin.doc.base.Constant;
-import com.wangjin.doc.base.Main;
+import com.wangjin.doc.base.Application;
 import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.utils.BaseUtils;
 import lombok.SneakyThrows;
@@ -37,7 +37,7 @@ public abstract class AbstractMain {
      */
     private void printHead() {
 //        print(Constant.HEADER_TEXT);
-        print("version: {}", Main.VERSION);
+        print("version: {}", Application.VERSION);
         print("developer: 第一交付中心-开发四组");
     }
 

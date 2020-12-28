@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.doc'
-version '2.0-SNAPSHOT'
+version '2.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -16,7 +16,7 @@ dependencies {
     compile group: 'cn.hutool', name: 'hutool-json', version: '5.4.0'
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    compile (group: 'com.konghq', name: 'unirest-java', version: '3.11.06'){
+    compile(group: 'com.konghq', name: 'unirest-java', version: '3.11.06') {
         exclude group: 'com.google.code.gson'
     }
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: '3.16.1'
@@ -26,13 +26,16 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
+//    version '2019.3'
+//    version '2020.3'
     version '2020.1'
+//    type "IC"
 }
 patchPluginXml {
-    changeNotes """
-      1.0版本.<br>
-      <em>可以自动把controller同步到接口文档系统</em><br>
-      2.0版本.<br>
-      <em>fix bug</em><br>
-      """
+    changeNotes """<pre>
+      Release 1.0版本
+         1.可以自动把controller同步到接口文档系统
+      Release 2.0版本
+         2.fix bug
+      </pre>"""
 }

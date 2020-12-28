@@ -3,7 +3,7 @@ package com.wangjin.doc.utils;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.NotificationType;
-import com.wangjin.doc.base.Main;
+import com.wangjin.doc.base.Application;
 
 public class MyNotifier {
 
@@ -13,18 +13,18 @@ public class MyNotifier {
 
     public static void notifyError(String content) {
         NOTIFICATION_GROUP.createNotification(content, NotificationType.ERROR)
-                .notify(Main.PROJECT);
+                .notify(Application.PROJECT);
     }
 
 
     public static void notifyInfo(String content) {
         NOTIFICATION_GROUP.createNotification(content, NotificationType.INFORMATION)
-                .notify(Main.PROJECT);
+                .notify(Application.PROJECT);
     }
 
     public static void notifyWarn(String content) {
         NOTIFICATION_GROUP.createNotification(content, NotificationType.WARNING)
-                .notify(Main.PROJECT);
+                .notify(Application.PROJECT);
     }
 
 }

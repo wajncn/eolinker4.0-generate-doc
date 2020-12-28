@@ -42,8 +42,7 @@ public final class Project {
     private static final DocHandler docHandler = new DocHandlerImpl();
     private static final ParseHandler<CompilationUnit> parseHandler = new JavaParseHandlerImpl();
 
-
-    public static boolean isRepeat = false;
+    private static final ThreadLocal<Boolean> VERSION_INFO = new ThreadLocal<Boolean>();
 
     private Project() {
     }

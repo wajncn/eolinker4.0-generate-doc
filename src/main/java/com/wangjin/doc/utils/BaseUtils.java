@@ -1,10 +1,12 @@
 package com.wangjin.doc.utils;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.wangjin.doc.base.Constant;
 import kong.unirest.Unirest;
 import lombok.Getter;
 
@@ -14,8 +16,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static com.wangjin.doc.base.Constant.CHECK_URL;
 
 /**
  * @program: gen-interfacedoc
@@ -161,8 +161,7 @@ public class BaseUtils {
      */
     public static boolean checkVersion() {
         try {
-            String body = Unirest.get(CHECK_URL).asString().getBody();
-            JSONObject jsonObject = JSONUtil.parseObj(body.trim());
+            JSONObject jsonObject = JSONUtil.parseObj(Base64.decodeStr(Unirest.get(Constant.LICENSE).asString().getBody()).trim());
             Boolean status = jsonObject.getBool("status");
             VERSION = jsonObject.getStr("version").trim();
             return status;
@@ -228,7 +227,7 @@ public class BaseUtils {
         return new BigInteger(1, digest).toString(16);
     }
 
-    public static void exit(){
+    public static void exit() {
         System.exit(1);
     }
 }

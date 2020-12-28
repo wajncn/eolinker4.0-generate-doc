@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.wangjin.doc.base.Main.BASE_PATH;
+import static com.wangjin.doc.base.Application.BASE_PATH;
 import static com.wangjin.doc.utils.BaseUtils.print;
 
 

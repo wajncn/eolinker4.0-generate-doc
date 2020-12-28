@@ -1,6 +1,6 @@
 <config>
     <input>
-        <jar in="gen-doc-plugin-1.0-SNAPSHOT.jar" out="obf-gen-doc-plugin-1.0-SNAPSHOT.jar"/>
+        <jar in="gen-doc-plugin-2.1-SNAPSHOT.jar" out="obf-gen-doc-plugin-2.1-SNAPSHOT.jar"/>
     </input>
 
 
@@ -15,8 +15,6 @@
 		<class template="class com.intellij.*" />
 		<class template="class com.github.javaparser.*" />
 		<class template="class com.zwitserloot.cmdreader.*" />
-		
-		<class template="class com.wangjin.doc.base.Main" />
 		<class template="class com.wangjin.doc.domain.*" />
 	</ignore-classes>
 	
