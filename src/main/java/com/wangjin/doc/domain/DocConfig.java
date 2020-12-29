@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 public class DocConfig {
 
-    private static final ThreadLocal<DocConfig> config = new ThreadLocal<>();
+    private static final ThreadLocal<DocConfig> CONFIG = new ThreadLocal<>();
 
     private final String projectPath;
     private final List<String> controllerPaths;
@@ -27,11 +27,11 @@ public class DocConfig {
     private final boolean synchronous;
 
     public static DocConfig get() {
-        return config.get();
+        return CONFIG.get();
     }
 
     public static void init(DocConfig docConfig) {
-        config.set(docConfig);
+        CONFIG.set(docConfig);
         if (docConfig.synchronous) {
             Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: username");
             Assert.notEmpty(docConfig.getPassword(), "缺少配置属性: password");

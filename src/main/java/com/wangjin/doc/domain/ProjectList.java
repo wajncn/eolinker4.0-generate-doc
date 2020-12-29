@@ -1,6 +1,9 @@
 package com.wangjin.doc.domain;
 
+
+import cn.hutool.core.annotation.Alias;
 import lombok.Data;
+
 
 /**
  * @program: gen-interfacedoc
@@ -20,11 +23,23 @@ public class ProjectList {
      * projectVersion : 1.0
      */
 
+    @Alias("projectType")
     private int projectType;
+
+    @Alias("userType")
     private int userType;
+
+    @Alias("projectName")
     private String projectName;
+
+    @Alias("projectID")
     private int projectID;
+
+    @Alias("projectUpdateTime")
     private String projectUpdateTime;
+
+    @Alias("projectVersion")
     private String projectVersion;
+
 
 }
