@@ -4,8 +4,8 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Constant;
 import kong.unirest.Unirest;
 import lombok.Getter;
@@ -161,9 +161,9 @@ public class BaseUtils {
      */
     public static boolean checkVersion() {
         try {
-            JSONObject jsonObject = JSONUtil.parseObj(Base64.decodeStr(Unirest.get(Constant.LICENSE).asString().getBody()).trim());
-            Boolean status = jsonObject.getBool("status");
-            VERSION = jsonObject.getStr("version").trim();
+            JsonObject jsonObject = JsonParser.parseString(Base64.decodeStr(Unirest.get(Constant.LICENSE).asString().getBody()).trim()).getAsJsonObject();
+            boolean status = jsonObject.get("status").getAsBoolean();
+            VERSION = jsonObject.get("version").getAsString().trim();
             return status;
         } catch (Exception e) {
             return false;

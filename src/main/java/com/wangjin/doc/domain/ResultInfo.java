@@ -1,33 +1,33 @@
 package com.wangjin.doc.domain;
 
-import cn.hutool.core.annotation.Alias;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 @Builder
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultInfo {
-    @Alias("paramKey")
+    @SerializedName("paramKey")
     private final String paramKey;
 
-    @Alias("paramType")
+    @SerializedName("paramType")
     private final String paramType;
 
-    @Alias("paramValueList")
+    @SerializedName("paramValueList")
     private final List<?> paramValueList = new ArrayList<>();
 
-    @Alias("paramNotNull")
+    @SerializedName("paramNotNull")
     private final String paramNotNull = "0";
 
-    @Alias("paramName")
+    @SerializedName("paramName")
     private final String paramName;
 
-    @Alias("$index")
+    @SerializedName("$index")
     private final String index = "0";
 }

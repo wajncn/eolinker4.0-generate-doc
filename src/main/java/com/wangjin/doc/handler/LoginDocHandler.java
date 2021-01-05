@@ -2,9 +2,10 @@ package com.wangjin.doc.handler;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.domain.ApiList;
 import com.wangjin.doc.domain.DocConfig;
@@ -31,6 +32,7 @@ public class LoginDocHandler {
     private static final String SUCCESS = "000000";
     private static Map<String, ApiList> apiLists = new HashMap<>();
     private static String token = null;
+    private static final Gson GSON = new Gson();
 
     @SneakyThrows
     public static void login(@NonNull String username, @NonNull String password) {
@@ -40,11 +42,11 @@ public class LoginDocHandler {
                 .body(body)
                 .asString().getBody();
 
-        JSONObject jsonObject = JSONUtil.parseObj(response);
-        if (!SUCCESS.equals(jsonObject.getStr("statusCode"))) {
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             throw new IllegalArgumentException("账号密码错误,无法自动同步到文档系统");
         }
-        token = jsonObject.getStr("JSESSIONID");
+        token = jsonObject.get("JSESSIONID").getAsString();
         apiLists = LoginDocHandler.getAllApiList().stream().collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
     }
 
@@ -63,13 +65,13 @@ public class LoginDocHandler {
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
                 .asString().getBody();
-
-        JSONObject jsonObject = JSONUtil.parseObj(response);
-        if (!SUCCESS.equals(jsonObject.getStr("statusCode"))) {
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             return new ArrayList<>();
         }
-        JSONArray apiList = jsonObject.getJSONArray("projectList");
-        return apiList.toList(ProjectList.class);
+        List<ProjectList> list = GSON.fromJson(jsonObject.get("projectList").getAsJsonArray(), new TypeToken<List<ProjectList>>() {
+        }.getType());
+        return list;
     }
 
 
@@ -88,13 +90,13 @@ public class LoginDocHandler {
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
                 .asString().getBody();
-
-        JSONObject jsonObject = JSONUtil.parseObj(response);
-        if (!SUCCESS.equals(jsonObject.getStr("statusCode"))) {
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             return new ArrayList<>();
         }
-        JSONArray apiList = jsonObject.getJSONArray("apiList");
-        return apiList.toList(ApiList.class);
+        List<ApiList> list = GSON.fromJson(jsonObject.get("apiList").getAsJsonArray(), new TypeToken<List<ApiList>>() {
+        }.getType());
+        return list;
     }
 
 
@@ -116,9 +118,8 @@ public class LoginDocHandler {
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
                 .asString().getBody();
-
-        JSONObject jsonObject = JSONUtil.parseObj(response);
-        if (!SUCCESS.equals(jsonObject.getStr("statusCode"))) {
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             BaseUtils.printError("修改失败,未找到");
             return;
         }
@@ -145,11 +146,8 @@ public class LoginDocHandler {
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
                 .asString().getBody();
-
-
-        JSONObject jsonObject = JSONUtil.parseObj(response);
-
-        if (!SUCCESS.equals(jsonObject.getStr("statusCode"))) {
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             BaseUtils.printError("令牌无效,无法自动同步到文档系统 jsonObject:{}     token:{}    body:{}", jsonObject, token, body);
             return;
         }

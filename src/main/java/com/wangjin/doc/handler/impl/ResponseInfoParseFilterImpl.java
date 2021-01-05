@@ -2,12 +2,12 @@ package com.wangjin.doc.handler.impl;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.stmt.Statement;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.ResultInfo;
@@ -26,33 +26,34 @@ import static com.wangjin.doc.utils.BaseUtils.*;
  **/
 public class ResponseInfoParseFilterImpl extends ParseFilter {
 
+    private static final String RESULT_INFO = "resultInfo";
+
     @Override
     protected void filter(InterfaceDoc.MethodDoc doc) {
-        JSONObject obj = getJSONObject();
+        JsonObject obj = getJSONObject();
+        final JsonArray resultInfos = new JsonArray();
+        obj.add(RESULT_INFO,resultInfos);
 
-        JSONArray resultInfos = obj.getJSONArray("resultInfo");
-        resultInfos.clear();
 
         if ("void".equals(doc.getResponseObject())) {
             return;
         }
-
         final String responseObject = formatResponseObject(doc);
 
         FileCache.FC fc = FileCache.getFc(responseObject);
 
         if (fc == null) {
             //没有查到 说明返回类型不是实体对象
-            resultInfos.add(ResultInfo.builder().paramKey(responseObject)
+            resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey(responseObject)
                     .paramName(responseObject)
                     .paramType(paramTypeFormat(responseObject))
-                    .build());
+                    .build()));
             return;
         }
 
         //直接在缓存中命中, 则说明当前返回值是某个类.  开始解析
 
-        CompilationUnit cu = parseHandler.handler(Paths.get(fc.getFilePath()));
+        CompilationUnit cu = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
         TypeDeclaration<?> type = cu.getType(0);
 
         super.parseMember(resultInfos, type.getMembers(), null, false);
@@ -110,7 +111,7 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
                 return responseObject;
             }
             service = StrUtil.upperFirst(service);
-            CompilationUnit handler = parseHandler.handler(Paths.get(FileCache.getFc(service).getFilePath()));
+            CompilationUnit handler = PARSE_HANDLER.handler(Paths.get(FileCache.getFc(service).getFilePath()));
             TypeDeclaration<?> type = handler.getType(0);
             if (type instanceof ClassOrInterfaceDeclaration) {
                 ClassOrInterfaceDeclaration cid = (ClassOrInterfaceDeclaration) type;

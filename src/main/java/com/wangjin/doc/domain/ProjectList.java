@@ -1,7 +1,9 @@
 package com.wangjin.doc.domain;
 
 
-import cn.hutool.core.annotation.Alias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 
@@ -11,6 +13,7 @@ import lombok.Data;
  * @author: 王进
  **/
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectList {
 
 
@@ -23,22 +26,22 @@ public class ProjectList {
      * projectVersion : 1.0
      */
 
-    @Alias("projectType")
+    @SerializedName("projectType")
     private int projectType;
 
-    @Alias("userType")
+    @SerializedName("userType")
     private int userType;
 
-    @Alias("projectName")
+    @SerializedName("projectName")
     private String projectName;
 
-    @Alias("projectID")
+    @SerializedName("projectID")
     private int projectID;
 
-    @Alias("projectUpdateTime")
+    @SerializedName("projectUpdateTime")
     private String projectUpdateTime;
 
-    @Alias("projectVersion")
+    @SerializedName("projectVersion")
     private String projectVersion;
 
 

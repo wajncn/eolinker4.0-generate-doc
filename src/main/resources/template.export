@@ -45,39 +45,9 @@
         }
     },
     "requestInfo": [
-        {
-            "paramType": "0",
-            "paramKey": "请求参数",
-            "paramValueList": [],
-            "default": 0,
-            "paramNotNull": "0",
-            "$index": 0,
-            "paramName": "请求参数说明",
-            "paramNote": "",
-            "paramLimit": "",
-            "paramValue": ""
-        },
-        {
-            "paramType": "0",
-            "paramKey": "restful参数",
-            "paramValueList": [],
-            "default": 0,
-            "paramNotNull": "0",
-            "$index": 1,
-            "paramName": "restful说明",
-            "paramNote": "",
-            "paramLimit": "",
-            "paramValue": ""
-        }
+
     ],
     "resultInfo": [
-        {
-            "paramKey": "返回字段",
-            "paramType": "0",
-            "paramValueList": [],
-            "paramNotNull": "0",
-            "$index": 0,
-            "paramName": "返回字段说明"
-        }
+
     ]
 }

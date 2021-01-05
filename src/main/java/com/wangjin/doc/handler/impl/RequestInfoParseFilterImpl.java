@@ -1,9 +1,9 @@
 package com.wangjin.doc.handler.impl;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;
@@ -22,32 +22,33 @@ import static com.wangjin.doc.utils.BaseUtils.paramTypeFormat;
  **/
 public class RequestInfoParseFilterImpl extends ParseFilter {
 
+    private static final String REQUEST_INFO = "requestInfo";
+
     @Override
     protected void filter(InterfaceDoc.MethodDoc doc) {
-        JSONObject obj = getJSONObject();
+        JsonObject obj = getJSONObject();
 
-        final JSONArray requestInfos = obj.getJSONArray("requestInfo");
-        requestInfos.clear();
-
+        final JsonArray requestInfos = new JsonArray();
+        obj.add(REQUEST_INFO,requestInfos);
         for (InterfaceDoc.Args requestArg : doc.getRequestArgs()) {
             this.filter(requestInfos, requestArg);
         }
     }
 
-    private void filter(JSONArray requestInfos, InterfaceDoc.Args requestArg) {
+    private void filter(JsonArray requestInfos, InterfaceDoc.Args requestArg) {
         FileCache.FC fc = FileCache.getFc(requestArg.getType());
         if (fc == null) {
             //普通参数, 比如int,string等
-            requestInfos.add(RequestInfo.builder()
+            requestInfos.add(GSON.toJsonTree(RequestInfo.builder()
                     .paramType(paramTypeFormat(requestArg.getType()))
                     .paramKey(requestArg.getField())
                     .paramName(requestArg.getComment())
-                    .build());
+                    .build()));
             return;
         }
 
         // 实体对象
-        CompilationUnit cu = parseHandler.handler(Paths.get(fc.getFilePath()));
+        CompilationUnit cu = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
         TypeDeclaration<?> type = cu.getType(0);
 
 

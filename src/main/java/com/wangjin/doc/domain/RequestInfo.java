@@ -1,6 +1,8 @@
 package com.wangjin.doc.domain;
 
-import cn.hutool.core.annotation.Alias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,37 +11,38 @@ import java.util.List;
 
 @Builder
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestInfo {
 
-    @Alias("paramType")
+    @SerializedName("paramType")
     private final String paramType;
 
-    @Alias("paramKey")
+    @SerializedName("paramKey")
     private final String paramKey;
 
-    @Alias("paramValueList")
+    @SerializedName("paramValueList")
     private final List<?> paramValueList = new ArrayList<>();
 
-    @Alias("paramName")
+    @SerializedName("paramName")
     private final String paramName;
 
 
-    @Alias("default")
+    @SerializedName("default")
     private final String defaultV = "";
 
-    @Alias("paramNotNull")
+    @SerializedName("paramNotNull")
     private final String paramNotNull = "0";
 
-    @Alias("$index")
+    @SerializedName("$index")
     private final String index = "0";
 
-    @Alias("paramNote")
+    @SerializedName("paramNote")
     private final String paramNote = "";
 
-    @Alias("paramLimit")
+    @SerializedName("paramLimit")
     private final String paramLimit = "";
 
-    @Alias("paramValue")
+    @SerializedName("paramValue")
     private final String paramValue = "";
 
 }

@@ -3,20 +3,22 @@ package com.wangjin.doc.handler;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.github.javaparser.ast.CompilationUnit;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.domain.DocConfig;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import com.wangjin.doc.utils.BaseUtils;
+import kong.unirest.json.JSONArray;
 import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,15 +35,18 @@ import static com.wangjin.doc.utils.BaseUtils.print;
  **/
 public class ParseFactory {
 
-    protected static final ParseHandler<CompilationUnit> parseHandler = new JavaParseHandlerImpl();
+    protected final static ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
     private final static ThreadLocal<InterfaceDoc> THREAD_LOCAL = new ThreadLocal<>();
-    private final static ThreadLocal<JSONObject> JSON_OBJECT = new ThreadLocal<>();
-    private final List<ParseFilter> filters = new ArrayList<ParseFilter>();
+    private final static ThreadLocal<JsonObject> JSON_OBJECT = new ThreadLocal<>();
+    private final static List<ParseFilter> FILTERS = new ArrayList<ParseFilter>();
+    protected final static Gson GSON = new Gson();
 
     public ParseFactory(final InterfaceDoc interfaceDoc) {
+//        if (JSON_OBJECT.get() != null) {
+//            return;
+//        }
         String jsonstr = IoUtil.read(Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream("template.export")), "UTF-8");
-        JSONObject obj = JSONUtil.parseObj(jsonstr);
-        JSON_OBJECT.set(obj);
+        JSON_OBJECT.set(JsonParser.parseString(jsonstr).getAsJsonObject());
         THREAD_LOCAL.set(interfaceDoc);
     }
 
@@ -49,12 +54,12 @@ public class ParseFactory {
         return THREAD_LOCAL.get();
     }
 
-    protected static JSONObject getJSONObject() {
+    protected static JsonObject getJSONObject() {
         return JSON_OBJECT.get();
     }
 
     public ParseFactory add(ParseFilter filter) {
-        filters.add(filter);
+        FILTERS.add(filter);
         return this;
     }
 
@@ -66,7 +71,7 @@ public class ParseFactory {
 
         InterfaceDoc interfaceDoc = getInterfaceDoc();
 
-        JSONArray array = new JSONArray();
+        List<JsonObject> array = new ArrayList<>(24);
         String name = StrUtil.removeSuffix(Paths.get(interfaceDoc.getFilePath()).getFileName().toString(), ".java");
 
         String detailPath = BASE_PATH + File.separator + "detail" + File.separator + name;
@@ -86,31 +91,26 @@ public class ParseFactory {
                             .replace(":\\\\s", "")
             );
 
-            JSONObject obj = getJSONObject();
-            JSONObject baseInfo = obj.getJSONObject("baseInfo");
-            baseInfo.set("apiName", doc.getComment());
-            baseInfo.set("apiURI", doc.getRequestMapping());
-            baseInfo.set("apiRequestType", doc.getMethodType().getApiRequestType());
-            baseInfo.set("apiUpdateTime",System.currentTimeMillis());
-            filters.forEach(filter -> filter.filter(doc));
-
-            final JSONObject docJSON = JSON_OBJECT.get();
+            final JsonObject obj = getJSONObject();
+            final JsonObject baseInfo = obj.getAsJsonObject("baseInfo");
+            baseInfo.addProperty("apiName", doc.getComment());
+            baseInfo.addProperty("apiURI", doc.getRequestMapping());
+            baseInfo.addProperty("apiRequestType", doc.getMethodType().getApiRequestType());
+            baseInfo.addProperty("apiUpdateTime", System.currentTimeMillis());
+            FILTERS.forEach(filter -> filter.filter(doc));
 
 
             if (!docConfig.isSynchronous()) {
                 String filename = BaseUtils.replaceIllegalityStr(StrUtil.blankToDefault(doc.getComment(), doc.getRequestMapping()));
                 print("{} =======> 文档已生成完毕", StrUtil.padAfter(filename, 30, " "));
                 IoUtil.writeUtf8(new FileOutputStream(detailPath + File.separator + filename + ".json"), true, new JSONArray() {{
-                    this.add(docJSON);
+                    this.put(obj);
                 }});
             }
 
-            array.add(JSONUtil.parseObj(docJSON.toString()));
+            array.add(obj);
             try {
-                JSONArray upload = new JSONArray();
-                upload.add(JSONUtil.parseObj(docJSON.toString()));
-
-                LoginDocHandler.upload(upload.toString(), doc);
+                LoginDocHandler.upload(GSON.toJson(Collections.singletonList(obj)), doc);
             } catch (Exception e) {
                 BaseUtils.printError("自动同步到接口文档系统出错 requestMapping:{}", interfaceDoc.getRequestMapping());
             }
@@ -118,7 +118,7 @@ public class ParseFactory {
         }
 
         if (!docConfig.isSynchronous()) {
-            IoUtil.writeUtf8(new FileOutputStream(BASE_PATH + File.separator + StrUtil.removeSuffix(name, ".java") + ".json"), true, array);
+            IoUtil.writeUtf8(new FileOutputStream(BASE_PATH + File.separator + StrUtil.removeSuffix(name, ".java") + ".json"), true, GSON.toJson(array));
         }
     }
 }

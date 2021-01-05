@@ -13,11 +13,10 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'cn.hutool', name: 'hutool-core', version: '5.4.0'
-    compile group: 'cn.hutool', name: 'hutool-json', version: '5.4.0'
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     compile(group: 'com.konghq', name: 'unirest-java', version: '3.11.06') {
-        exclude group: 'com.google.code.gson'
+//        exclude group: 'com.google.code.gson'
     }
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: '3.16.1'
 

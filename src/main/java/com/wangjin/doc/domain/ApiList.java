@@ -1,7 +1,8 @@
 package com.wangjin.doc.domain;
 
 
-import cn.hutool.core.annotation.Alias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Objects;
  * @author: 王进
  **/
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiList {
 
     /**
@@ -27,38 +29,38 @@ public class ApiList {
      * apiID : 15187
      * apiStatus : 0
      */
-    @Alias("apiRequestType")
+    @SerializedName("apiRequestType")
     private int apiRequestType;
 
 
-    @Alias("apiName")
+    @SerializedName("apiName")
     private String apiName;
 
 
-    @Alias("apiURI")
+    @SerializedName("apiURI")
     private String apiURI;
 
 
-    @Alias("starred")
+    @SerializedName("starred")
     private int starred;
 
 
-    @Alias("updateUserID")
+    @SerializedName("updateUserID")
     private int updateUserID;
 
-    @Alias("apiUpdateTime")
+    @SerializedName("apiUpdateTime")
     private String apiUpdateTime;
 
-    @Alias("userNickName")
+    @SerializedName("userNickName")
     private String userNickName;
 
-    @Alias("userName")
+    @SerializedName("userName")
     private String userName;
 
-    @Alias("apiID")
+    @SerializedName("apiID")
     private String apiID;
 
-    @Alias("apiStatus")
+    @SerializedName("apiStatus")
     private int apiStatus;
 
 
