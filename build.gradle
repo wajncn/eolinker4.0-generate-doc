@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.doc'
-version '3.0-SNAPSHOT'
+version '3.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -35,6 +35,9 @@ patchPluginXml {
       Release 1.0版本
          1.可以自动把controller同步到接口文档系统
       Release 2.0版本
-         2.fix bug
+         1.fix bug
+      Release 3.2版本
+         1.fix bug
+         2.优化性能
       </pre>"""
 }
