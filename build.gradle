@@ -15,20 +15,12 @@ dependencies {
     compile group: 'cn.hutool', name: 'hutool-core', version: '5.4.0'
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    compile(group: 'com.konghq', name: 'unirest-java', version: '3.11.06') {
-//        exclude group: 'com.google.code.gson'
-    }
+    compile group: 'com.konghq', name: 'unirest-java', version: '3.11.06'
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: '3.16.1'
-
-
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-//    version '2019.3'
-//    version '2020.3'
     version '2020.1'
-//    type "IC"
 }
 patchPluginXml {
     changeNotes """<pre>
@@ -40,4 +32,6 @@ patchPluginXml {
          1.fix bug
          2.优化性能
       </pre>"""
+      sinceBuild "145.258"
+      untilBuild null
 }
