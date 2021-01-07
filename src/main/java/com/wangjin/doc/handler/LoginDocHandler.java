@@ -135,11 +135,13 @@ public class LoginDocHandler {
 
         ApiList apiList = apiLists.get(doc.getRequestMapping() + doc.getMethodType().getApiRequestType());
         if (apiList != null) {
-//            BaseUtils.printTips("文档{}已存在, 系统正在修改文档...", doc.getRequestMapping());
-//            del(apiList.getApiID());
-
-            BaseUtils.printTips("文档{}已存在, 系统已忽略更新", doc.getRequestMapping());
-            return;
+            if (docConfig.isUpdate()) {
+                BaseUtils.printTips("文档{}已存在, 系统正在修改文档...", doc.getRequestMapping());
+                del(apiList.getApiID());
+            } else {
+                BaseUtils.printTips("文档{}已存在, 系统已忽略更新", doc.getRequestMapping());
+                return;
+            }
         }
 
         String body = "projectID=" + docConfig.getProjectId() + "&groupID=" + StrUtil.blankToDefault(docConfig.getGroupId(), "0") + "&data=" + URLUtil.encode(data);

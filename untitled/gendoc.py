@@ -14,10 +14,12 @@ config_properties = """
 doc.username=wangjin
 # 文档系统登录的密码
 doc.password=
-# 文档系统项目id 具体打开项目参考url的参数
+# 文档系统项目id 打开项目后,浏览器地址栏可以看到项目的ID
 doc.project_id=
-# 文档系统分组的id 打开项目后,点击下分组,浏览器地址栏能看到分组的ID
+# 文档系统分组的id 打开项目后,点击分组,浏览器地址栏能看到分组的ID
 doc.group_id=
+# 是否动态根据请求路径修改接口 默认为false
+doc.update=false
 """
 
 

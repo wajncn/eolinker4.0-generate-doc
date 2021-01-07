@@ -14,6 +14,7 @@ import com.wangjin.doc.domain.ResultInfo;
 import com.wangjin.doc.handler.ParseFilter;
 
 import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.wangjin.doc.utils.BaseUtils.*;
 
@@ -32,13 +33,17 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
     protected void filter(InterfaceDoc.MethodDoc doc) {
         JsonObject obj = getJSONObject();
         final JsonArray resultInfos = new JsonArray();
-        obj.add(RESULT_INFO,resultInfos);
+        obj.add(RESULT_INFO, resultInfos);
 
 
         if ("void".equals(doc.getResponseObject())) {
             return;
         }
-        final String responseObject = formatResponseObject(doc);
+
+
+        AtomicBoolean isPage = new AtomicBoolean(false);
+
+        final String responseObject = formatResponseObject(doc, isPage);
 
         FileCache.FC fc = FileCache.getFc(responseObject);
 
@@ -52,13 +57,88 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
         }
 
         //直接在缓存中命中, 则说明当前返回值是某个类.  开始解析
-
+        if (isPage.get()) {
+            addPage(resultInfos);
+        }
         CompilationUnit cu = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
         TypeDeclaration<?> type = cu.getType(0);
 
-        super.parseMember(resultInfos, type.getMembers(), null, false);
+        super.parseMember(resultInfos, type.getMembers(), isPage.get() ? "list>>" : null, false);
         super.parseExtend(resultInfos, type, null, false);
     }
+
+
+    private void addPage(JsonArray resultInfos) {
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
+                .paramName("当前页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageSize")
+                .paramName("每页的数量")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("size")
+                .paramName("当前页的数量")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pages")
+                .paramName("总页数")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("prePage")
+                .paramName("前一页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("nextPage")
+                .paramName("下一页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("isFirstPage")
+                .paramName("是否为第一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("isLastPage")
+                .paramName("是否为最后一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("hasPreviousPage")
+                .paramName("是否有前一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("hasNextPage")
+                .paramName("是否有下一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("total")
+                .paramName("总记录数")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+
+        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("list")
+                .paramName("结果集")
+                .paramType(paramTypeFormat("List"))
+                .build()));
+    }
+
 
     /**
      * 格式化接口的返回值
@@ -66,11 +146,12 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
      * @param doc
      * @return
      */
-    private String formatResponseObject(InterfaceDoc.MethodDoc doc) {
+    private String formatResponseObject(InterfaceDoc.MethodDoc doc, AtomicBoolean isPage) {
         String responseObject = doc.getResponseObject();
         if ("PageInfo".equals(responseObject)) {
             //没有加泛型 开始容错处理:
             responseObject = this.parseResponseObject(doc);
+            isPage.set(true);
         }
 
         if (responseObject.startsWith("List<")) {
@@ -81,6 +162,7 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
         if (responseObject.startsWith("PageInfo<")) {
             responseObject = responseObject.replace("PageInfo<", "");
             responseObject = responseObject.replace(">", "");
+            isPage.set(true);
         }
         return responseObject;
     }

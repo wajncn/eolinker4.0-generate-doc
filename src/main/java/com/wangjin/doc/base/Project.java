@@ -174,6 +174,6 @@ public final class Project {
         pageSize.setComment("分页大小 默认为20");
         requestArgs.add(pageSize);
 
-        doc.setComment(doc.getComment() + "    (分页查询,文档只体现List数据)");
+        doc.setComment(doc.getComment() + "    (分页查询)");
     }
 }

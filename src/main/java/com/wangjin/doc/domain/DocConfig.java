@@ -25,6 +25,7 @@ public class DocConfig {
     private final String projectId;
     private final String groupId;
     private final boolean synchronous;
+    private final boolean update;
 
     public static DocConfig get() {
         return CONFIG.get();

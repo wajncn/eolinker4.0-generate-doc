@@ -55,6 +55,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         String password = properties.getProperty("doc.password");
         String project_id = properties.getProperty("doc.project_id");
         String group_id = properties.getProperty("doc.group_id");
+        boolean update = Boolean.parseBoolean(properties.getProperty("doc.update"));
 
         DocConfig.init(DocConfig.builder().controllerPaths(CONTROLLER_PATHS).projectPath(BASE_PATH)
                 .username(username)
@@ -62,6 +63,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
                 .projectId(project_id)
                 .groupId(group_id)
                 .synchronous(true)
+                .update(update)
                 .build());
     }
 

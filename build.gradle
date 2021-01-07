@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.doc'
-version '3.2-SNAPSHOT'
+version '3.2.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -31,6 +31,9 @@ patchPluginXml {
       Release 3.2版本
          1.fix bug
          2.优化性能
+      Release 3.2.1版本
+         1.支持解析分页原始参数
+         2.取消默认动态修改文档功能,可通过配置文件来控制
       </pre>"""
       sinceBuild "145.258"
       untilBuild null
