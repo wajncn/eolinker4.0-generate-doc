@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import static com.wangjin.doc.base.Application.BASE_PATH;
@@ -76,7 +75,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         docConfig.getControllerPaths().forEach(a -> {
             print("开始生成: {}", a);
             try {
-                project.gen(a);
+                project.generate(a);
             } catch (IOException e) {
                 e.printStackTrace();
             }

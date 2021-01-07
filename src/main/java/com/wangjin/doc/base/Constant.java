@@ -1,11 +1,14 @@
 package com.wangjin.doc.base;
 
+import lombok.NoArgsConstructor;
+
 /**
  * @description:
  * @author: wajn
  * @create: 2020-04-25 19:32
  **/
-public class Constant {
+@NoArgsConstructor
+public final class Constant {
     public static final String LICENSE = "https://javanet123.com/gendoc/license";
     public static final String CONFIG_PROPERTIES = "https://javanet123.com/gendoc/config_properties";
     public static final String CHECK_URL_MSG = "当前版本过旧,请下载最新版本";

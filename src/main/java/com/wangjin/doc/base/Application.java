@@ -5,6 +5,7 @@ import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.handler.AbstractMain;
 import com.wangjin.doc.handler.impl.ScannerAbstractMainAuto;
 import com.wangjin.doc.utils.BaseUtils;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.List;
  * @author: wajn
  * @create: 2020-04-25 19:32
  **/
-public class Application {
+@NoArgsConstructor
+public final class Application {
 
     public static final String VERSION = "5.2.3";
     /**

@@ -3,6 +3,7 @@ package com.wangjin.doc.cache;
 import cn.hutool.core.util.StrUtil;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @author: wajn
  * @create: 2020-04-25 19:32
  **/
+@NoArgsConstructor
 public final class FileCache {
 
     private static final Map<String, FC> FILE_CACHE = new HashMap<>();
@@ -21,10 +23,6 @@ public final class FileCache {
 
     private static final Map<String, FC> FILE_CACHE_CONTROLLER = new HashMap<>();
 
-
-    private FileCache() {
-
-    }
 
     public static FC getFc(String fileName) {
         return FILE_CACHE.get(fileName);

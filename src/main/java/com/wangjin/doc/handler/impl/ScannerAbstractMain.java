@@ -64,7 +64,7 @@ public class ScannerAbstractMain extends AbstractMain {
                         }
                     });
 
-                    project.gen(filePath);
+                    project.generate(filePath);
                     print("success ==> 接口文档以生成在当前目录");
                     GEN_TIME = LocalDateTime.now();
                     print("");

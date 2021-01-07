@@ -20,6 +20,7 @@ import com.wangjin.doc.handler.impl.DocHandlerImpl;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import com.wangjin.doc.utils.BaseUtils;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
  * @author: wajn
  * @create: 2020-04-25 19:32
  **/
+@NoArgsConstructor
 public final class Project {
 
     public static final Project project = new Project();
@@ -43,9 +45,6 @@ public final class Project {
     private static final ParseHandler<CompilationUnit> parseHandler = new JavaParseHandlerImpl();
 
     private static final ThreadLocal<Boolean> VERSION_INFO = new ThreadLocal<Boolean>();
-
-    private Project() {
-    }
 
     public final void init(String path) {
         FileCache.clear();
@@ -63,7 +62,7 @@ public final class Project {
                         .filePath(file.getPath()).build()));
     }
 
-    public final void gen(String filePath) throws IOException {
+    public final void generate(String filePath) throws IOException {
         filePath = StrUtil.removeSuffix(filePath, ".java");
         FileCache.FC fc = FileCache.getFcWithController(filePath);
         if (fc == null) {
@@ -106,6 +105,7 @@ public final class Project {
             InterfaceDoc.MethodDoc doc = new InterfaceDoc.MethodDoc();
             doc.setComment(methodDeclaration.getComment().map(e -> BaseUtils.reformatMethodComment(e.getContent())).orElseGet(() -> "无注释方法" + index.getAndIncrement()));
 
+            //判断是否为接口
             boolean isInterface = false;
             for (AnnotationExpr annotation : methodDeclaration.getAnnotations()) {
                 if (!annotation.getName().toString().endsWith("Mapping")) {
@@ -151,6 +151,11 @@ public final class Project {
     }
 
 
+    /**
+     * 处理分页参数, 如果是分页的话,增加默认请求参数Integer,pageIndex
+     *
+     * @param doc
+     */
     private void handlerRequestPageInfo(InterfaceDoc.MethodDoc doc) {
         if (!doc.getResponseObject().startsWith("PageInfo")) {
             return;
