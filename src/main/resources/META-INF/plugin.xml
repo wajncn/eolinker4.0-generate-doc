@@ -1,15 +1,15 @@
 <idea-plugin>
     <id>com.wangjin.doc.gen-doc-plugin</id>
-    <name>文档同步工具</name>
+    <name>Generate WeimobDoc</name>
     <vendor email="wajncn@gmail.com" url="https://javanet123.com/">王进</vendor>
     <description><![CDATA[
-    文档同步工具.<br>
-    <em>
-    第一交付中心第四部门提供<br>
-    项目首次执行会在根目录生成配置文件.<br>
-    Tools->生成文档.<br>
-    </em>
+    解析controller到接口微盟文档系统<br>
+    点击Tools -> "Generate WeimobDoc"<br>
+            该工具由第一交付中心第四部门提供<br>
+    <br>
+<a href="https://javanet123.com/archives/weimob">Need Help?<a/><br>
     ]]></description>
+
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -21,7 +21,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="生成文档" description="MainPlugin">
+        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="Generate WeimobDoc" description="Generate WeimobDoc">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>
