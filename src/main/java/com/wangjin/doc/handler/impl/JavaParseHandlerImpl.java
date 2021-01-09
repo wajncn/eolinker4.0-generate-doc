@@ -4,6 +4,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.wangjin.doc.handler.ParseHandler;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.nio.file.Path;
@@ -14,6 +15,8 @@ import java.nio.file.Path;
  * @create: 2020-04-25 19:32
  **/
 public class JavaParseHandlerImpl implements ParseHandler<CompilationUnit> {
+
+    @Getter
     private static final JavaParser javaParser = new JavaParser();
 
     @Override
@@ -25,4 +28,5 @@ public class JavaParseHandlerImpl implements ParseHandler<CompilationUnit> {
         }
         return parse.getResult().orElseThrow(() -> new RuntimeException("解析失败 哦吼😯 -2"));
     }
+
 }

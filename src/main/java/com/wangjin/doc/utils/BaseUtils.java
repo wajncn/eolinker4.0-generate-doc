@@ -162,9 +162,7 @@ public class BaseUtils {
     public static boolean checkVersion() {
         try {
             JsonObject jsonObject = JsonParser.parseString(Base64.decodeStr(Unirest.get(Constant.LICENSE).asString().getBody()).trim()).getAsJsonObject();
-            boolean status = jsonObject.get("status").getAsBoolean();
-            VERSION = jsonObject.get("version").getAsString().trim();
-            return status;
+            return jsonObject.get("status").getAsBoolean();
         } catch (Exception e) {
             return false;
         }

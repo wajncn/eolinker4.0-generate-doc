@@ -7,20 +7,19 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.domain.DocConfig;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import com.wangjin.doc.utils.BaseUtils;
 import kong.unirest.json.JSONArray;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.wangjin.doc.base.Application.BASE_PATH;
 import static com.wangjin.doc.utils.BaseUtils.print;
@@ -79,17 +78,24 @@ public class ParseFactory {
             FileUtil.mkdir(detailPath);
         }
 
+        for (InterfaceDoc.MethodDoc selectText : Application.getSELECTED_TEXT()) {
+            //这里对 RequestMapping 进行设置
+            selectText.setRequestMapping(getReplaceRequestMapping(interfaceDoc, selectText));
+        }
+        for (InterfaceDoc.MethodDoc doc : interfaceDoc.getMethodDoc()) {
+            //这里对 RequestMapping 进行设置
+            doc.setRequestMapping(getReplaceRequestMapping(interfaceDoc, doc));
+        }
+
         for (InterfaceDoc.MethodDoc doc : interfaceDoc.getMethodDoc()) {
 
-            doc.setRequestMapping(
-                    StrUtil.removeSuffix(interfaceDoc.getRequestMapping() + StrUtil.addPrefixIfNot(doc.getRequestMapping(), "/"), "/")
-                            .replace(":\\\\d+", "")
-                            .replace(":\\\\S+", "")
-                            .replace(":\\\\s+", "")
-                            .replace(":\\\\d", "")
-                            .replace(":\\\\S", "")
-                            .replace(":\\\\s", "")
-            );
+            if(!Application.getSELECTED_TEXT().isEmpty()){
+                if (Application.getSELECTED_TEXT().contains(doc)) {
+                    print("选择了代码块,开始进行单独处理 :RequestMapping:{}", doc.getRequestMapping());
+                }else{
+                    continue;
+                }
+            }
 
             final JsonObject obj = getJSONObject();
             final JsonObject baseInfo = obj.getAsJsonObject("baseInfo");
@@ -120,5 +126,16 @@ public class ParseFactory {
         if (!docConfig.isSynchronous()) {
             IoUtil.writeUtf8(new FileOutputStream(BASE_PATH + File.separator + StrUtil.removeSuffix(name, ".java") + ".json"), true, GSON.toJson(array));
         }
+    }
+
+    @NotNull
+    private String getReplaceRequestMapping(InterfaceDoc interfaceDoc, InterfaceDoc.MethodDoc doc) {
+        return StrUtil.removeSuffix(interfaceDoc.getRequestMapping() + StrUtil.addPrefixIfNot(doc.getRequestMapping(), "/"), "/")
+                .replace(":\\\\d+", "")
+                .replace(":\\\\S+", "")
+                .replace(":\\\\s+", "")
+                .replace(":\\\\d", "")
+                .replace(":\\\\S", "")
+                .replace(":\\\\s", "");
     }
 }

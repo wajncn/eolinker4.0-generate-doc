@@ -37,6 +37,7 @@ Release 3.2.1版本
  2.取消默认动态修改文档功能,可通过配置文件来控制
 Release 3.2.2版本
  1.正式改名为:Generate WeimobDoc
+ 2.支持选中方法同步文档,必须包含[@*Mapping]
 </pre>"""
     sinceBuild "145.258"
     untilBuild null

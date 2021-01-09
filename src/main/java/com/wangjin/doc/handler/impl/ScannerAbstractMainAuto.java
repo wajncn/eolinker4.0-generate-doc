@@ -4,6 +4,7 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.DocConfig;
@@ -41,7 +42,8 @@ public class ScannerAbstractMainAuto extends AbstractMain {
             if (!file.exists()) {
                 final File touch = FileUtil.touch(BASE_PATH, "config.properties");
                 FileUtil.writeBytes(Base64.decodeStr(Unirest.get(Constant.CONFIG_PROPERTIES).asString().getBody()).getBytes(), touch);
-                String message = "系统已初始配置文件[config.properties]在当前目录,请刷新后重试";
+                LocalFileSystem.getInstance().refresh(true);
+                String message = "系统已初始配置文件[config.properties]在当前目录,请填写配置文件";
                 Messages.showMessageDialog(message, "Info", Messages.getInformationIcon());
                 printTips(message);
                 file = touch;

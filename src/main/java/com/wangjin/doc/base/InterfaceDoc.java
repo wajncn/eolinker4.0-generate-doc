@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @program: gen-interfacedoc
@@ -64,6 +65,20 @@ public class InterfaceDoc {
 
     @Data
     public static class MethodDoc {
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            MethodDoc methodDoc = (MethodDoc) o;
+            return Objects.equals(requestMapping, methodDoc.requestMapping) && methodType == methodDoc.methodType;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(requestMapping, methodType);
+        }
+
         private String comment;
         private String requestMapping;
         private MethodType methodType;

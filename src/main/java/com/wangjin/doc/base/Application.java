@@ -5,9 +5,11 @@ import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.handler.AbstractMain;
 import com.wangjin.doc.handler.impl.ScannerAbstractMainAuto;
 import com.wangjin.doc.utils.BaseUtils;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,11 +23,30 @@ public final class Application {
 
     public static final String VERSION = "5.2.3";
     /**
-     * 项目的路径地址 运行jar包后用户捕获jar包所在的文件目录
+     * 当前项目的绝对路径
      */
     public static String BASE_PATH = null;
+
+    /**
+     * 当前项目
+     */
     public static Project PROJECT = null;
+
+    /**
+     * 选择controller绝对路径
+     */
     public static List<String> CONTROLLER_PATHS = null;
+
+
+    /**
+     * 选择的方法块
+     */
+    @Getter
+    private static final List<InterfaceDoc.MethodDoc> SELECTED_TEXT = new ArrayList<>();
+
+    public static void addSelectText(InterfaceDoc.MethodDoc doc) {
+        SELECTED_TEXT.add(doc);
+    }
 
 
     @SneakyThrows
@@ -34,7 +55,6 @@ public final class Application {
         try {
             abstractMain.exe();
         } catch (NotUseException e) {
-            //双重退出,防止打包exe4j出现程序不退出问题
             BaseUtils.exit();
             throw new IllegalArgumentException(Constant.CHECK_URL_MSG);
         } catch (Exception e) {

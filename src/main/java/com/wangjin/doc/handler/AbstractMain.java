@@ -37,7 +37,6 @@ public abstract class AbstractMain {
      */
     private void printHead() {
 //        print(Constant.HEADER_TEXT);
-        print("version: {}", Application.VERSION);
         print("developer: 第一交付中心-开发四组");
     }
 
@@ -64,9 +63,6 @@ public abstract class AbstractMain {
             }
         });
 
-        if (tips) {
-            System.out.print(Constant.CHECK_VERSION_TIPS);
-        }
         for (; ; ) {
             if (!voidCompletableFuture.isDone()) {
                 sleep();
@@ -77,7 +73,6 @@ public abstract class AbstractMain {
                 boolean join = voidCompletableFuture.join();
                 if (join) {
                     System.out.println();
-                    printTips("{}: {}", Constant.CHECK_VERSION_NEW_TIPS, BaseUtils.getVersion());
                     break;
                 }
                 BaseUtils.exit();
