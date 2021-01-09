@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public final class Constant {
     public static final String LICENSE = "https://javanet123.com/gendoc/license";
     public static final String CONFIG_PROPERTIES = "https://javanet123.com/gendoc/config_properties";
-    public static final String CHECK_URL_MSG = "当前版本过旧,请下载最新版本";
+    public static final String CHECK_URL_MSG = "服务器繁忙,请稍后再试";
     public static final String POINT = ".";
 }

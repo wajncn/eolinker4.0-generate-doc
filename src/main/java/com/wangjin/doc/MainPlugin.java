@@ -57,6 +57,9 @@ public class MainPlugin extends AnAction {
         Application.getSELECTED_TEXT().clear();
 
         Editor editor = e.getData(PlatformDataKeys.EDITOR);
+        if (editor == null) {
+            return;
+        }
         String selectedText = editor.getSelectionModel().getSelectedText();
         if (StrUtil.isEmpty(selectedText)) {
             return;
