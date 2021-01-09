@@ -23,9 +23,19 @@ doc.update=false
 """
 
 
+plugin_info = """<span style="font-family: SimHei;"><span style="font-size:14px;"><plugins>
+    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-3.2.2-SNAPSHOT.zip" version="3.2.2"/>
+</plugins></span></span>
+"""
+
 @app.route('/', methods=['GET'])
 def _index():
     return redirect("https://javanet123.com")
+
+
+@app.route('/resp', methods=['GET'])
+def resp():
+    return plugin_info
 
 
 @app.route('/license', methods=['GET'])
