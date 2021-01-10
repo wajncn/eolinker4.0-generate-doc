@@ -19,7 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 import static com.wangjin.doc.base.Application.BASE_PATH;
 import static com.wangjin.doc.utils.BaseUtils.print;
@@ -89,10 +92,10 @@ public class ParseFactory {
 
         for (InterfaceDoc.MethodDoc doc : interfaceDoc.getMethodDoc()) {
 
-            if(!Application.getSELECTED_TEXT().isEmpty()){
+            if (!Application.getSELECTED_TEXT().isEmpty()) {
                 if (Application.getSELECTED_TEXT().contains(doc)) {
                     print("选择了代码块,开始进行单独处理 :RequestMapping:{}", doc.getRequestMapping());
-                }else{
+                } else {
                     continue;
                 }
             }

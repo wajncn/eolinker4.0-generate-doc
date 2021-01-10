@@ -24,7 +24,6 @@ public class ScannerAbstractMain extends AbstractMain {
 
     @Override
     protected void init() {
-        AUTO.set(false);
     }
 
     @Override
@@ -76,5 +75,10 @@ public class ScannerAbstractMain extends AbstractMain {
                 }
             } while (gen);
         }
+    }
+
+    @Override
+    protected void onSuccess() {
+
     }
 }

@@ -3,7 +3,7 @@
     <name>Generate WeimobDoc</name>
     <vendor email="wajncn@gmail.com" url="https://javanet123.com/">王进</vendor>
     <description><![CDATA[
-    解析controller到接口微盟文档系统<br>
+    解析Controller到接口微盟文档系统<br>
     Click Tools -> "Generate WeimobDoc"<br>
             该工具由第一交付中心第四部门提供<br>
     <br>
@@ -21,7 +21,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="Generate WeimobDoc" description="Generate WeimobDoc">
+        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="Generate WeimobDoc..." description="Generate WeimobDoc">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>

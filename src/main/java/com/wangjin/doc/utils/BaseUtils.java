@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Constant;
+import com.wangjin.doc.base.Project;
 import kong.unirest.Unirest;
 import lombok.Getter;
 
@@ -162,7 +163,7 @@ public class BaseUtils {
     public static boolean checkVersion() {
         try {
             JsonObject jsonObject = JsonParser.parseString(Base64.decodeStr(Unirest.get(Constant.LICENSE).asString().getBody()).trim()).getAsJsonObject();
-            return jsonObject.get("status").getAsBoolean();
+            return Project.LICENSE_STATUS = jsonObject.get("status").getAsBoolean();
         } catch (Exception e) {
             return false;
         }

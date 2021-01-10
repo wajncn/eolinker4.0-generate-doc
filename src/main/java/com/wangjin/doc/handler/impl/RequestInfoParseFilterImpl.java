@@ -29,7 +29,7 @@ public class RequestInfoParseFilterImpl extends ParseFilter {
         JsonObject obj = getJSONObject();
 
         final JsonArray requestInfos = new JsonArray();
-        obj.add(REQUEST_INFO,requestInfos);
+        obj.add(REQUEST_INFO, requestInfos);
         for (InterfaceDoc.Args requestArg : doc.getRequestArgs()) {
             this.filter(requestInfos, requestArg);
         }

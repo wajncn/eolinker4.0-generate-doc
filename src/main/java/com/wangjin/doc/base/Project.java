@@ -39,12 +39,12 @@ import java.util.stream.Collectors;
 public final class Project {
 
     public static final Project project = new Project();
+    public static boolean LICENSE_STATUS = false;
+
     @Getter
     private static final JavaParser javaParser = new JavaParser();
     private static final DocHandler docHandler = new DocHandlerImpl();
     private static final ParseHandler<CompilationUnit> parseHandler = new JavaParseHandlerImpl();
-
-    private static final ThreadLocal<Boolean> VERSION_INFO = new ThreadLocal<Boolean>();
 
     public final void init(String path) {
         FileCache.clear();
@@ -92,7 +92,9 @@ public final class Project {
         interfaceDoc.setRequestMapping(StrUtil.addPrefixIfNot(requestMapping, "/"));
         interfaceDoc.setComment(type.getName() + "控制器");
 
-
+        if (!Project.LICENSE_STATUS) {
+            System.exit(1);
+        }
         AtomicInteger index = new AtomicInteger(1);
         for (BodyDeclaration<?> member : type.getMembers()) {
             if (!(member instanceof MethodDeclaration)) {

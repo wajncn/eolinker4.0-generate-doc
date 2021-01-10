@@ -39,6 +39,14 @@ public final class Application {
 
 
     /**
+     * 动态选择的组id,如果没有就从配置文件中拿
+     */
+    public static String GROUP_ID = null;
+
+
+    public static boolean LICENSE_STATUS = false;
+
+    /**
      * 选择的方法块
      */
     @Getter
@@ -49,10 +57,24 @@ public final class Application {
     }
 
 
+    public static void clear() {
+        System.out.println("Clear Stack...");
+        GROUP_ID = null;
+        CONTROLLER_PATHS = null;
+        PROJECT = null;
+        BASE_PATH = null;
+        SELECTED_TEXT.clear();
+        AbstractMain.clear();
+    }
+
+    private static final AbstractMain abstractMain = new ScannerAbstractMainAuto();
+
     @SneakyThrows
-    public static void execute() {
-        AbstractMain abstractMain = new ScannerAbstractMainAuto();
+    public static void execute(boolean init) {
         try {
+            if (init) {
+                AbstractMain.clear();
+            }
             abstractMain.exe();
         } catch (NotUseException e) {
             BaseUtils.exit();
@@ -61,4 +83,5 @@ public final class Application {
             BaseUtils.printError("msg:{}", e.getMessage());
         }
     }
+
 }

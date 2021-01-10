@@ -6,7 +6,6 @@ import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.wangjin.doc.base.Constant;
-import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.DocConfig;
 import com.wangjin.doc.handler.AbstractMain;
 import kong.unirest.Unirest;
@@ -34,8 +33,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
 
     @Override
     @SneakyThrows
-    protected void init() {
-        AUTO.set(true);
+    public void init() {
         Properties properties = new Properties();
         try {
             File file = new File(BASE_PATH + File.separator + "config.properties");
@@ -57,6 +55,12 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         String password = properties.getProperty("doc.password");
         String project_id = properties.getProperty("doc.project_id");
         String group_id = properties.getProperty("doc.group_id");
+        // 如果没有配置组id,那就说明通过下拉框去选择的
+        if (StrUtil.isBlank(group_id)) {
+            //如果没配置组id 这里就不自动生成文档啦.
+            create.set(false);
+        }
+
         boolean update = Boolean.parseBoolean(properties.getProperty("doc.update"));
 
         DocConfig.init(DocConfig.builder().controllerPaths(CONTROLLER_PATHS).projectPath(BASE_PATH)
@@ -72,22 +76,22 @@ public class ScannerAbstractMainAuto extends AbstractMain {
     @Override
     @SneakyThrows
     protected void createDoc() {
-        final Project project = Project.project;
         DocConfig docConfig = DocConfig.get();
-        project.init(StrUtil.trim(docConfig.getProjectPath()));
-
+        PROJECT.init(StrUtil.trim(docConfig.getProjectPath()));
         docConfig.getControllerPaths().forEach(a -> {
-            print("开始生成: {}", a);
             try {
-                project.generate(a);
+                print("开始生成: {}", a);
+                PROJECT.generate(a);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         print("success");
+        openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+    }
 
-        if (docConfig.isSynchronous()) {
-            openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
-        }
+    @Override
+    protected void onSuccess() {
+
     }
 }

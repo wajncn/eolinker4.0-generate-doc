@@ -10,23 +10,24 @@ license = """{
 }"""
 
 config_properties = """
-# 文档系统登录的账号
+# https://javanet123.com/archives/weimob
+# (必填)文档系统登录的账号
 doc.username=wangjin
-# 文档系统登录的密码
+# (必填)文档系统登录的密码
 doc.password=
-# 文档系统项目id 打开项目后,浏览器地址栏可以看到项目的ID
+# (必填)文档系统项目id 打开项目后,浏览器地址栏可以看到项目的ID
 doc.project_id=
-# 文档系统分组的id 打开项目后,点击分组,浏览器地址栏能看到分组的ID
+# (非必填)文档系统分组的id 打开项目后,点击分组,浏览器地址栏能看到分组的ID. 如果该项没有配置,则在生成时会出现下拉框
 doc.group_id=
-# 是否动态根据请求路径修改接口 默认为false
+# (非必填)是否动态根据分组id和请求路径修改接口 默认为false
 doc.update=false
 """
-
 
 plugin_info = """<span style="font-family: SimHei;"><span style="font-size:14px;"><plugins>
     <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-3.2.2-SNAPSHOT.zip" version="3.2.2"/>
 </plugins></span></span>
 """
+
 
 @app.route('/', methods=['GET'])
 def _index():

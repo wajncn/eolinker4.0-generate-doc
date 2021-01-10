@@ -1,6 +1,8 @@
 package com.wangjin.doc.domain;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.StrUtil;
+import com.wangjin.doc.base.Application;
 import com.wangjin.doc.handler.LoginDocHandler;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +17,7 @@ import java.util.List;
 @Builder
 @Getter
 public class DocConfig {
+
 
     private static final ThreadLocal<DocConfig> CONFIG = new ThreadLocal<>();
 
@@ -31,13 +34,17 @@ public class DocConfig {
         return CONFIG.get();
     }
 
+    public String getGroupId() {
+        return StrUtil.emptyToDefault(Application.GROUP_ID, groupId);
+    }
+
     public static void init(DocConfig docConfig) {
         CONFIG.set(docConfig);
         if (docConfig.synchronous) {
             Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: username");
             Assert.notEmpty(docConfig.getPassword(), "缺少配置属性: password");
             Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: project_id");
-            Assert.notEmpty(docConfig.getGroupId(), "缺少配置属性: group_id");
+//            Assert.notEmpty(docConfig.getGroupId(), "缺少配置属性: group_id");
 
             LoginDocHandler.login(docConfig.getUsername(), docConfig.getPassword());
         }

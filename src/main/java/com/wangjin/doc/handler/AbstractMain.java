@@ -1,7 +1,8 @@
 package com.wangjin.doc.handler;
 
-import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Application;
+import com.wangjin.doc.base.Constant;
+import com.wangjin.doc.base.Project;
 import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.utils.BaseUtils;
 import lombok.SneakyThrows;
@@ -18,9 +19,18 @@ import static com.wangjin.doc.utils.BaseUtils.*;
  * @create: 2020-04-25 19:32
  **/
 public abstract class AbstractMain {
+    protected static final Project PROJECT = Project.project;
 
-    protected static final ThreadLocal<Boolean> AUTO = ThreadLocal.withInitial(() -> true);
+    /**
+     * 是否生成文档
+     */
+    protected static final ThreadLocal<Boolean> create = ThreadLocal.withInitial(() -> true);
 
+
+    /**
+     * 是否初始化
+     */
+    private static volatile boolean init = true;
 
     @SneakyThrows
     protected final void sleep() {
@@ -40,6 +50,11 @@ public abstract class AbstractMain {
         print("developer: 第一交付中心-开发四组");
     }
 
+    public static void clear() {
+        init = true;
+        create.remove();
+    }
+
 
     /**
      * 异步检测程序非法性
@@ -51,13 +66,8 @@ public abstract class AbstractMain {
         CompletableFuture<Boolean> voidCompletableFuture = CompletableFuture.supplyAsync(() -> {
             boolean r = checkVersion();
             if (r) {
-                return true;
+                return Constant.LICENSE_STATUS = true;
             } else {
-//                print("");
-//                printError("{}: {}", Constant.CHECK_URL_MSG, Constant.DOWNLOAD_URL);
-//                print(Constant.AUTO_DOWNLOAD_TIPS);
-//                sleep(2000);
-//                openBrowse(Constant.DOWNLOAD_URL);
                 BaseUtils.exit();
                 return false;
             }
@@ -66,11 +76,8 @@ public abstract class AbstractMain {
         for (; ; ) {
             if (!voidCompletableFuture.isDone()) {
                 sleep();
-                if (tips) {
-                    System.out.print(Constant.POINT);
-                }
             } else {
-                boolean join = voidCompletableFuture.join();
+                boolean join = Application.LICENSE_STATUS = voidCompletableFuture.join();
                 if (join) {
                     System.out.println();
                     break;
@@ -85,19 +92,29 @@ public abstract class AbstractMain {
     /**
      * 打印头部信息
      */
-    protected void init() {
-        AUTO.set(true);
-    }
-
+    protected abstract void init();
 
     protected abstract void createDoc();
 
+    protected abstract void onSuccess();
+
 
     public final void exe() {
-        this.printHead();
-        this.check(true);
-        this.init();
-        this.createDoc();
+        try {
+            if (init) {
+                this.printHead();
+                this.check(true);
+                this.init();
+                init = false;
+            }
+            if (create.get()) {
+                LoginDocHandler.refreshApiList();
+                this.createDoc();
+            }
+            create.remove();
+        } finally {
+            onSuccess();
+        }
     }
 
 

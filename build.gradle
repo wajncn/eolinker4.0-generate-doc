@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.doc'
-version '3.2.2-SNAPSHOT'
+version '4.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -17,6 +17,8 @@ dependencies {
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     compile group: 'com.konghq', name: 'unirest-java', version: '3.11.06'
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: '3.16.1'
+    compile group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+
 }
 
 intellij {
@@ -38,6 +40,9 @@ Release 3.2.1版本
 Release 3.2.2版本
  1.正式改名为:Generate WeimobDoc
  2.支持选中方法同步文档,必须包含[@*Mapping]
+Release 4.0版本
+ 1.简化配置文件,操作步骤.
+ 2.新增下拉框分组,无需配置分组id啦.
 </pre>"""
     sinceBuild "145.258"
     untilBuild null
