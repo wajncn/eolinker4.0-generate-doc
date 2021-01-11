@@ -141,7 +141,7 @@ public abstract class ParseFilter extends ParseFactory {
                         .paramName(
                                 BaseUtils.reformatMethodComment(commentText)
                         )
-                        .paramValue(commentText.length() > 10 ? BaseUtils.reformatMethodComment(commentText,999) : "")
+                        .paramValue(StrUtil.center("", 50, "　") + "\n" + (commentText.length() > 10 ? BaseUtils.reformatMethodComment(commentText, 999) : ""))
                         .build()));
             } else {
                 jsonArray.add(GSON.toJsonTree(ResultInfo.builder()
