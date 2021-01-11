@@ -4,10 +4,12 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
+import com.wangjin.doc.domain.ResultInfo;
 import kong.unirest.Unirest;
 import lombok.Getter;
 
@@ -18,6 +20,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static com.wangjin.doc.base.Constant.GSON;
+
+
 /**
  * @program: gen-interfacedoc
  * @description
@@ -27,14 +32,87 @@ import java.util.concurrent.atomic.AtomicReference;
 public class BaseUtils {
 
     @Getter
-    private static final List<String> ignore_file = new ArrayList<String>(32) {{
+    private static final List<String> IGNORE_FILE = new ArrayList<String>(12) {{
         this.add(".");
         this.add(".git");
         this.add(".idea");
         this.add("logs");
         this.add("static");
     }};
-    private static final Map<String, String> map = new HashMap<String, String>(32) {{
+
+
+    @Getter
+    private static final List<JsonElement> PAGE_INFO = new ArrayList<JsonElement>(64) {{
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
+                .paramName("当前页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
+                .paramName("当前页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageSize")
+                .paramName("每页的数量")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("size")
+                .paramName("当前页的数量")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pages")
+                .paramName("总页数")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("prePage")
+                .paramName("前一页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("nextPage")
+                .paramName("下一页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("isFirstPage")
+                .paramName("是否为第一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("isLastPage")
+                .paramName("是否为最后一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("hasPreviousPage")
+                .paramName("是否有前一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("hasNextPage")
+                .paramName("是否有下一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("total")
+                .paramName("总记录数")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("list")
+                .paramName("结果集")
+                .paramType(paramTypeFormat("List"))
+                .build()));
+
+    }};
+
+
+    private static final Map<String, String> DOC_PARAM_MAP = new HashMap<String, String>(32) {{
         this.put("String", "0");
         this.put("file", "1");
         this.put("json", "2");
@@ -94,7 +172,7 @@ public class BaseUtils {
 
 
     public static boolean isIgnore(String str) {
-        for (String s : ignore_file) {
+        for (String s : IGNORE_FILE) {
             if (s.equals(str) || s.contains(str)) {
                 return true;
             }
@@ -109,7 +187,7 @@ public class BaseUtils {
      * @return
      */
     public static String paramTypeFormat(String paramType) {
-        String string = map.get(paramType);
+        String string = DOC_PARAM_MAP.get(paramType);
         return string == null ? "0" : string;
     }
 
@@ -229,4 +307,6 @@ public class BaseUtils {
     public static void exit() {
         System.exit(1);
     }
+
+
 }

@@ -12,6 +12,7 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.ResultInfo;
 import com.wangjin.doc.handler.ParseFilter;
+import com.wangjin.doc.utils.BaseUtils;
 
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,11 +36,9 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
         final JsonArray resultInfos = new JsonArray();
         obj.add(RESULT_INFO, resultInfos);
 
-
         if ("void".equals(doc.getResponseObject())) {
             return;
         }
-
 
         AtomicBoolean isPage = new AtomicBoolean(false);
 
@@ -58,85 +57,13 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
 
         //直接在缓存中命中, 则说明当前返回值是某个类.  开始解析
         if (isPage.get()) {
-            addPage(resultInfos);
+            BaseUtils.getPAGE_INFO().forEach(resultInfos::add);
         }
         CompilationUnit cu = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
         TypeDeclaration<?> type = cu.getType(0);
 
         super.parseMember(resultInfos, type.getMembers(), isPage.get() ? "list>>" : null, false);
         super.parseExtend(resultInfos, type, null, false);
-    }
-
-
-    private void addPage(JsonArray resultInfos) {
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
-                .paramName("当前页")
-                .paramType(paramTypeFormat("int"))
-                .build()));
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageSize")
-                .paramName("每页的数量")
-                .paramType(paramTypeFormat("int"))
-                .build()));
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("size")
-                .paramName("当前页的数量")
-                .paramType(paramTypeFormat("int"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pages")
-                .paramName("总页数")
-                .paramType(paramTypeFormat("int"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("prePage")
-                .paramName("前一页")
-                .paramType(paramTypeFormat("int"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("nextPage")
-                .paramName("下一页")
-                .paramType(paramTypeFormat("int"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("isFirstPage")
-                .paramName("是否为第一页")
-                .paramType(paramTypeFormat("boolean"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("isLastPage")
-                .paramName("是否为最后一页")
-                .paramType(paramTypeFormat("boolean"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("hasPreviousPage")
-                .paramName("是否有前一页")
-                .paramType(paramTypeFormat("boolean"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("hasNextPage")
-                .paramName("是否有下一页")
-                .paramType(paramTypeFormat("boolean"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("total")
-                .paramName("总记录数")
-                .paramType(paramTypeFormat("int"))
-                .build()));
-
-
-        resultInfos.add(GSON.toJsonTree(ResultInfo.builder().paramKey("list")
-                .paramName("结果集")
-                .paramType(paramTypeFormat("List"))
-                .build()));
     }
 
 
