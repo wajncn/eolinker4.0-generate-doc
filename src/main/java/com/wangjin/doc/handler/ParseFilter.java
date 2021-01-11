@@ -1,5 +1,6 @@
 package com.wangjin.doc.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
@@ -21,6 +22,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static com.wangjin.doc.utils.BaseUtils.paramTypeFormat;
@@ -88,32 +91,65 @@ public abstract class ParseFilter extends ParseFactory {
 
             //子类
             FileCache.FC fcChild = null;
+            AtomicReference<TypeDeclaration<?>> typeDeclarationReference = new AtomicReference<>(null);
 
-            String paramType;
+            AtomicReference<String> paramType = new AtomicReference<>("Object");
             if (fc == null) {
                 if (typeName.startsWith("List") || typeName.startsWith("ArrayList")) {
-                    paramType = paramTypeFormat("List");
+                    paramType.set(paramTypeFormat("List"));
                     fcChild = FileCache.getFc(variableDeclarator.getType().getChildNodes().get(1).toString());
                 } else {
-                    paramType = paramTypeFormat(variableDeclarator.getTypeAsString());
+                    paramType.set(paramTypeFormat(variableDeclarator.getTypeAsString()));
                 }
             } else {
-                paramType = paramTypeFormat("Object");
+                paramType.set(paramTypeFormat("Object"));
                 fcChild = FileCache.getFc(variableDeclarator.getType().getChildNodes().get(0).toString());
             }
 
 
+            AtomicReference<String> atomic_enum_comment = new AtomicReference<>(null);
+            //这里处理下枚举:
+            Optional.ofNullable(fcChild).ifPresent(fc_child -> {
+                try {
+                    TypeDeclaration<?> td = PARSE_HANDLER.handler(Paths.get(fc_child.getFilePath())).getTypes().get(0);
+                    typeDeclarationReference.set(td);
+                    //如果不是枚举则退出
+                    if (!(td instanceof EnumDeclaration)) {
+                        return;
+                    }
+
+                    AtomicInteger ordinal = new AtomicInteger(0);
+                    String enum_comment = ((EnumDeclaration) td).getEntries().stream()
+                            .map(entries -> StrUtil.format("(name:{}, ordinal:{}, comment:{})"
+                                    , entries.getName().asString()
+                                    , ordinal.getAndIncrement()
+                                    , BaseUtils.reformatMethodComment(entries.getComment().map(Comment::getContent).orElse("无注释"))
+                            ))
+                            .collect(Collectors.joining(" ,\n"));
+                    atomic_enum_comment.set(StrUtil.format("枚举:{}  \n[{}]", fc_child.getFileName(), enum_comment));
+                    paramType.set(paramTypeFormat("int"));
+                } catch (Exception ignored) {
+                }
+            });
+
+
+            String commentText = StrUtil.blankToDefault(atomic_enum_comment.get(), fieldDeclaration.getComment().map(Comment::getContent).orElse("无注释"));
             if (request) {
                 jsonArray.add(GSON.toJsonTree(RequestInfo.builder()
-                        .paramType(paramType)
+                        .paramType(paramType.get())
                         .paramKey(Optional.ofNullable(parentName).orElse("") + variableDeclarator.getName().asString())
-                        .paramName(BaseUtils.reformatMethodComment(fieldDeclaration.getComment().map(Comment::getContent).orElse("无注释")))
+                        .paramName(
+                                BaseUtils.reformatMethodComment(commentText)
+                        )
+                        .paramValue(commentText.length() > 10 ? BaseUtils.reformatMethodComment(commentText,999) : "")
                         .build()));
             } else {
                 jsonArray.add(GSON.toJsonTree(ResultInfo.builder()
                         .paramKey(Optional.ofNullable(parentName).orElse("") + variableDeclarator.getName().asString())
-                        .paramName(BaseUtils.reformatMethodComment(fieldDeclaration.getComment().map(Comment::getContent).orElse("无注释")))
-                        .paramType(paramType)
+                        .paramName(
+                                BaseUtils.reformatMethodComment(commentText)
+                        )
+                        .paramType(paramType.get())
                         .build()));
             }
 
@@ -123,11 +159,13 @@ public abstract class ParseFilter extends ParseFactory {
                 return;
             }
 
-            TypeDeclaration<?> typeDeclaration = PARSE_HANDLER.handler(Paths.get(fcChild.getFilePath())).getTypes().get(0);
+            TypeDeclaration<?> typeDeclaration = typeDeclarationReference.get();
+            if (typeDeclaration == null) {
+                return;
+            }
             if (typeDeclaration instanceof EnumDeclaration) {
                 return;
             }
-
 
             try {
                 this.parseExtend(jsonArray, typeDeclaration, Optional.ofNullable(parentName).orElse("") + variableDeclarator.getName().asString() + ">>"

@@ -195,11 +195,14 @@ public class BaseUtils {
     /**
      * 转义一些乱七八糟的非法字符,防止程序正则或者解析异常
      *
-     * @param srt
+     * @param s
      * @return
      */
-    public static String replaceIllegalityStr(String srt) {
-        return StrUtil.removeAllLineBreaks(srt)
+    public static String replaceIllegalityStr(String s) {
+        if (s == null) {
+            return s;
+        }
+        return StrUtil.removeAllLineBreaks(s.trim())
                 .replace("!", "-")
                 .replace("@", "-")
                 .replace("#", "-")
@@ -227,10 +230,18 @@ public class BaseUtils {
      * @return
      */
     public static String reformatMethodComment(String s) {
+        return StrUtil.maxLength(s, 135);
+    }
+
+
+    public static String reformatMethodComment(String s, int length) {
+        if (s == null) {
+            return null;
+        }
         s = ReUtil.replaceAll(s, "@.*", "");
         s = s.replace("*", "");
         s = StrUtil.trim(s);
-        return s;
+        return StrUtil.maxLength(s, length);
     }
 
     /**

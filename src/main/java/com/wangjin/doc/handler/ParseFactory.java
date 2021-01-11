@@ -12,9 +12,7 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.domain.DocConfig;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import com.wangjin.doc.utils.BaseUtils;
-import kong.unirest.json.JSONArray;
 import lombok.SneakyThrows;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -108,13 +106,12 @@ public class ParseFactory {
             baseInfo.addProperty("apiUpdateTime", System.currentTimeMillis());
             FILTERS.forEach(filter -> filter.filter(doc));
 
-
             if (docConfig == null || !docConfig.isSynchronous()) {
                 String filename = BaseUtils.replaceIllegalityStr(StrUtil.blankToDefault(doc.getComment(), doc.getRequestMapping()));
                 print("{} =======> 文档已生成完毕", StrUtil.padAfter(filename, 30, " "));
-                IoUtil.writeUtf8(new FileOutputStream(detailPath + File.separator + filename + ".json"), true, new JSONArray() {{
-                    this.put(obj);
-                }});
+                IoUtil.writeUtf8(new FileOutputStream(detailPath + File.separator + filename + ".json"),
+                        true,
+                        GSON.toJson(Collections.singletonList(obj)));
             }
 
             array.add(obj);
@@ -131,7 +128,6 @@ public class ParseFactory {
         }
     }
 
-    @NotNull
     private String getReplaceRequestMapping(InterfaceDoc interfaceDoc, InterfaceDoc.MethodDoc doc) {
         return StrUtil.removeSuffix(interfaceDoc.getRequestMapping() + StrUtil.addPrefixIfNot(doc.getRequestMapping(), "/"), "/")
                 .replace(":\\\\d+", "")

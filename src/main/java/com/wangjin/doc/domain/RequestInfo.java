@@ -42,6 +42,6 @@ public class RequestInfo {
     private final String paramLimit = "";
 
     @SerializedName("paramValue")
-    private final String paramValue = "";
+    private final String paramValue;
 
 }
