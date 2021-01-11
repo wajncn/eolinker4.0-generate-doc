@@ -12,19 +12,29 @@ public class MyNotifier {
 
 
     public static void notifyError(String content) {
-        NOTIFICATION_GROUP.createNotification(content, NotificationType.ERROR)
-                .notify(Application.PROJECT);
+        try {
+            NOTIFICATION_GROUP.createNotification(content, NotificationType.ERROR)
+                    .notify(Application.PROJECT);
+        } catch (Exception ignored) {
+        }
     }
 
 
     public static void notifyInfo(String content) {
-        NOTIFICATION_GROUP.createNotification(content, NotificationType.INFORMATION)
-                .notify(Application.PROJECT);
+        try {
+            NOTIFICATION_GROUP.createNotification(content, NotificationType.INFORMATION)
+                    .notify(Application.PROJECT);
+        } catch (Exception ignored) {
+        }
     }
 
     public static void notifyWarn(String content) {
-        NOTIFICATION_GROUP.createNotification(content, NotificationType.WARNING)
-                .notify(Application.PROJECT);
+        try {
+            NOTIFICATION_GROUP.createNotification(content, NotificationType.WARNING)
+                    .notify(Application.PROJECT);
+        } catch (Exception ignored) {
+
+        }
     }
 
 }

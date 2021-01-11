@@ -41,6 +41,27 @@ public class BaseUtils {
     }};
 
 
+    private static final Map<String, String> DOC_PARAM_MAP = new HashMap<String, String>(32) {{
+        this.put("String", "0");
+        this.put("file", "1");
+        this.put("json", "2");
+        this.put("int", "3");
+        this.put("Integer", "3");
+        this.put("float", "4");
+        this.put("Float", "4");
+        this.put("double", "5");
+        this.put("Double", "5");
+        this.put("date", "6");
+        this.put("datetime", "7");
+        this.put("Date", "7");
+        this.put("boolean", "8");
+        this.put("Boolean", "8");
+
+        this.put("List", "12");
+        this.put("ArrayList", "12");
+        this.put("Object", "13");
+    }};
+
     @Getter
     private static final List<JsonElement> PAGE_INFO = new ArrayList<JsonElement>(64) {{
         this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
@@ -111,27 +132,6 @@ public class BaseUtils {
 
     }};
 
-
-    private static final Map<String, String> DOC_PARAM_MAP = new HashMap<String, String>(32) {{
-        this.put("String", "0");
-        this.put("file", "1");
-        this.put("json", "2");
-        this.put("int", "3");
-        this.put("Integer", "3");
-        this.put("float", "4");
-        this.put("Float", "4");
-        this.put("double", "5");
-        this.put("Double", "5");
-        this.put("date", "6");
-        this.put("datetime", "7");
-        this.put("Date", "7");
-        this.put("boolean", "8");
-        this.put("Boolean", "8");
-
-        this.put("List", "12");
-        this.put("ArrayList", "12");
-        this.put("Object", "13");
-    }};
     private static String VERSION;
 
     public static String getVersion() {

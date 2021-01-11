@@ -77,7 +77,7 @@ public class ParseFactory {
         String name = StrUtil.removeSuffix(Paths.get(interfaceDoc.getFilePath()).getFileName().toString(), ".java");
 
         String detailPath = BASE_PATH + File.separator + "detail" + File.separator + name;
-        if (!docConfig.isSynchronous()) {
+        if (docConfig == null || !docConfig.isSynchronous()) {
             FileUtil.mkdir(detailPath);
         }
 
@@ -109,7 +109,7 @@ public class ParseFactory {
             FILTERS.forEach(filter -> filter.filter(doc));
 
 
-            if (!docConfig.isSynchronous()) {
+            if (docConfig == null || !docConfig.isSynchronous()) {
                 String filename = BaseUtils.replaceIllegalityStr(StrUtil.blankToDefault(doc.getComment(), doc.getRequestMapping()));
                 print("{} =======> 文档已生成完毕", StrUtil.padAfter(filename, 30, " "));
                 IoUtil.writeUtf8(new FileOutputStream(detailPath + File.separator + filename + ".json"), true, new JSONArray() {{
@@ -126,7 +126,7 @@ public class ParseFactory {
 
         }
 
-        if (!docConfig.isSynchronous()) {
+        if (docConfig == null || !docConfig.isSynchronous()) {
             IoUtil.writeUtf8(new FileOutputStream(BASE_PATH + File.separator + StrUtil.removeSuffix(name, ".java") + ".json"), true, GSON.toJson(array));
         }
     }
