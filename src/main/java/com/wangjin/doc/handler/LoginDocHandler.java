@@ -62,13 +62,6 @@ public class LoginDocHandler {
     }
 
 
-    public static void main(String[] args) {
-        token = "21E17E2E206DC057879743030FC9A2C4";
-        System.out.println(getGroupList());
-        System.out.println(getGroupListForMap());
-    }
-
-
     @SneakyThrows
     public static LinkedHashMap<String, String> getGroupListForMap() {
         List<GroupList> groupLists = getGroupList();

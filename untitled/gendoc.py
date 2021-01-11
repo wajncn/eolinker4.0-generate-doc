@@ -25,7 +25,7 @@ doc.update=false
 
 plugin_info = """<?xml version="1.0" encoding="UTF-8"?>
 <plugins>
-    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-4.0.zip" version="4.0">
+    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-4.1.zip" version="4.1">
     <idea-version since-build="145.258"/>
     <id>com.wangjin.Generate.WeimobDoc</id>
     <name>Generate WeimobDoc</name>
@@ -46,18 +46,20 @@ Release v1.0
  1.解析controller到接口文档系统
 Release v2.0
  1.fix bug
-Release v3.2
+Release v3.0
  1.fix bug
  2.优化解析性能
-Release 3.2.1版本
+Release v3.1版本
  1.支持解析分页参数
  2.取消默认动态修改文档功能,可通过配置文件来控制
-Release 3.2.2版本
+Release v3.2版本
  1.正式改名为:Generate WeimobDoc
  2.支持选中方法同步文档,必须包含[@*Mapping]
-Release 4.0版本
+Release v4.0版本
  1.简化配置文件,操作步骤.
  2.新增下拉框分组,无需配置分组id啦.
+Release v4.1版本 
+ 1.选择了代码块支持动态更新文档
 </pre>
 ]]>
     </change-notes>

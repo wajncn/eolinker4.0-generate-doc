@@ -20,6 +20,8 @@ import com.wangjin.doc.handler.LoginDocHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -47,6 +49,11 @@ public class MainPlugin extends AnAction {
 
             handlerSelected(e);
 
+            try {
+                Application.HOSTNAME = InetAddress.getLocalHost().getHostName();
+            } catch (UnknownHostException unknownHostException) {
+                System.out.println("e");
+            }
             Application.GROUP_ID = null;
             Application.PROJECT = project;
             Application.BASE_PATH = project.getBasePath();

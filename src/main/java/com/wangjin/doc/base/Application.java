@@ -20,8 +20,6 @@ import java.util.List;
  **/
 @NoArgsConstructor
 public final class Application {
-
-    public static final String VERSION = "5.2.3";
     /**
      * 当前项目的绝对路径
      */
@@ -42,6 +40,8 @@ public final class Application {
      * 动态选择的组id,如果没有就从配置文件中拿
      */
     public static String GROUP_ID = null;
+
+    public static String HOSTNAME = null;
 
 
     public static boolean LICENSE_STATUS = false;
