@@ -23,9 +23,46 @@ doc.group_id=
 doc.update=false
 """
 
-plugin_info = """<span style="font-family: SimHei;"><span style="font-size:14px;"><plugins>
-    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-3.2.2-SNAPSHOT.zip" version="3.2.2"/>
-</plugins></span></span>
+plugin_info = """<?xml version="1.0" encoding="UTF-8"?>
+<plugins>
+    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-4.0.zip" version="4.0">
+    <idea-version since-build="145.258"/>
+    <id>com.wangjin.Generate.WeimobDoc</id>
+    <name>Generate WeimobDoc</name>
+    <vendor email="wajncn@gmail.com" url="https://javanet123.com/">王进</vendor>
+    <description>
+            <![CDATA[
+解析Controller到接口微盟文档系统<br>
+    Click Tools -> "Generate WeimobDoc"<br>
+            该工具由第一交付中心第四部门提供<br>
+    <br>
+<a href="https://javanet123.com/archives/weimob">Need Help?<a/><br>
+]]>
+   </description>
+   <change-notes>
+            <![CDATA[
+<pre> 
+Release v1.0
+ 1.解析controller到接口文档系统
+Release v2.0
+ 1.fix bug
+Release v3.2
+ 1.fix bug
+ 2.优化解析性能
+Release 3.2.1版本
+ 1.支持解析分页参数
+ 2.取消默认动态修改文档功能,可通过配置文件来控制
+Release 3.2.2版本
+ 1.正式改名为:Generate WeimobDoc
+ 2.支持选中方法同步文档,必须包含[@*Mapping]
+Release 4.0版本
+ 1.简化配置文件,操作步骤.
+ 2.新增下拉框分组,无需配置分组id啦.
+</pre>
+]]>
+    </change-notes>
+    </plugin>
+</plugins>
 """
 
 
@@ -36,6 +73,11 @@ def _index():
 
 @app.route('/resp', methods=['GET'])
 def resp():
+    return plugin_info
+
+
+@app.route('/resp/updatePlugins.xml', methods=['GET'])
+def updatePlugins():
     return plugin_info
 
 
