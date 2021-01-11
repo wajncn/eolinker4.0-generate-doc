@@ -194,15 +194,13 @@ public class BaseUtils {
 
     /**
      * 转义一些乱七八糟的非法字符,防止程序正则或者解析异常
+     * 该方法不能 trim()
      *
      * @param s
      * @return
      */
     public static String replaceIllegalityStr(String s) {
-        if (s == null) {
-            return s;
-        }
-        return StrUtil.removeAllLineBreaks(s.trim())
+        return StrUtil.removeAllLineBreaks(s)
                 .replace("!", "-")
                 .replace("@", "-")
                 .replace("#", "-")
@@ -230,19 +228,21 @@ public class BaseUtils {
      * @return
      */
     public static String reformatMethodComment(String s) {
-        return StrUtil.maxLength(s, 135);
+        //doc 系统说明最大支持150个字符
+        return reformatMethodComment(s, 135);
     }
 
 
     public static String reformatMethodComment(String s, int length) {
         if (s == null) {
-            return null;
+            return "";
         }
         s = ReUtil.replaceAll(s, "@.*", "");
         s = s.replace("*", "");
         s = StrUtil.trim(s);
         return StrUtil.maxLength(s, length);
     }
+
 
     /**
      * 检测客户端是否还能使用. 异步调用的时候改方法不能抛出异常. 打包进ex4j会出现程序正常使用问题
