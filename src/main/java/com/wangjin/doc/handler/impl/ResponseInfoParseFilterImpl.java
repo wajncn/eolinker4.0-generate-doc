@@ -13,9 +13,12 @@ import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.ResultInfo;
 import com.wangjin.doc.handler.ParseFilter;
 import com.wangjin.doc.utils.BaseUtils;
+import lombok.AllArgsConstructor;
 
 import java.nio.file.Paths;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static com.wangjin.doc.utils.BaseUtils.*;
 
@@ -29,20 +32,43 @@ import static com.wangjin.doc.utils.BaseUtils.*;
 public class ResponseInfoParseFilterImpl extends ParseFilter {
 
     private static final String RESULT_INFO = "resultInfo";
+    private static final String VOID = "void";
+
+
+    @AllArgsConstructor
+    public enum Page_Flag {
+        //老框架的分页
+        PAGE_1_0("list"),
+
+        //新框架的分页
+        PAGE_2_0("list");
+
+        public final String listKey;
+    }
+
+    /**
+     * 忽略的返回值
+     */
+    private static final List<String> IGNORE_RESULT = new ArrayList<String>(12) {{
+        this.add("RequestResult");
+    }};
+
+
+    private static final ThreadLocal<Page_Flag> PAGE_FLAG = new ThreadLocal<>();
 
     @Override
     protected void filter(InterfaceDoc.MethodDoc doc) {
+        PAGE_FLAG.remove();
+
         JsonObject obj = getJSONObject();
         final JsonArray resultInfos = new JsonArray();
         obj.add(RESULT_INFO, resultInfos);
 
-        if ("void".equals(doc.getResponseObject())) {
+
+        final String responseObject = formatResponseObject(doc);
+        if (VOID.equals(responseObject)) {
             return;
         }
-
-        AtomicBoolean isPage = new AtomicBoolean(false);
-
-        final String responseObject = formatResponseObject(doc, isPage);
 
         FileCache.FC fc = FileCache.getFc(responseObject);
 
@@ -56,13 +82,18 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
         }
 
         //直接在缓存中命中, 则说明当前返回值是某个类.  开始解析
-        if (isPage.get()) {
+        if (PAGE_FLAG.get() == Page_Flag.PAGE_1_0) {
             BaseUtils.getPAGE_INFO().forEach(resultInfos::add);
         }
+
+        if (PAGE_FLAG.get() == Page_Flag.PAGE_2_0) {
+            BaseUtils.getPAGE_INFO_new_framework().forEach(resultInfos::add);
+        }
+
         CompilationUnit cu = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
         TypeDeclaration<?> type = cu.getType(0);
 
-        super.parseMember(resultInfos, type.getMembers(), isPage.get() ? "list>>" : null, false);
+        super.parseMember(resultInfos, type.getMembers(), PAGE_FLAG.get() == null ? null : PAGE_FLAG.get().listKey, false);
         super.parseExtend(resultInfos, type, null, false);
     }
 
@@ -73,12 +104,34 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
      * @param doc
      * @return
      */
-    private String formatResponseObject(InterfaceDoc.MethodDoc doc, AtomicBoolean isPage) {
+    private String formatResponseObject(InterfaceDoc.MethodDoc doc) {
         String responseObject = doc.getResponseObject();
+
+        //对新框架做处理
+        if ("RequestResult".equals(responseObject)) {
+            return VOID;
+        }
+
+        for (String ignore : IGNORE_RESULT) {
+            if (responseObject.startsWith(ignore + "<")) {
+                responseObject = responseObject.replace(ignore + "<", "");
+                responseObject = StrUtil.removeSuffix(responseObject, ">");
+            }
+        }
+
+        if (responseObject.startsWith("PageData<")) {
+            //没有加泛型 开始容错处理:
+            responseObject = Optional.ofNullable(ReUtil.findAll("PageData<(\\S+),(\\S+)>", responseObject, 1)).map(a -> a.get(0)).orElse(VOID);
+            PAGE_FLAG.set(Page_Flag.PAGE_2_0);
+            return responseObject;
+        }
+
+
         if ("PageInfo".equals(responseObject)) {
             //没有加泛型 开始容错处理:
             responseObject = this.parseResponseObject(doc);
-            isPage.set(true);
+
+            PAGE_FLAG.set(Page_Flag.PAGE_1_0);
         }
 
         if (responseObject.startsWith("List<")) {
@@ -89,7 +142,7 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
         if (responseObject.startsWith("PageInfo<")) {
             responseObject = responseObject.replace("PageInfo<", "");
             responseObject = responseObject.replace(">", "");
-            isPage.set(true);
+            PAGE_FLAG.set(Page_Flag.PAGE_1_0);
         }
         return responseObject;
     }

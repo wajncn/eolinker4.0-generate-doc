@@ -62,6 +62,36 @@ public class BaseUtils {
         this.put("Object", "13");
     }};
 
+
+
+    @Getter
+    private static final List<JsonElement> PAGE_INFO_new_framework = new ArrayList<JsonElement>(64) {{
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
+                .paramName("当前页")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageSize")
+                .paramName("每页的数量")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("total")
+                .paramName("总记录数")
+                .paramType(paramTypeFormat("int"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("isLastPage")
+                .paramName("是否为最后一页")
+                .paramType(paramTypeFormat("boolean"))
+                .build()));
+
+        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("list")
+                .paramName("结果集")
+                .paramType(paramTypeFormat("List"))
+                .build()));
+    }};
+
     @Getter
     private static final List<JsonElement> PAGE_INFO = new ArrayList<JsonElement>(64) {{
         this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
@@ -69,10 +99,6 @@ public class BaseUtils {
                 .paramType(paramTypeFormat("int"))
                 .build()));
 
-        this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
-                .paramName("当前页")
-                .paramType(paramTypeFormat("int"))
-                .build()));
 
         this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageSize")
                 .paramName("每页的数量")

@@ -22,7 +22,7 @@ public class RequestInfoParseFilterImplTest {
 
         Project project = new Project();
         project.init(Application.BASE_PATH);
-        project.generate("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-wechat\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\WxUsersController.java");
+        project.generate("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-admin\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\ActivityConfigController.java");
 
         System.out.println("我的第一个测试开始测试");
     }
