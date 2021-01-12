@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.doc'
-version '4.1'
+version '4.2'
 
 repositories {
     mavenCentral()
@@ -46,6 +46,9 @@ Release v4.0版本
  2.新增下拉框分组,无需配置分组id啦.
 Release v4.1版本 
  1.选择了代码块支持动态更新文档
+Release v4.2版本 
+ 1.支持解析枚举类
+ 2.文档支持查看按钮
 </pre>"""
     sinceBuild "145.258"
     untilBuild null

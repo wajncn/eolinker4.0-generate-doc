@@ -1,5 +1,6 @@
 package com.wangjin.doc.handler.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.google.gson.JsonArray;
@@ -8,6 +9,7 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;
 import com.wangjin.doc.handler.ParseFilter;
+import com.wangjin.doc.utils.BaseUtils;
 
 import java.nio.file.Paths;
 
@@ -42,7 +44,8 @@ public class RequestInfoParseFilterImpl extends ParseFilter {
             requestInfos.add(GSON.toJsonTree(RequestInfo.builder()
                     .paramType(paramTypeFormat(requestArg.getType()))
                     .paramKey(requestArg.getField())
-                    .paramName(requestArg.getComment())
+                    .paramName(BaseUtils.reformatMethodComment(requestArg.getComment()))
+                    .paramValue((requestArg.getComment().length() > 10 ? StrUtil.center("", 50, "　") + "\n" + BaseUtils.reformatMethodComment(requestArg.getComment(), 999) : ""))
                     .build()));
             return;
         }

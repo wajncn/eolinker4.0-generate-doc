@@ -25,7 +25,7 @@ doc.update=false
 
 plugin_info = """<?xml version="1.0" encoding="UTF-8"?>
 <plugins>
-    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-4.0.zip" version="4.0">
+    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-4.2.zip" version="4.2">
     <idea-version since-build="145.258"/>
     <id>com.wangjin.Generate.WeimobDoc</id>
     <name>Generate WeimobDoc</name>
@@ -58,6 +58,11 @@ Release 3.2.2版本
 Release 4.0版本
  1.简化配置文件,操作步骤.
  2.新增下拉框分组,无需配置分组id啦.
+Release v4.1版本 
+ 1.选择了代码块支持动态更新文档
+Release v4.2版本 
+ 1.支持解析枚举类
+ 2.文档支持查看按钮
 </pre>
 ]]>
     </change-notes>

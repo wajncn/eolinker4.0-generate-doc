@@ -35,26 +35,22 @@ public class LoginDocHandler {
     private static final Gson GSON = new Gson();
 
     public static void login(@NonNull String username, @NonNull String password) {
-        try {
-            String body = "loginName=" + username + "&loginPassword=" + getMD5Str(password);
-            String response = Unirest.post("https://doc.f.wmeimob.com/Guest/login")
-                    .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
-                    .body(body)
-                    .asString().getBody();
+        String body = "loginName=" + username + "&loginPassword=" + getMD5Str(password);
+        String response = Unirest.post("https://doc.f.wmeimob.com/Guest/login")
+                .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+                .body(body)
+                .asString().getBody();
 
-            if (!Application.LICENSE_STATUS) {
-                System.exit(1);
-            }
-
-            JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
-            if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
-                throw new IllegalArgumentException("账号密码错误,无法自动同步到文档系统");
-            }
-            token = jsonObject.get("JSESSIONID").getAsString();
-            apiLists = LoginDocHandler.getAllApiList().stream().collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!Application.LICENSE_STATUS) {
+            System.exit(1);
         }
+
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
+            throw new IllegalArgumentException("账号密码错误,无法自动同步到文档系统");
+        }
+        token = jsonObject.get("JSESSIONID").getAsString();
+        apiLists = LoginDocHandler.getAllApiList().stream().collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
     }
 
     public static void refreshApiList() {
