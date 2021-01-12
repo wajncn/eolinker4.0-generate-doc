@@ -7,11 +7,10 @@ import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.utils.BaseUtils;
 import lombok.SneakyThrows;
 
-import java.awt.*;
-import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 
-import static com.wangjin.doc.utils.BaseUtils.*;
+import static com.wangjin.doc.utils.BaseUtils.checkVersion;
+import static com.wangjin.doc.utils.BaseUtils.print;
 
 /**
  * @description:
@@ -119,23 +118,6 @@ public abstract class AbstractMain {
 
 
     protected void openBrowse(String url) {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                System.setProperty("java.awt.headless", "false");
-                // 创建一个URI实例
-                URI uri = URI.create(url);
-                // 获取当前系统桌面扩展
-                Desktop dp = Desktop.getDesktop();
-                // 判断系统桌面是否支持要执行的功能
-                if (dp.isSupported(java.awt.Desktop.Action.BROWSE)) {
-                    // 获取系统默认浏览器打开链接
-                    dp.browse(uri);
-                }
-            } catch (Exception e) {
-                printWarn("打开浏览器失败: url:{}", url);
-            }
-        } else {
-//            print("打开浏览器失败: ",url);
-        }
+        BaseUtils.openBrowse(url);
     }
 }

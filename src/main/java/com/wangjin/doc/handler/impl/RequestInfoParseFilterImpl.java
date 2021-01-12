@@ -5,6 +5,8 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.wangjin.doc.base.Application;
+import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;
@@ -29,6 +31,9 @@ public class RequestInfoParseFilterImpl extends ParseFilter {
     @Override
     protected void filter(InterfaceDoc.MethodDoc doc) {
         JsonObject obj = getJSONObject();
+        if (!Application.LICENSE_STATUS) {
+            return;
+        }
 
         final JsonArray requestInfos = new JsonArray();
         obj.add(REQUEST_INFO, requestInfos);
@@ -38,6 +43,9 @@ public class RequestInfoParseFilterImpl extends ParseFilter {
     }
 
     private void filter(JsonArray requestInfos, InterfaceDoc.Args requestArg) {
+        if (!Constant.LICENSE_STATUS) {
+            return;
+        }
         FileCache.FC fc = FileCache.getFc(requestArg.getType());
         if (fc == null) {
             //普通参数, 比如int,string等

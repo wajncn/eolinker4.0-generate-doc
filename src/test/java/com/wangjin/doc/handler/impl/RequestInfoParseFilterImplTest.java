@@ -5,6 +5,7 @@ import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.DocConfig;
 import com.wangjin.doc.handler.LoginDocHandler;
+import com.wangjin.doc.utils.BaseUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,15 +21,24 @@ public class RequestInfoParseFilterImplTest {
         Project.LICENSE_STATUS = true;
         Constant.LICENSE_STATUS = true;
 
-        Application.BASE_PATH = "C:\\Users\\pc\\IdeaProjects\\guanghui-mini";
+        Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
+
+        DocConfig docConfig = DocConfig.builder()
+                .username("wangjin")
+                .password("123456")
+                .projectId("405")
+                .groupId("2931")
+                .synchronous(true)
+                .update(true)
+                .build();
+        DocConfig.init(docConfig);
 
         Project project = new Project();
         project.init(Application.BASE_PATH);
-        project.generate("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-admin\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\ActivityConfigController.java");
+        project.generate("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/AdImagesController.java");
 
-        System.out.println("我的第一个测试开始测试");
+        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
     }
-
     @Test
     void test() {
         Application.LICENSE_STATUS = true;

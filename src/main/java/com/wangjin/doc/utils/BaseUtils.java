@@ -13,11 +13,14 @@ import com.wangjin.doc.domain.ResultInfo;
 import kong.unirest.Unirest;
 import lombok.Getter;
 
+import java.awt.*;
 import java.math.BigInteger;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.wangjin.doc.base.Constant.GSON;
@@ -346,4 +349,25 @@ public class BaseUtils {
     }
 
 
+
+    public static void openBrowse(String url) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                System.setProperty("java.awt.headless", "false");
+                // 创建一个URI实例
+                URI uri = URI.create(url);
+                // 获取当前系统桌面扩展
+                Desktop dp = Desktop.getDesktop();
+                // 判断系统桌面是否支持要执行的功能
+                if (dp.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                    // 获取系统默认浏览器打开链接
+                    dp.browse(uri);
+                }
+            } catch (Exception e) {
+                printWarn("打开浏览器失败: url:{}", url);
+            }
+        } else {
+//            print("打开浏览器失败: ",url);
+        }
+    }
 }

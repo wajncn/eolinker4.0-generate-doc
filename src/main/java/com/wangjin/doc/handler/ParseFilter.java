@@ -57,6 +57,9 @@ public abstract class ParseFilter extends ParseFactory {
         if (members.isEmpty()) {
             return;
         }
+        if (!Project.LICENSE_STATUS) {
+            return;
+        }
 
 
 //        NodeList<BodyDeclaration<?>> members = type.getMembers();

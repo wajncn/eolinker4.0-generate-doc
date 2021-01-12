@@ -2,6 +2,7 @@ package com.wangjin.doc.cache;
 
 import cn.hutool.core.util.StrUtil;
 import com.wangjin.doc.base.Application;
+import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,9 @@ public final class FileCache {
 
 
     public static FC getFc(String fileName) {
+        if (!Constant.LICENSE_STATUS) {
+            return null;
+        }
         return FILE_CACHE.get(fileName);
     }
 
@@ -55,7 +59,7 @@ public final class FileCache {
         if (fc.fileName.endsWith("Controller")) {
             FILE_CACHE_CONTROLLER.put(StrUtil.removeSuffix(fc.filePath, ".java"), fc);
             if (!Project.LICENSE_STATUS) {
-                System.exit(1);
+                return;
             }
             return;
         }
