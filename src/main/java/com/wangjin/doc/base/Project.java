@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -131,7 +132,7 @@ public final class Project {
                     InterfaceDoc.Args arg = new InterfaceDoc.Args();
                     arg.setType(p.getTypeAsString());
                     arg.setField(p.getName().asString());
-                    arg.setComment(commentMap.get(p.getName().asString()));
+                    arg.setComment(Optional.ofNullable(commentMap.get(p.getName().asString())).orElse(""));
                     return arg;
                 }).collect(Collectors.toList());
 

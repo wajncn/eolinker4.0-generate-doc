@@ -18,11 +18,11 @@ public class RequestInfoParseFilterImplTest {
         Project.LICENSE_STATUS = true;
         Constant.LICENSE_STATUS = true;
 
-        Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
+        Application.BASE_PATH = "C:\\Users\\pc\\IdeaProjects\\guanghui-mini";
 
         Project project = new Project();
         project.init(Application.BASE_PATH);
-        project.generate("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/AdImagesController.java");
+        project.generate("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-wechat\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\WxUsersController.java");
 
         System.out.println("我的第一个测试开始测试");
     }
