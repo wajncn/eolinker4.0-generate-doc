@@ -25,7 +25,7 @@ doc.update=false
 
 plugin_info = """<?xml version="1.0" encoding="UTF-8"?>
 <plugins>
-    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-4.2.zip" version="4.2">
+    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-4.3.zip" version="4.3">
     <idea-version since-build="145.258"/>
     <id>com.wangjin.Generate.WeimobDoc</id>
     <name>Generate WeimobDoc</name>
@@ -63,6 +63,8 @@ Release v4.1版本
 Release v4.2版本 
  1.支持解析枚举类
  2.文档支持查看按钮
+Release v4.3版本 
+ 1.fix 已知问题
 </pre>
 ]]>
     </change-notes>

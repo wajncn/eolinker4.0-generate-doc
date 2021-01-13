@@ -2,11 +2,12 @@ package com.wangjin.doc.handler;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Application;
+import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ApiList;
@@ -34,8 +35,9 @@ public class LoginDocHandler {
     private static String token = null;
     private static final Gson GSON = new Gson();
 
-    public static void login(@NonNull String username, @NonNull String password) {
-        String body = "loginName=" + username + "&loginPassword=" + getMD5Str(password);
+    public static void login() {
+        DocConfig docConfig = DocConfig.get();
+        String body = "loginName=" + docConfig.getUsername() + "&loginPassword=" + getMD5Str(docConfig.getPassword());
         String response = Unirest.post("https://doc.f.wmeimob.com/Guest/login")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .body(body)
@@ -107,9 +109,15 @@ public class LoginDocHandler {
         if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             return new ArrayList<>();
         }
-        List<GroupList> list = GSON.fromJson(jsonObject.get("groupList").getAsJsonArray(), new TypeToken<List<GroupList>>() {
-        }.getType());
+        return parseList(jsonObject.get("groupList").getAsJsonArray(), GroupList.class);
+    }
 
+
+    private static <T> List<T> parseList(JsonArray array, Class<T> c) {
+        List<T> list = new ArrayList<>();
+        array.forEach(a -> {
+            list.add(GSON.fromJson(a.getAsJsonObject(), c));
+        });
         return list;
     }
 
@@ -132,9 +140,7 @@ public class LoginDocHandler {
         if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             return new ArrayList<>();
         }
-        List<ProjectList> list = GSON.fromJson(jsonObject.get("projectList").getAsJsonArray(), new TypeToken<List<ProjectList>>() {
-        }.getType());
-        return list;
+        return parseList(jsonObject.get("projectList").getAsJsonArray(), ProjectList.class);
     }
 
 
@@ -157,9 +163,8 @@ public class LoginDocHandler {
         if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             return new ArrayList<>();
         }
-        List<ApiList> list = GSON.fromJson(jsonObject.get("apiList").getAsJsonArray(), new TypeToken<List<ApiList>>() {
-        }.getType());
-        return list;
+
+        return parseList(jsonObject.get("apiList").getAsJsonArray(), ApiList.class);
     }
 
 

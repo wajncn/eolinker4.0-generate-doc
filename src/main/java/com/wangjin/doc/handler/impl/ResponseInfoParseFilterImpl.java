@@ -38,10 +38,22 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
     @AllArgsConstructor
     public enum Page_Flag {
         //老框架的分页
-        PAGE_1_0("list"),
+        PAGE_1_0("list>>") {
+            @Override
+            void handler(JsonArray array) {
+                BaseUtils.getPAGE_INFO().forEach(array::add);
+            }
+        },
 
         //新框架的分页
-        PAGE_2_0("list");
+        PAGE_2_0("list>>") {
+            @Override
+            void handler(JsonArray array) {
+                BaseUtils.getPAGE_INFO_new_framework().forEach(array::add);
+            }
+        };
+
+        abstract void handler(JsonArray array);
 
         public final String listKey;
     }
@@ -55,6 +67,7 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
 
 
     private static final ThreadLocal<Page_Flag> PAGE_FLAG = new ThreadLocal<>();
+
 
     @Override
     protected void filter(InterfaceDoc.MethodDoc doc) {
@@ -80,15 +93,7 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
                     .build()));
             return;
         }
-
-        //直接在缓存中命中, 则说明当前返回值是某个类.  开始解析
-        if (PAGE_FLAG.get() == Page_Flag.PAGE_1_0) {
-            BaseUtils.getPAGE_INFO().forEach(resultInfos::add);
-        }
-
-        if (PAGE_FLAG.get() == Page_Flag.PAGE_2_0) {
-            BaseUtils.getPAGE_INFO_new_framework().forEach(resultInfos::add);
-        }
+        Optional.ofNullable(PAGE_FLAG.get()).ifPresent(a -> a.handler(resultInfos));
 
         CompilationUnit cu = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
         TypeDeclaration<?> type = cu.getType(0);

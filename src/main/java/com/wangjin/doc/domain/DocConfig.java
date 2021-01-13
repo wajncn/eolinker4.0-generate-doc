@@ -54,7 +54,7 @@ public class DocConfig {
             Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: project_id");
 //            Assert.notEmpty(docConfig.getGroupId(), "缺少配置属性: group_id");
 
-            LoginDocHandler.login(docConfig.getUsername(), docConfig.getPassword());
+            LoginDocHandler.login();
         }
     }
 
