@@ -106,7 +106,9 @@ public final class Project {
             MethodDeclaration methodDeclaration = (MethodDeclaration) member;
 
             InterfaceDoc.MethodDoc doc = new InterfaceDoc.MethodDoc();
-            doc.setComment(methodDeclaration.getComment().map(e -> BaseUtils.reformatMethodComment(e.getContent())).orElseGet(() -> "无注释方法" + index.getAndIncrement()));
+            doc.setComment(methodDeclaration.getComment()
+                    .map(e -> BaseUtils.reformatMethodComment(e.getContent()))
+                    .orElseGet(() -> Constant.NO_ANNOTATION_INTERFACE_TEXT + index.getAndIncrement()));
 
             //判断是否为接口
             boolean isInterface = false;
@@ -177,6 +179,9 @@ public final class Project {
         pageSize.setComment("分页大小 默认为20");
         requestArgs.add(pageSize);
 
-        doc.setComment(doc.getComment() + "    (分页查询)");
+        doc.setComment(doc.getComment().contains("分页") ?
+                doc.getComment()
+                :
+                doc.getComment() + Constant.PAGE_QUERY_TEXT);
     }
 }

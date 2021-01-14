@@ -8,6 +8,7 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.google.gson.JsonArray;
+import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.cache.FileCache;
@@ -126,7 +127,7 @@ public abstract class ParseFilter extends ParseFactory {
                             .map(entries -> StrUtil.format("(name:{}, ordinal:{}, comment:{})"
                                     , entries.getName().asString()
                                     , ordinal.getAndIncrement()
-                                    , BaseUtils.reformatMethodComment(entries.getComment().map(Comment::getContent).orElse("无注释"))
+                                    , BaseUtils.reformatMethodComment(entries.getComment().map(Comment::getContent).orElse(Constant.NO_ANNOTATION_FIELD_TEXT))
                             ))
                             .collect(Collectors.joining(" ,\n"));
                     atomic_enum_comment.set(StrUtil.format("枚举:{}  \n[{}]", fc_child.getFileName(), enum_comment));
@@ -136,7 +137,9 @@ public abstract class ParseFilter extends ParseFactory {
             });
 
 
-            String commentText = StrUtil.blankToDefault(atomic_enum_comment.get(), fieldDeclaration.getComment().map(Comment::getContent).orElse("无注释"));
+            String commentText = StrUtil.blankToDefault(atomic_enum_comment.get(),
+                    fieldDeclaration.getComment()
+                            .map(Comment::getContent).orElse(Constant.NO_ANNOTATION_FIELD_TEXT));
             if (request) {
                 jsonArray.add(GSON.toJsonTree(RequestInfo.builder()
                         .paramType(paramType.get())
