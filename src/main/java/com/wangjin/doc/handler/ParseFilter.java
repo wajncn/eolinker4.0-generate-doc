@@ -83,7 +83,7 @@ public abstract class ParseFilter extends ParseFactory {
 
 
             //检测递归
-            Map<String, Long> collect = Arrays.asList((parentName + "").split(">>")).stream().collect(Collectors.groupingBy(a -> a, Collectors.counting()));
+            Map<String, Long> collect = Arrays.stream((parentName + "").split(">>")).collect(Collectors.groupingBy(a -> a, Collectors.counting()));
             String variableDeclaratorName = variableDeclarator.getName().asString();
             if (collect.get(variableDeclaratorName) != null && collect.get(variableDeclaratorName) >= 1) {
                 BaseUtils.printWarn("出现自引用属性:[{}], 最大递归深度默认为:2   :{}", variableDeclaratorName, parentName);

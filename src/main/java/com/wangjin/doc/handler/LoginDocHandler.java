@@ -7,7 +7,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ApiList;
@@ -210,10 +209,10 @@ public class LoginDocHandler {
         ApiList apiList = apiLists.get(doc.getRequestMapping() + doc.getMethodType().getApiRequestType());
         if (apiList != null) {
             if (docConfig.isUpdate()) {
-                BaseUtils.printTips("文档{}已存在, 系统正在修改文档...", doc.getRequestMapping());
+                BaseUtils.printTips("文档 {} 已存在, 系统正在修改文档...", doc.getRequestMapping());
                 del(apiList.getApiID());
             } else {
-                BaseUtils.printTips("文档{}已存在, 系统已忽略更新", doc.getRequestMapping());
+                BaseUtils.printTips("文档 {} 已存在, 系统已忽略更新", doc.getRequestMapping());
                 return;
             }
         }
