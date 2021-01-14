@@ -53,7 +53,8 @@ public class RequestInfoParseFilterImpl extends ParseFilter {
                     .paramType(paramTypeFormat(requestArg.getType()))
                     .paramKey(requestArg.getField())
                     .paramName(BaseUtils.reformatMethodComment(requestArg.getComment()))
-                    .paramValue((requestArg.getComment().length() > 10 ? StrUtil.center("", 50, "　") + "\n" + BaseUtils.reformatMethodComment(requestArg.getComment(), 999) : ""))
+                    .paramValue((requestArg.getComment().length() > 10
+                            ? StrUtil.center("", 50, "　") + "\n" + BaseUtils.reformatMethodComment(requestArg.getComment(), 999) : ""))
                     .build()));
             return;
         }

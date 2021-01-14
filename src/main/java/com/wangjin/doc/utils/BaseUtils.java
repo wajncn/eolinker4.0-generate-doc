@@ -320,7 +320,8 @@ public class BaseUtils {
                 }
             }
             final String finalSp = sp;
-            map.put(key.get(), Optional.ofNullable(map.get(key.get())).map(a -> a.concat(finalSp)).orElse(sp));
+            map.put(key.get(), Optional.ofNullable(map.get(key.get()))
+                    .map(a -> a.concat("\n").concat(finalSp)).orElse(sp));
         });
         return map;
     }

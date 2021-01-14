@@ -137,24 +137,20 @@ public abstract class ParseFilter extends ParseFactory {
             });
 
 
-            String commentText = StrUtil.blankToDefault(atomic_enum_comment.get(),
+            String commentText = BaseUtils.reformatMethodComment(StrUtil.blankToDefault(atomic_enum_comment.get(),
                     fieldDeclaration.getComment()
-                            .map(Comment::getContent).orElse(Constant.NO_ANNOTATION_FIELD_TEXT));
+                            .map(Comment::getContent).orElse(Constant.NO_ANNOTATION_FIELD_TEXT)));
             if (request) {
                 jsonArray.add(GSON.toJsonTree(RequestInfo.builder()
                         .paramType(paramType.get())
                         .paramKey(Optional.ofNullable(parentName).orElse("") + variableDeclarator.getName().asString())
-                        .paramName(
-                                BaseUtils.reformatMethodComment(commentText)
-                        )
-                        .paramValue((commentText.length() > 10 ? StrUtil.center("", 50, "　") + "\n" + BaseUtils.reformatMethodComment(commentText, 999) : ""))
+                        .paramName(commentText)
+                        .paramValue(typeName.contains("Date") ? "yyyy-MM-dd HH:mm:ss" : (commentText.length() > 10 ? StrUtil.center("", 50, "　") + "\n" + BaseUtils.reformatMethodComment(commentText, 999) : ""))
                         .build()));
             } else {
                 jsonArray.add(GSON.toJsonTree(ResultInfo.builder()
                         .paramKey(Optional.ofNullable(parentName).orElse("") + variableDeclarator.getName().asString())
-                        .paramName(
-                                BaseUtils.reformatMethodComment(commentText)
-                        )
+                        .paramName(commentText)
                         .paramType(paramType.get())
                         .build()));
             }
