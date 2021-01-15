@@ -22,6 +22,7 @@ public class RequestInfoParseFilterImplTest {
         Constant.LICENSE_STATUS = true;
 
 
+
         Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
 
         DocConfig docConfig = DocConfig.builder()
