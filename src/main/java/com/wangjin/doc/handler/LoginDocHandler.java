@@ -13,8 +13,8 @@ import com.wangjin.doc.domain.ApiList;
 import com.wangjin.doc.domain.DocConfig;
 import com.wangjin.doc.domain.GroupList;
 import com.wangjin.doc.domain.ProjectList;
+import com.wangjin.doc.unirest.Unirest;
 import com.wangjin.doc.utils.BaseUtils;
-import kong.unirest.Unirest;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 
@@ -37,6 +37,8 @@ public class LoginDocHandler {
     public static void login() {
         DocConfig docConfig = DocConfig.get();
         String body = "loginName=" + docConfig.getUsername() + "&loginPassword=" + getMD5Str(docConfig.getPassword());
+
+
         String response = Unirest.post("https://doc.f.wmeimob.com/Guest/login")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .body(body)

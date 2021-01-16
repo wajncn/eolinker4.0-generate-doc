@@ -10,7 +10,7 @@ import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ResultInfo;
-import kong.unirest.Unirest;
+import com.wangjin.doc.unirest.Unirest;
 import lombok.Getter;
 
 import java.awt.*;
@@ -19,8 +19,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.wangjin.doc.base.Constant.GSON;

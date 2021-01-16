@@ -8,7 +8,7 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.domain.DocConfig;
 import com.wangjin.doc.handler.AbstractMain;
-import kong.unirest.Unirest;
+import com.wangjin.doc.unirest.Unirest;
 import lombok.SneakyThrows;
 
 import java.io.File;

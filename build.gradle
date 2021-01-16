@@ -15,7 +15,7 @@ dependencies {
     compile group: 'cn.hutool', name: 'hutool-core', version: '5.4.0'
     implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
-    compile group: 'com.konghq', name: 'unirest-java', version: '3.11.06'
+//    compile group: 'com.konghq', name: 'unirest-java', version: '3.11.06'
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: '3.16.1'
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0'
 
