@@ -28,8 +28,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static com.wangjin.doc.utils.BaseUtils.print;
 
 /**
  * @description:
@@ -61,6 +64,22 @@ public final class Project {
                 addFc(FileCache.FC.builder().
                         fileName(StrUtil.removeSuffix(file.getName(), ".java"))
                         .filePath(file.getPath()).build()));
+    }
+
+
+    public final void generate(List<String> filePaths) throws IOException {
+        java.util.concurrent.ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
+            filePaths.forEach(a -> {
+                try {
+                    print("开始生成: {}", a);
+                    generate(a);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        },service);
+        voidCompletableFuture.join();
     }
 
     public final void generate(String filePath) throws IOException {

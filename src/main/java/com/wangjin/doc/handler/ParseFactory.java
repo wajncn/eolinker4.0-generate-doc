@@ -116,13 +116,12 @@ public class ParseFactory {
 
             array.add(obj);
             try {
-                LoginDocHandler.upload(GSON.toJson(Collections.singletonList(obj)), doc);
+                LoginDocHandler.addQueue(GSON.toJson(Collections.singletonList(obj)), doc);
             } catch (Exception e) {
                 BaseUtils.printError("自动同步到接口文档系统出错 requestMapping:{}", interfaceDoc.getRequestMapping());
             }
-
         }
-
+        LoginDocHandler.startUpload();
         if (docConfig == null || !docConfig.isSynchronous()) {
             IoUtil.writeUtf8(new FileOutputStream(BASE_PATH + File.separator + StrUtil.removeSuffix(name, ".java") + ".json"), true, GSON.toJson(array));
         }

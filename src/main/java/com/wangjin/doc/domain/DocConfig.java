@@ -18,8 +18,7 @@ import java.util.List;
 @Getter
 public class DocConfig {
 
-
-    private static final ThreadLocal<DocConfig> CONFIG = new ThreadLocal<>();
+    private static final ThreadLocal<DocConfig> CONFIG = new InheritableThreadLocal<>();
 
     private final String projectPath;
     private final List<String> controllerPaths;
@@ -29,9 +28,7 @@ public class DocConfig {
     private final String groupId;
     private final boolean synchronous;
 
-
     private final boolean update;
-
 
     public static DocConfig get() {
         return CONFIG.get();

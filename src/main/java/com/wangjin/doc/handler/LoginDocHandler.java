@@ -2,6 +2,7 @@ package com.wangjin.doc.handler;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -15,10 +16,15 @@ import com.wangjin.doc.domain.GroupList;
 import com.wangjin.doc.domain.ProjectList;
 import com.wangjin.doc.unirest.Unirest;
 import com.wangjin.doc.utils.BaseUtils;
-import lombok.NonNull;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.wangjin.doc.utils.BaseUtils.getMD5Str;
@@ -194,8 +200,63 @@ public class LoginDocHandler {
         }
     }
 
+
+    private static final LinkedBlockingQueue<Upload> UPLOAD_DATA = new LinkedBlockingQueue<>(1024);
+    private static final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 24, 1,
+            TimeUnit.MINUTES, new LinkedBlockingQueue<>(4096), new ThreadFactoryBuilder()
+            .setNameFormat("UPLOAD_DATA-pool-%d").build());
+
+    @Builder
+    @Getter
+    public static class Upload {
+        private final String data;
+        private final InterfaceDoc.MethodDoc doc;
+    }
+
+
+    /**
+     * 上传文档 加入队列中
+     *
+     * @param data
+     * @param doc
+     */
+    public static void addQueue(String data, InterfaceDoc.MethodDoc doc) {
+        UPLOAD_DATA.add(Upload.builder().data(data).doc(doc).build());
+    }
+
+
+    /**
+     * 启动异步程序去上传文档
+     */
+    public static void startUpload() {
+        new Thread(() -> {
+            try {
+                if (UPLOAD_DATA.isEmpty()) return;
+                CountDownLatch countDownLatch = new CountDownLatch(UPLOAD_DATA.size());
+                BaseUtils.printTips("自动上传文档程序开始运行: 数量{}", UPLOAD_DATA.size());
+                Upload poll;
+                while ((poll = UPLOAD_DATA.poll()) != null) {
+                    Upload finalPoll = poll;
+                    threadPoolExecutor.execute(() -> {
+                        try {
+                            upload(finalPoll.getData(), finalPoll.getDoc());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            countDownLatch.countDown();
+                        }
+                    });
+                }
+                countDownLatch.await();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
     @SneakyThrows
-    public static void upload(@NonNull String data, InterfaceDoc.MethodDoc doc) {
+    private static void upload(String data, InterfaceDoc.MethodDoc doc) {
         DocConfig docConfig = DocConfig.get();
         if (!docConfig.isSynchronous()) {
             BaseUtils.print("未开启同步,不自动同步文档系统");
