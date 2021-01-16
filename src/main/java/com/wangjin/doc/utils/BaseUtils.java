@@ -257,8 +257,8 @@ public class BaseUtils {
      * @return
      */
     public static String reformatMethodComment(String s) {
-        //doc 系统说明最大支持260个字符
-        return reformatMethodComment(s, 260);
+        //doc 系统说明最大支持100个字符
+        return reformatMethodComment(s, 100);
     }
 
 
