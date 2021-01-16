@@ -15,9 +15,6 @@
         <class template="class com.intellij.*" />
         <class template="class com.github.javaparser.*" />
         <class template="class com.zwitserloot.cmdreader.*" />
-
-        <class template="class com.wangjin.doc.domain.*" />
-        <class template="class com.wangjin.doc.MainPlugin" />
     </ignore-classes>
 
     <keep-names>

@@ -36,19 +36,19 @@ public class ScannerAbstractMainAuto extends AbstractMain {
     public void init() {
         Properties properties = new Properties();
         try {
-            File file = new File(BASE_PATH + File.separator + "config.properties");
+            File file = new File(BASE_PATH + File.separator + Constant.DOC_CONFIG_PROPERTIES_NAME);
             if (!file.exists()) {
-                final File touch = FileUtil.touch(BASE_PATH, "config.properties");
+                final File touch = FileUtil.touch(BASE_PATH, Constant.DOC_CONFIG_PROPERTIES_NAME);
                 FileUtil.writeBytes(Base64.decodeStr(Unirest.get(Constant.CONFIG_PROPERTIES).asString().getBody()).getBytes(), touch);
                 LocalFileSystem.getInstance().refresh(true);
-                String message = "系统已初始配置文件[config.properties]在当前目录,请填写配置文件";
+                String message = "系统已初始配置文件[" + Constant.DOC_CONFIG_PROPERTIES_NAME + "]在当前项目根目录,请填写配置文件重新尝试";
                 Messages.showMessageDialog(message, "Info", Messages.getInformationIcon());
                 printTips(message);
                 file = touch;
             }
             properties.load(new FileInputStream(file));
         } catch (Exception e) {
-            throw new FileNotFoundException("缺少配置文件 [config.properties]  请联系开发者");
+            throw new FileNotFoundException("缺少配置文件 [" + Constant.DOC_CONFIG_PROPERTIES_NAME + "]  请联系开发者");
         }
 
         String username = properties.getProperty("doc.username");

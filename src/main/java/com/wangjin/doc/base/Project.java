@@ -25,10 +25,9 @@ import lombok.NoArgsConstructor;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.*;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -56,10 +55,18 @@ public final class Project {
         if (!FileUtil.isDirectory(path)) {
             throw new IllegalArgumentException("该路径不是目录");
         }
-        List<File> files = FileUtil.loopFiles(path, pathname -> {
-            String filter = pathname.getPath();
-            return filter.endsWith(".java");
-        });
+        java.util.concurrent.ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        List<CompletableFuture<List<File>>> collect = Arrays.stream(FileUtil.ls(path)).map(file -> {
+            return CompletableFuture.supplyAsync(() -> {
+                return FileUtil.loopFiles(file, pathname -> {
+                    String filter = pathname.getPath();
+                    return filter.endsWith(".java");
+                });
+            }, service);
+        }).collect(Collectors.toList());
+        ArrayList<File> files = collect.stream().map(CompletableFuture::join).collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
+
         files.forEach(file -> FileCache.
                 addFc(FileCache.FC.builder().
                         fileName(StrUtil.removeSuffix(file.getName(), ".java"))
@@ -67,19 +74,15 @@ public final class Project {
     }
 
 
-    public final void generate(List<String> filePaths) throws IOException {
-        java.util.concurrent.ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.runAsync(() -> {
-            filePaths.forEach(a -> {
-                try {
-                    print("开始生成: {}", a);
-                    generate(a);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        },service);
-        voidCompletableFuture.join();
+    public final void generate(List<String> filePaths) {
+        filePaths.forEach(a -> {
+            try {
+                print("开始生成: {}", a);
+                generate(a);
+            } catch (Exception e) {
+                BaseUtils.printError("generate Exception", e);
+            }
+        });
     }
 
     public final void generate(String filePath) throws IOException {
