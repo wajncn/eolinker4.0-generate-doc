@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 license = """{
     "status": "true",
-    "version": "5.2.2"
+    "version": "5.0"
 }"""
 
 doc_config_properties = """
@@ -66,10 +66,10 @@ Release v4.2版本
  1.feat: 支持解析枚举类
  2.feat: 文档支持查看按钮
 Release v4.3版本
- 1.fix 已知问题
+ 1.fix: 已知问题
 Release v5.0版本
  1.refactor: 使用多线程解析文档,提高性能
- 2.fix 已知问题
+ 2.fix: 已知问题
  3.feat: 支持新框架
 </pre>
 ]]>
