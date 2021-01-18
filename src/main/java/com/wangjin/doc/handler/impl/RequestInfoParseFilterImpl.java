@@ -14,6 +14,8 @@ import com.wangjin.doc.handler.ParseFilter;
 import com.wangjin.doc.utils.BaseUtils;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.wangjin.doc.utils.BaseUtils.paramTypeFormat;
 
@@ -27,6 +29,13 @@ import static com.wangjin.doc.utils.BaseUtils.paramTypeFormat;
 public class RequestInfoParseFilterImpl extends ParseFilter {
 
     private static final String REQUEST_INFO = "requestInfo";
+    /**
+     * 忽略的请求值
+     */
+    private static final List<String> IGNORE_REQUEST = new ArrayList<String>(12) {{
+        this.add("HttpServletRequest");
+        this.add("HttpServletResponse");
+    }};
 
     @Override
     protected void filter(InterfaceDoc.MethodDoc doc) {
@@ -48,6 +57,9 @@ public class RequestInfoParseFilterImpl extends ParseFilter {
         }
         FileCache.FC fc = FileCache.getFc(requestArg.getType());
         if (fc == null) {
+            if (IGNORE_REQUEST.contains(requestArg.getType())) {
+                return;
+            }
             //普通参数, 比如int,string等
             requestInfos.add(GSON.toJsonTree(RequestInfo.builder()
                     .paramType(paramTypeFormat(requestArg.getType()))
