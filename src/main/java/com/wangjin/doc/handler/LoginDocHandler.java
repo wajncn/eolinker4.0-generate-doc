@@ -11,7 +11,7 @@ import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ApiList;
-import com.wangjin.doc.domain.DocConfig;
+import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.domain.GroupList;
 import com.wangjin.doc.domain.ProjectList;
 import com.wangjin.doc.unirest.Unirest;

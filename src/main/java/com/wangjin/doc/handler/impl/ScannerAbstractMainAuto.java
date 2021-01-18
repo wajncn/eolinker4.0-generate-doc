@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.wangjin.doc.base.Constant;
-import com.wangjin.doc.domain.DocConfig;
+import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.handler.AbstractMain;
 import com.wangjin.doc.unirest.Unirest;
 import lombok.SneakyThrows;
@@ -14,7 +14,6 @@ import lombok.SneakyThrows;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 
 import static com.wangjin.doc.base.Application.BASE_PATH;
@@ -78,14 +77,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
     protected void createDoc() {
         DocConfig docConfig = DocConfig.get();
         PROJECT.init(StrUtil.trim(docConfig.getProjectPath()));
-        docConfig.getControllerPaths().forEach(a -> {
-            try {
-                print("开始生成: {}", a);
-                PROJECT.generate(a);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        PROJECT.generate(docConfig.getControllerPaths());
         print("success");
         openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
     }

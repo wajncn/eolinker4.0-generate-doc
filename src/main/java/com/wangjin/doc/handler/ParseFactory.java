@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.InterfaceDoc;
-import com.wangjin.doc.domain.DocConfig;
+import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import com.wangjin.doc.utils.BaseUtils;
 import lombok.SneakyThrows;

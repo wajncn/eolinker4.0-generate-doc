@@ -1,8 +1,7 @@
-package com.wangjin.doc.domain;
+package com.wangjin.doc.base;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.wangjin.doc.base.Application;
 import com.wangjin.doc.handler.LoginDocHandler;
 import lombok.Builder;
 import lombok.Getter;

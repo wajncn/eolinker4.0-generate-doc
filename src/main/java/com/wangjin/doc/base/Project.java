@@ -49,8 +49,19 @@ public final class Project {
     private static final DocHandler docHandler = new DocHandlerImpl();
     private static final ParseHandler<CompilationUnit> parseHandler = new JavaParseHandlerImpl();
 
-    public final void init(String path) {
+    //项目路径
+    public static String path = null;
+    //哪个模块的controller
+    public static String module = null;
+
+    public final void clear() {
+        Project.path = null;
+        Project.module = null;
         FileCache.clear();
+    }
+
+    public final void init(final String path) {
+        clear();
         //获取所有的java文件
         if (!FileUtil.isDirectory(path)) {
             throw new IllegalArgumentException("该路径不是目录");
@@ -70,23 +81,33 @@ public final class Project {
         files.forEach(file -> FileCache.
                 addFc(FileCache.FC.builder().
                         fileName(StrUtil.removeSuffix(file.getName(), ".java"))
+                        .module(file.getPath().replace(path, "").split(File.separator)[1])
                         .filePath(file.getPath()).build()));
+        Project.path = path;
     }
 
 
-    public final void generate(List<String> filePaths) {
-        filePaths.forEach(a -> {
+    public final void generate(final List<String> filePaths) {
+        if (filePaths == null || filePaths.isEmpty()) {
+            return;
+        }
+        Project.module = filePaths.get(0).replace(path, "").split(File.separator)[1];
+
+        filePaths.forEach(file -> {
             try {
-                print("开始生成: {}", a);
-                generate(a);
+                print("开始生成: {}", file);
+                generate(StrUtil.removeSuffix(file, ".java"));
             } catch (Exception e) {
                 BaseUtils.printError("generate Exception", e);
             }
         });
     }
 
-    public final void generate(String filePath) throws IOException {
-        filePath = StrUtil.removeSuffix(filePath, ".java");
+    /**
+     * @param filePath 不要带.java后缀
+     * @throws IOException
+     */
+    private void generate(final String filePath) throws IOException {
         FileCache.FC fc = FileCache.getFcWithController(filePath);
         if (fc == null) {
             BaseUtils.printError("{}.java 没有找到,请检测路径是否为绝对路径", filePath);
@@ -183,7 +204,7 @@ public final class Project {
      *
      * @param doc
      */
-    private void handlerRequestPageInfo(InterfaceDoc.MethodDoc doc) {
+    private void handlerRequestPageInfo(final InterfaceDoc.MethodDoc doc) {
         if (!doc.getResponseObject().startsWith("PageInfo")) {
             return;
         }

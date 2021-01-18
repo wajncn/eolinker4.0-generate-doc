@@ -15,7 +15,7 @@ import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.InterfaceDoc;
-import com.wangjin.doc.domain.DocConfig;
+import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.handler.LoginDocHandler;
 
 import javax.swing.*;

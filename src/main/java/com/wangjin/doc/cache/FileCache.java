@@ -21,9 +21,21 @@ import java.util.Map;
 @NoArgsConstructor
 public final class FileCache {
 
+    /**
+     * 存放所有文件的controller, 根据模块分组
+     */
+    private static final Map<String, FC> MODULE_CACHE = new HashMap<>();
+
+
+    /**
+     * 存放所有文件的map
+     */
     private static final Map<String, FC> FILE_CACHE = new HashMap<>();
 
 
+    /**
+     * 存放controller的map
+     */
     private static final Map<String, FC> FILE_CACHE_CONTROLLER = new HashMap<>();
 
 
@@ -31,7 +43,8 @@ public final class FileCache {
         if (!Constant.LICENSE_STATUS) {
             return null;
         }
-        return FILE_CACHE.get(fileName);
+        //有限从当前模块缓存拿, 拿不到的在从总的缓存取
+        return MODULE_CACHE.getOrDefault(Project.module + fileName, FILE_CACHE.get(fileName));
     }
 
 
@@ -63,6 +76,7 @@ public final class FileCache {
             }
             return;
         }
+        MODULE_CACHE.put(fc.getModule() + fc.fileName, fc);
         FILE_CACHE.put(fc.fileName, fc);
     }
 
@@ -71,6 +85,11 @@ public final class FileCache {
     @ToString
     @Getter
     public static class FC {
+
+        /**
+         * 模块名字, 为了解决多模块同包重名问题
+         */
+        private final String module;
 
         private final String fileName;
 
