@@ -1,7 +1,6 @@
 package com.wangjin.doc.handler;
 
 import cn.hutool.core.util.StrUtil;
-import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
@@ -18,7 +17,6 @@ import com.wangjin.doc.handler.impl.RequestInfoParseFilterImpl;
 import com.wangjin.doc.handler.impl.ResponseInfoParseFilterImpl;
 import com.wangjin.doc.utils.BaseUtils;
 
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
@@ -139,7 +137,7 @@ public abstract class ParseFilter extends ParseFactory {
 
             String commentText = BaseUtils.reformatMethodComment(StrUtil.blankToDefault(atomic_enum_comment.get(),
                     fieldDeclaration.getComment()
-                            .map(Comment::getContent).orElse(Constant.NO_ANNOTATION_FIELD_TEXT)),1024);
+                            .map(Comment::getContent).orElse(Constant.NO_ANNOTATION_FIELD_TEXT)), 1024);
             if (request) {
                 jsonArray.add(GSON.toJsonTree(RequestInfo.builder()
                         .paramType(paramType.get())
@@ -208,14 +206,11 @@ public abstract class ParseFilter extends ParseFactory {
                 //普通类型的,无需考虑
                 return;
             }
-
             try {
-                ParseResult<CompilationUnit> parseResult = Project.getJavaParser().parse(Paths.get(fc.getFilePath()));
-                parseResult.getResult().ifPresent(cu -> {
-                    NodeList<BodyDeclaration<?>> members1 = cu.getType(0).getMembers();
-                    this.parseMember(jsonArray, members1, parentName, request);
-                });
-            } catch (IOException e) {
+                CompilationUnit cu = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
+                NodeList<BodyDeclaration<?>> members1 = cu.getType(0).getMembers();
+                this.parseMember(jsonArray, members1, parentName, request);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

@@ -2,6 +2,7 @@ package com.wangjin.doc;
 
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -14,9 +15,11 @@ import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.DocConfig;
+import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.handler.LoginDocHandler;
+import com.wangjin.doc.handler.ParseHandler;
+import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,6 +38,8 @@ import java.util.stream.Collectors;
  * @author: 王进
  **/
 public class MainPlugin extends AnAction {
+
+    protected final static ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -132,7 +137,7 @@ public class MainPlugin extends AnAction {
         List<String> collect = ReUtil.findAllGroup0(MAPPING_PATTERN, selectedText).stream().map(StrUtil::trim).collect(Collectors.toList());
 
         collect.forEach(a -> {
-            com.wangjin.doc.base.Project.getJavaParser().parseAnnotation(a).getResult().ifPresent(annotationExpr -> {
+            PARSE_HANDLER.getParse().parseAnnotation(a).getResult().ifPresent(annotationExpr -> {
                 InterfaceDoc.MethodDoc doc = new InterfaceDoc.MethodDoc();
                 if (annotationExpr instanceof SingleMemberAnnotationExpr) {
                     SingleMemberAnnotationExpr s1 = (SingleMemberAnnotationExpr) annotationExpr;

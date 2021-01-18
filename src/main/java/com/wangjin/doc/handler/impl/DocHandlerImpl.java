@@ -14,8 +14,6 @@ public class DocHandlerImpl implements DocHandler {
     @Override
     public void handler(InterfaceDoc interfaceDoc) {
         new ParseFactory(interfaceDoc)
-                .add(new RequestInfoParseFilterImpl())
-                .add(new ResponseInfoParseFilterImpl())
                 .exec();
     }
 }

@@ -1,5 +1,7 @@
 package com.wangjin.doc.handler;
 
+import com.github.javaparser.JavaParser;
+
 import java.nio.file.Path;
 
 
@@ -12,6 +14,10 @@ import java.nio.file.Path;
  **/
 @FunctionalInterface
 public interface ParseHandler<T> {
+    default JavaParser getParse() {
+        return new JavaParser();
+    }
 
     T handler(Path path);
+
 }

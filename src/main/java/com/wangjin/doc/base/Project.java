@@ -3,7 +3,6 @@ package com.wangjin.doc.base;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
@@ -19,7 +18,6 @@ import com.wangjin.doc.handler.ParseHandler;
 import com.wangjin.doc.handler.impl.DocHandlerImpl;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import com.wangjin.doc.utils.BaseUtils;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
@@ -44,8 +42,8 @@ public final class Project {
     public static final Project project = new Project();
     public static boolean LICENSE_STATUS = false;
 
-    @Getter
-    private static final JavaParser javaParser = new JavaParser();
+
+
     private static final DocHandler docHandler = new DocHandlerImpl();
     private static final ParseHandler<CompilationUnit> parseHandler = new JavaParseHandlerImpl();
 

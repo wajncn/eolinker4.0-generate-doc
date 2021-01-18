@@ -8,9 +8,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.DocConfig;
+import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
+import com.wangjin.doc.handler.impl.RequestInfoParseFilterImpl;
+import com.wangjin.doc.handler.impl.ResponseInfoParseFilterImpl;
 import com.wangjin.doc.utils.BaseUtils;
 import lombok.SneakyThrows;
 
@@ -38,7 +40,11 @@ public class ParseFactory {
     protected final static ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
     private final static ThreadLocal<InterfaceDoc> THREAD_LOCAL = new ThreadLocal<>();
     private final static ThreadLocal<JsonObject> JSON_OBJECT = new ThreadLocal<>();
-    private final static List<ParseFilter> FILTERS = new ArrayList<ParseFilter>();
+    private final static List<ParseFilter> FILTERS = new ArrayList<ParseFilter>() {{
+        this.add(new RequestInfoParseFilterImpl());
+        this.add(new ResponseInfoParseFilterImpl());
+    }};
+
     protected final static Gson GSON = new Gson();
 
     public ParseFactory(final InterfaceDoc interfaceDoc) {
@@ -56,11 +62,6 @@ public class ParseFactory {
 
     protected static JsonObject getJSONObject() {
         return JSON_OBJECT.get();
-    }
-
-    public ParseFactory add(ParseFilter filter) {
-        FILTERS.add(filter);
-        return this;
     }
 
     @SneakyThrows
