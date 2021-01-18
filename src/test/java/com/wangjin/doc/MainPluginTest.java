@@ -3,13 +3,14 @@ package com.wangjin.doc;
 import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
-import com.wangjin.doc.domain.DocConfig;
+import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.utils.BaseUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,8 +29,8 @@ public class MainPluginTest {
         DocConfig docConfig = DocConfig.builder()
                 .username("wangjin")
                 .password("123456")
-                .projectId("405")
-                .groupId("2946")
+                .projectId("408")
+                .groupId("2963")
                 .synchronous(true)
                 .update(true)
                 .build();
@@ -37,8 +38,7 @@ public class MainPluginTest {
 
         Project project = new Project();
         project.init(Application.BASE_PATH);
-        project.generate("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/OrderDetailController.java");
-
+        project.generate(Collections.singletonList("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/DesignOrderController.java"));
         BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
     }
 
@@ -52,7 +52,7 @@ public class MainPluginTest {
         Project.LICENSE_STATUS = true;
         Constant.LICENSE_STATUS = true;
 
-        Application.BASE_PATH = "/Users/wangjin/IdeaProjects/chaintrade";
+        Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
 
         List<String> strings = new ArrayList<>();
         strings.add("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/AdImagesController.java");
@@ -82,8 +82,8 @@ public class MainPluginTest {
         DocConfig docConfig = DocConfig.builder()
                 .username("wangjin")
                 .password("123456")
-                .projectId("405")
-                .groupId("2953")
+                .projectId("408")
+                .groupId("2964")
                 .controllerPaths(strings)
                 .synchronous(true)
                 .update(true)
@@ -98,51 +98,6 @@ public class MainPluginTest {
 
         project.generate(docConfig.getControllerPaths());
 
-        System.out.println("generate time: " + (System.currentTimeMillis() - l) + "");
-        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
-    }
-
-    @Test
-    void abcam() throws IOException {
-
-        long l = System.currentTimeMillis();
-
-        Application.LICENSE_STATUS = true;
-        Project.LICENSE_STATUS = true;
-        Constant.LICENSE_STATUS = true;
-
-        Application.BASE_PATH = "/Users/wangjin/IdeaProjects/abcam";
-
-        List<String> strings = new ArrayList<>();
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/ActivitySignupController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/BannerController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/ClassifyController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/ClassifyNavigateController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/HomeActivityController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/NotifyController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/PrizeController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/StaticController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/TestController.java");
-        strings.add("/Users/wangjin/IdeaProjects/abcam/abcam-wechat-service/src/main/java/com/abcam/microservice/controller/UserController.java");
-
-        DocConfig docConfig = DocConfig.builder()
-                .username("wangjin")
-                .password("123456")
-                .projectId("405")
-                .groupId("2951")
-                .controllerPaths(strings)
-                .synchronous(true)
-                .update(true)
-                .build();
-        DocConfig.init(docConfig);
-
-        Project project = new Project();
-
-        project.init(Application.BASE_PATH);
-
-        System.out.println("init time: " + (System.currentTimeMillis() - l) + "");
-
-        project.generate(docConfig.getControllerPaths());
         System.out.println("generate time: " + (System.currentTimeMillis() - l) + "");
         BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
     }
