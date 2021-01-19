@@ -115,8 +115,8 @@ public class MainPlugin extends AnAction {
         popup.showCenteredInCurrentWindow(project);
     }
 
-
-    private static final Pattern MAPPING_PATTERN = Pattern.compile(".*Mapping.*");  //匹配ER_所在的所有行
+    //匹配ER_所在的所有行
+    private static final Pattern MAPPING_PATTERN = Pattern.compile(".*Mapping.*");
 
 
     /**

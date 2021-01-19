@@ -38,13 +38,13 @@ import static com.wangjin.doc.util.BaseUtils.print;
 @NoArgsConstructor
 public final class Project {
 
-    public static final Project instance = new Project();
+    public static final Project INSTANCE = new Project();
     public static boolean LICENSE_STATUS = false;
 
 
 
-    private static final DocHandler docHandler = new DocHandlerImpl();
-    private static final ParseHandler<CompilationUnit> parseHandler = new JavaParseHandlerImpl();
+    private static final DocHandler DOC_HANDLER = new DocHandlerImpl();
+    private static final ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
 
     //项目路径
     public static String path = null;
@@ -115,7 +115,7 @@ public final class Project {
 
         InterfaceDoc interfaceDoc = new InterfaceDoc();
 
-        CompilationUnit compilationUnit = parseHandler.handler(Paths.get(fc.getFilePath()));
+        CompilationUnit compilationUnit = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
 
         Assert.isTrue(!compilationUnit.getTypes().isEmpty(), "系统检测该文档非标准Controller filePath:{}", filePath);
 
@@ -194,7 +194,7 @@ public final class Project {
         }
 
         //接口文档计算解析完成. 开始生产文档json
-        docHandler.handler(interfaceDoc);
+        DOC_HANDLER.handler(interfaceDoc);
     }
 
 
