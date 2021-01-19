@@ -383,4 +383,9 @@ public class BaseUtils {
 //            print("打开浏览器失败: ",url);
         }
     }
+
+
+    public static boolean isWindows() {
+        return System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
+    }
 }

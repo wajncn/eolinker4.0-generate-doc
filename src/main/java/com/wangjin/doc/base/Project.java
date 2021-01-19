@@ -77,20 +77,27 @@ public final class Project {
         }).collect(Collectors.toList());
         ArrayList<File> files = collect.stream().map(CompletableFuture::join).collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
 
+        Project.path = path;
         files.forEach(file -> FileCache.
                 addFc(FileCache.FC.builder().
                         fileName(StrUtil.removeSuffix(file.getName(), ".java"))
-                        .module(file.getPath().replace(path, "").split(File.separator)[1])
+                        .module(getModuleName(file.getPath()))
                         .filePath(file.getPath()).build()));
-        Project.path = path;
     }
 
+
+    public static String getModuleName(String file){
+        if (BaseUtils.isWindows()) {
+            return file.replace(Project.path,"").split(File.separator+File.separator)[1];
+        }
+        return file.replace(Project.path,"").split(File.separator)[1];
+    }
 
     public final void generate(final List<String> filePaths) {
         if (filePaths == null || filePaths.isEmpty()) {
             return;
         }
-        Project.module = filePaths.get(0).replace(path, "").split(File.separator)[1];
+        Project.module = getModuleName(filePaths.get(0));
 
         filePaths.forEach(file -> {
             try {

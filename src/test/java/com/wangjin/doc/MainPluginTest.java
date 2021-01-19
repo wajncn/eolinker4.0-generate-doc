@@ -16,6 +16,30 @@ import java.util.List;
 
 @DisplayName("测试")
 public class MainPluginTest {
+    @Test
+    void testFirstTest_win10() throws IOException {
+        Application.LICENSE_STATUS = true;
+        Project.LICENSE_STATUS = true;
+        Constant.LICENSE_STATUS = true;
+
+
+        Application.BASE_PATH = "C:\\Users\\pc\\IdeaProjects\\guanghui-mini";
+
+        DocConfig docConfig = DocConfig.builder()
+                .username("wangjin")
+                .password("123456")
+                .projectId("408")
+                .groupId("2962")
+                .synchronous(true)
+                .update(true)
+                .build();
+        DocConfig.init(docConfig);
+
+        Project project = new Project();
+        project.init(Application.BASE_PATH);
+        project.generate(Collections.singletonList("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-wechat\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\employees\\EmployeesController.java"));
+        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+    }
 
     @Test
     void testFirstTest() throws IOException {
