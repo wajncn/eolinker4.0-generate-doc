@@ -24,8 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -64,7 +63,9 @@ public final class Project {
         if (!FileUtil.isDirectory(path)) {
             throw new IllegalArgumentException("该路径不是目录");
         }
-        java.util.concurrent.ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService service = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 200,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(1024), new ThreadPoolExecutor.AbortPolicy());
 
         List<CompletableFuture<List<File>>> collect = Arrays.stream(FileUtil.ls(path)).map(file -> {
             return CompletableFuture.supplyAsync(() -> {

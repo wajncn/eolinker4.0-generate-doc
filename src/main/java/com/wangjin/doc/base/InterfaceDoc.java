@@ -68,8 +68,12 @@ public class InterfaceDoc {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             MethodDoc methodDoc = (MethodDoc) o;
             return Objects.equals(requestMapping, methodDoc.requestMapping) && methodType == methodDoc.methodType;
         }

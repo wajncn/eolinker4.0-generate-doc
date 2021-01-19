@@ -231,7 +231,9 @@ public class LoginDocHandler {
     public static void startUpload() {
         new Thread(() -> {
             try {
-                if (UPLOAD_DATA.isEmpty()) return;
+                if (UPLOAD_DATA.isEmpty()) {
+                    return;
+                }
                 CountDownLatch countDownLatch = new CountDownLatch(UPLOAD_DATA.size());
                 BaseUtils.printTips("自动上传文档程序开始运行: 数量{}", UPLOAD_DATA.size());
                 Upload poll;
