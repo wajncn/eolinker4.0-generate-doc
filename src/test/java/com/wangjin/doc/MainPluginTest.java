@@ -2,8 +2,8 @@ package com.wangjin.doc;
 
 import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.Constant;
-import com.wangjin.doc.base.Project;
 import com.wangjin.doc.base.DocConfig;
+import com.wangjin.doc.base.Project;
 import com.wangjin.doc.util.BaseUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import java.util.List;
 @DisplayName("测试")
 public class MainPluginTest {
     @Test
-    void testFirstTest_win10() throws IOException {
+    void testFirstTest_win10() throws IOException, InterruptedException {
         Application.LICENSE_STATUS = true;
         Project.LICENSE_STATUS = true;
         Constant.LICENSE_STATUS = true;
@@ -30,7 +30,6 @@ public class MainPluginTest {
                 .password("123456")
                 .projectId("408")
                 .groupId("2962")
-                .synchronous(true)
                 .update(true)
                 .build();
         DocConfig.init(docConfig);
@@ -38,7 +37,9 @@ public class MainPluginTest {
         Project project = new Project();
         project.init(Application.BASE_PATH);
         project.generate(Collections.singletonList("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-wechat\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\employees\\EmployeesController.java"));
-        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+//        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+
+        Thread.sleep(100000 * 5);
     }
 
     @Test
@@ -55,7 +56,6 @@ public class MainPluginTest {
                 .password("123456")
                 .projectId("408")
                 .groupId("2963")
-                .synchronous(true)
                 .update(true)
                 .build();
         DocConfig.init(docConfig);
@@ -64,11 +64,12 @@ public class MainPluginTest {
         project.init(Application.BASE_PATH);
         project.generate(Collections.singletonList("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/DesignOrderController.java"));
         BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+
     }
 
 
     @Test
-    void yipin() throws IOException {
+    void yipin() throws IOException, InterruptedException {
 
         long l = System.currentTimeMillis();
 
@@ -107,9 +108,8 @@ public class MainPluginTest {
                 .username("wangjin")
                 .password("123456")
                 .projectId("408")
-                .groupId("2964")
+                .groupId("2985")
                 .controllerPaths(strings)
-                .synchronous(true)
                 .update(true)
                 .build();
         DocConfig.init(docConfig);
@@ -119,10 +119,11 @@ public class MainPluginTest {
 
         System.out.println("init time: " + (System.currentTimeMillis() - l) + "");
 
-
         project.generate(docConfig.getControllerPaths());
 
         System.out.println("generate time: " + (System.currentTimeMillis() - l) + "");
-        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+//        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+        System.out.println("---");
+        Thread.sleep(3000*30);
     }
 }

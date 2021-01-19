@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ResultInfo;
@@ -202,6 +203,15 @@ public class BaseUtils {
         Console.log("info: ".concat(template), values);
         MyNotifier.notifyInfo(StrUtil.format(template, values));
     }
+
+
+
+    public static void log(String template, Object... values) {
+        if(Application.LOG){
+            Console.log("log: ".concat(template), values);
+        }
+    }
+
 
     public static void print() {
         System.out.println();

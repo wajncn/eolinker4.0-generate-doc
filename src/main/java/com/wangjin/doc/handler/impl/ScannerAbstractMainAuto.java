@@ -67,7 +67,6 @@ public class ScannerAbstractMainAuto extends AbstractMain {
                 .password(password)
                 .projectId(project_id)
                 .groupId(group_id)
-                .synchronous(true)
                 .update(update)
                 .build());
     }

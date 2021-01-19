@@ -20,6 +20,7 @@ import java.util.List;
  **/
 @NoArgsConstructor
 public final class Application {
+    public static final boolean LOG = true;
     /**
      * 当前项目的绝对路径
      */

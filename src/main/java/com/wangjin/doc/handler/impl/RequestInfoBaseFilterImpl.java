@@ -10,13 +10,14 @@ import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;
-import com.wangjin.doc.handler.ParseFilter;
+import com.wangjin.doc.handler.BaseFilter;
 import com.wangjin.doc.util.BaseUtils;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wangjin.doc.base.Constant.GSON;
 import static com.wangjin.doc.util.BaseUtils.paramTypeFormat;
 
 /**
@@ -26,7 +27,7 @@ import static com.wangjin.doc.util.BaseUtils.paramTypeFormat;
  * @author: wajn
  * @create: 2020-04-25 19:32
  **/
-public class RequestInfoParseFilterImpl extends ParseFilter {
+public class RequestInfoBaseFilterImpl extends BaseFilter {
 
     private static final String REQUEST_INFO = "requestInfo";
     /**
@@ -38,8 +39,8 @@ public class RequestInfoParseFilterImpl extends ParseFilter {
     }};
 
     @Override
-    protected void filter(InterfaceDoc.MethodDoc doc) {
-        JsonObject obj = getJSONObject();
+    public void filter(InterfaceDoc.MethodDoc doc) {
+        JsonObject obj = super.getJsonObject();
         if (!Application.LICENSE_STATUS) {
             return;
         }

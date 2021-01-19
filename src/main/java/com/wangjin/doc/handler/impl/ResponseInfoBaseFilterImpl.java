@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.ResultInfo;
-import com.wangjin.doc.handler.ParseFilter;
+import com.wangjin.doc.handler.BaseFilter;
 import com.wangjin.doc.util.BaseUtils;
 import lombok.AllArgsConstructor;
 
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.wangjin.doc.base.Constant.GSON;
 import static com.wangjin.doc.util.BaseUtils.*;
 
 /**
@@ -29,7 +30,7 @@ import static com.wangjin.doc.util.BaseUtils.*;
  * @author: wajn
  * @create: 2020-04-25 19:32
  **/
-public class ResponseInfoParseFilterImpl extends ParseFilter {
+public class ResponseInfoBaseFilterImpl extends BaseFilter {
 
     private static final String RESULT_INFO = "resultInfo";
     private static final String VOID = "void";
@@ -70,10 +71,11 @@ public class ResponseInfoParseFilterImpl extends ParseFilter {
 
 
     @Override
-    protected void filter(InterfaceDoc.MethodDoc doc) {
+    public void filter(InterfaceDoc.MethodDoc doc) {
         PAGE_FLAG.remove();
 
-        JsonObject obj = getJSONObject();
+        JsonObject obj = super.getJsonObject();
+
         final JsonArray resultInfos = new JsonArray();
         obj.add(RESULT_INFO, resultInfos);
 

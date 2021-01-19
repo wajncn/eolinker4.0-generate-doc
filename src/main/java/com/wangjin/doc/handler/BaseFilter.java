@@ -7,14 +7,16 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.wangjin.doc.base.Constant;
-import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;
 import com.wangjin.doc.domain.ResultInfo;
-import com.wangjin.doc.handler.impl.RequestInfoParseFilterImpl;
-import com.wangjin.doc.handler.impl.ResponseInfoParseFilterImpl;
+import com.wangjin.doc.fifter.Filter;
+import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
+import com.wangjin.doc.handler.impl.RequestInfoBaseFilterImpl;
+import com.wangjin.doc.handler.impl.ResponseInfoBaseFilterImpl;
 import com.wangjin.doc.util.BaseUtils;
 
 import java.nio.file.Paths;
@@ -25,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+import static com.wangjin.doc.base.Constant.GSON;
 import static com.wangjin.doc.util.BaseUtils.paramTypeFormat;
 
 /**
@@ -33,16 +36,17 @@ import static com.wangjin.doc.util.BaseUtils.paramTypeFormat;
  * @description:
  * @author: wajn
  * @create: 2020-04-25 19:32
- * @see RequestInfoParseFilterImpl 处理请求参数
- * @see ResponseInfoParseFilterImpl 处理返回值
+ * @see RequestInfoBaseFilterImpl 处理请求参数
+ * @see ResponseInfoBaseFilterImpl 处理返回值
  **/
-public abstract class ParseFilter extends ParseFactory {
+public abstract class BaseFilter implements Filter {
 
-    public ParseFilter() {
-        super(getInterfaceDoc());
+    protected static final ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
+
+
+    protected JsonObject getJsonObject() {
+        return ParseFactory.getJSON_OBJECT_THREAD_LOCAL().get();
     }
-
-    protected abstract void filter(final InterfaceDoc.MethodDoc doc);
 
 
     /**

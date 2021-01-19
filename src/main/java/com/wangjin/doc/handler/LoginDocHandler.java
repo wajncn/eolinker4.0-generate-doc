@@ -8,20 +8,20 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Application;
+import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ApiList;
-import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.domain.GroupList;
 import com.wangjin.doc.domain.ProjectList;
 import com.wangjin.doc.unirest.Unirest;
 import com.wangjin.doc.util.BaseUtils;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -131,11 +131,6 @@ public class LoginDocHandler {
 
     @SneakyThrows
     public static List<ProjectList> getProjectList() {
-        DocConfig docConfig = DocConfig.get();
-        if (!docConfig.isSynchronous()) {
-            BaseUtils.print("未开启同步,不自动同步文档系统");
-            return new ArrayList<>();
-        }
         String body = "projectType=-1";
 
         String response = Unirest.post("https://doc.f.wmeimob.com/Project/getProjectList")
@@ -154,10 +149,6 @@ public class LoginDocHandler {
     @SneakyThrows
     public static List<ApiList> getAllApiList() {
         DocConfig docConfig = DocConfig.get();
-        if (!docConfig.isSynchronous()) {
-            BaseUtils.print("未开启同步,不自动同步文档系统");
-            return new ArrayList<>();
-        }
 
         String body = "projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId() + "&orderBy=3&asc=0";
 
@@ -181,10 +172,6 @@ public class LoginDocHandler {
             return;
         }
         DocConfig docConfig = DocConfig.get();
-        if (!docConfig.isSynchronous()) {
-            BaseUtils.print("未开启同步,不自动同步文档系统");
-            return;
-        }
 
         String body = "projectID=" + docConfig.getProjectId() + "&apiID=" + URLUtil.encode("[".concat(id).concat("]"));
 
@@ -225,46 +212,9 @@ public class LoginDocHandler {
     }
 
 
-    /**
-     * 启动异步程序去上传文档
-     */
-    public static void startUpload() {
-        new Thread(() -> {
-            try {
-                if (UPLOAD_DATA.isEmpty()) {
-                    return;
-                }
-                CountDownLatch countDownLatch = new CountDownLatch(UPLOAD_DATA.size());
-                BaseUtils.printTips("自动上传文档程序开始运行: 数量{}", UPLOAD_DATA.size());
-                Upload poll;
-                while ((poll = UPLOAD_DATA.poll()) != null) {
-                    Upload finalPoll = poll;
-                    threadPoolExecutor.execute(() -> {
-                        try {
-                            upload(finalPoll.getData(), finalPoll.getDoc());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        } finally {
-                            countDownLatch.countDown();
-                        }
-                    });
-                }
-                countDownLatch.await();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-
     @SneakyThrows
     private static void upload(String data, InterfaceDoc.MethodDoc doc) {
         DocConfig docConfig = DocConfig.get();
-        if (!docConfig.isSynchronous()) {
-            BaseUtils.print("未开启同步,不自动同步文档系统");
-            return;
-        }
-
 
         if (!Project.LICENSE_STATUS) {
             System.exit(1);
@@ -274,10 +224,10 @@ public class LoginDocHandler {
         ApiList apiList = apiLists.get(doc.getRequestMapping() + doc.getMethodType().getApiRequestType());
         if (apiList != null) {
             if (docConfig.isUpdate()) {
-                BaseUtils.printTips("文档 {} 已存在, 系统正在修改文档...", doc.getRequestMapping());
+                BaseUtils.printTips("文档 {} {} 已存在, 系统正在修改文档...", doc.getRequestMapping(), doc.getMethodType());
                 del(apiList.getApiID());
             } else {
-                BaseUtils.printTips("文档 {} 已存在, 系统已忽略更新", doc.getRequestMapping());
+                BaseUtils.printTips("文档 {} {} 已存在, 系统已忽略更新", doc.getRequestMapping(), doc.getMethodType());
                 return;
             }
         }
@@ -293,6 +243,38 @@ public class LoginDocHandler {
         if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             BaseUtils.printError("令牌无效,无法自动同步到文档系统 jsonObject:{}     token:{}    body:{}", jsonObject, token, body);
             return;
+        }
+    }
+
+    public static class UploadDoc implements Runnable {
+
+        @Setter
+        private boolean execute = true;
+
+
+        @SneakyThrows
+        @Override
+        public void run() {
+            BaseUtils.printTips("监听队列子线程已启动...");
+            while (true) {
+                if (!execute) {
+                    if (UPLOAD_DATA.isEmpty() && threadPoolExecutor.getActiveCount() == 0) {
+                        BaseUtils.printTips("队列为空,监听子线程销毁中...");
+                        return;
+                    }
+                }
+                final Upload poll = UPLOAD_DATA.poll();
+                if (poll == null) {
+                    continue;
+                }
+                threadPoolExecutor.execute(() -> {
+                    try {
+                        upload(poll.getData(), poll.getDoc());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
         }
     }
 }

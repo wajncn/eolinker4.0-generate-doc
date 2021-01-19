@@ -14,6 +14,7 @@ import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.handler.DocHandler;
+import com.wangjin.doc.handler.LoginDocHandler;
 import com.wangjin.doc.handler.ParseHandler;
 import com.wangjin.doc.handler.impl.DocHandlerImpl;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
@@ -40,7 +41,6 @@ public final class Project {
 
     public static final Project INSTANCE = new Project();
     public static boolean LICENSE_STATUS = false;
-
 
 
     private static final DocHandler DOC_HANDLER = new DocHandlerImpl();
@@ -86,11 +86,11 @@ public final class Project {
     }
 
 
-    public static String getModuleName(String file){
+    public static String getModuleName(String file) {
         if (BaseUtils.isWindows()) {
-            return file.replace(Project.path,"").split(File.separator+File.separator)[1];
+            return file.replace(Project.path, "").split(File.separator + File.separator)[1];
         }
-        return file.replace(Project.path,"").split(File.separator)[1];
+        return file.replace(Project.path, "").split(File.separator)[1];
     }
 
     public final void generate(final List<String> filePaths) {
@@ -98,6 +98,11 @@ public final class Project {
             return;
         }
         Project.module = getModuleName(filePaths.get(0));
+
+        LoginDocHandler.UploadDoc uploadDoc = new LoginDocHandler.UploadDoc();
+        Thread thread = new Thread(uploadDoc, "uploadDoc");
+        thread.setDaemon(true);
+        thread.start();
 
         filePaths.forEach(file -> {
             try {
@@ -107,6 +112,7 @@ public final class Project {
                 BaseUtils.printError("generate Exception", e);
             }
         });
+        uploadDoc.setExecute(false);
     }
 
     /**

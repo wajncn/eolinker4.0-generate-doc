@@ -35,7 +35,7 @@ public class DocConfig {
 
 
     public boolean isUpdate() {
-        return Application.getSELECTED_TEXT().isEmpty() ? update : true;
+        return !Application.getSELECTED_TEXT().isEmpty() || update;
     }
 
     public String getGroupId() {
@@ -44,14 +44,11 @@ public class DocConfig {
 
     public static void init(DocConfig docConfig) {
         CONFIG.set(docConfig);
-        if (docConfig.synchronous) {
-            Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: username");
-            Assert.notEmpty(docConfig.getPassword(), "缺少配置属性: password");
-            Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: project_id");
-//            Assert.notEmpty(docConfig.getGroupId(), "缺少配置属性: group_id");
+        Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: username");
+        Assert.notEmpty(docConfig.getPassword(), "缺少配置属性: password");
+        Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: project_id");
 
-            LoginDocHandler.login();
-        }
+        LoginDocHandler.login();
     }
 
 }
