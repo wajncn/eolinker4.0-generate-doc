@@ -39,7 +39,7 @@ import static com.wangjin.doc.util.BaseUtils.print;
 @NoArgsConstructor
 public final class Project {
 
-    public static final Project project = new Project();
+    public static final Project instance = new Project();
     public static boolean LICENSE_STATUS = false;
 
 

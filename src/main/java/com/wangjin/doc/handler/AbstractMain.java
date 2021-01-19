@@ -18,7 +18,7 @@ import static com.wangjin.doc.util.BaseUtils.print;
  * @create: 2020-04-25 19:32
  **/
 public abstract class AbstractMain {
-    protected static final Project PROJECT = Project.project;
+    protected static final Project PROJECT = Project.instance;
 
     /**
      * 是否生成文档

@@ -22,7 +22,7 @@ import java.util.Map;
 public final class FileCache {
 
     /**
-     * 存放所有文件的controller, 根据模块分组
+     * 存放所有文件的map, 根据模块分组
      */
     private static final Map<String, FC> MODULE_CACHE = new HashMap<>();
 
@@ -43,7 +43,7 @@ public final class FileCache {
         if (!Constant.LICENSE_STATUS) {
             return null;
         }
-        //有限从当前模块缓存拿, 拿不到的在从总的缓存取
+        //优先从当前模块缓存拿, 拿不到的在从总的缓存取
         return MODULE_CACHE.getOrDefault(Project.module + fileName, FILE_CACHE.get(fileName));
     }
 
