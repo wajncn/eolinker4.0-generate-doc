@@ -34,6 +34,10 @@ import static com.wangjin.doc.base.Constant.GSON;
  **/
 public class BaseUtils {
 
+
+    /**
+     * 忽略的文件
+     */
     @Getter
     private static final List<String> IGNORE_FILE = new ArrayList<String>(12) {{
         this.add(".");
@@ -44,6 +48,9 @@ public class BaseUtils {
     }};
 
 
+    /**
+     * 把java的参数类型转换为doc文档中的类型
+     */
     private static final Map<String, String> DOC_PARAM_MAP = new HashMap<String, String>(32) {{
         this.put("String", "0");
         this.put("file", "1");
@@ -66,7 +73,9 @@ public class BaseUtils {
     }};
 
 
-
+    /**
+     * 新框架的分页参数
+     */
     @Getter
     private static final List<JsonElement> PAGE_INFO_new_framework = new ArrayList<JsonElement>(64) {{
         this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
@@ -95,6 +104,10 @@ public class BaseUtils {
                 .build()));
     }};
 
+
+    /**
+     * 分页的参数
+     */
     @Getter
     private static final List<JsonElement> PAGE_INFO = new ArrayList<JsonElement>(64) {{
         this.add(GSON.toJsonTree(ResultInfo.builder().paramKey("pageNum")
@@ -348,7 +361,6 @@ public class BaseUtils {
     public static void exit() {
         System.exit(1);
     }
-
 
 
     public static void openBrowse(String url) {
