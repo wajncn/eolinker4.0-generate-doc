@@ -1,7 +1,7 @@
-package com.wangjin.doc.unirest;
+package com.wangjin.doc.unirest.request;
 
 import cn.hutool.core.io.IoUtil;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.SneakyThrows;
 
 import java.net.HttpURLConnection;

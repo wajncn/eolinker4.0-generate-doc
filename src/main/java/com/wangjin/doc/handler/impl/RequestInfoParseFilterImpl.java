@@ -11,13 +11,13 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;
 import com.wangjin.doc.handler.ParseFilter;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wangjin.doc.utils.BaseUtils.paramTypeFormat;
+import static com.wangjin.doc.util.BaseUtils.paramTypeFormat;
 
 /**
  * 处理统一请求参数

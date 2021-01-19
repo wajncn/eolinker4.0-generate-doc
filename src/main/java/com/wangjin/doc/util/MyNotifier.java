@@ -1,4 +1,4 @@
-package com.wangjin.doc.utils;
+package com.wangjin.doc.util;
 
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;

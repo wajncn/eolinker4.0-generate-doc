@@ -13,7 +13,7 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import com.wangjin.doc.handler.impl.RequestInfoParseFilterImpl;
 import com.wangjin.doc.handler.impl.ResponseInfoParseFilterImpl;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.wangjin.doc.base.Application.BASE_PATH;
-import static com.wangjin.doc.utils.BaseUtils.print;
+import static com.wangjin.doc.util.BaseUtils.print;
 
 
 /**

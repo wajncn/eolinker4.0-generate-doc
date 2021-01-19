@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.handler.AbstractMain;
 import com.wangjin.doc.handler.impl.ScannerAbstractMainAuto;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;

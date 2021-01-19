@@ -15,7 +15,7 @@ import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.domain.GroupList;
 import com.wangjin.doc.domain.ProjectList;
 import com.wangjin.doc.unirest.Unirest;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -27,7 +27,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static com.wangjin.doc.utils.BaseUtils.getMD5Str;
+import static com.wangjin.doc.util.BaseUtils.getMD5Str;
 
 /**
  * @description:

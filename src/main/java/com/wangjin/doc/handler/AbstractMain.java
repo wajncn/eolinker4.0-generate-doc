@@ -4,13 +4,13 @@ import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.exceptions.NotUseException;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.SneakyThrows;
 
 import java.util.concurrent.CompletableFuture;
 
-import static com.wangjin.doc.utils.BaseUtils.checkVersion;
-import static com.wangjin.doc.utils.BaseUtils.print;
+import static com.wangjin.doc.util.BaseUtils.checkVersion;
+import static com.wangjin.doc.util.BaseUtils.print;
 
 /**
  * @description:

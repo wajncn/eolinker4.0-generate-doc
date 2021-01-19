@@ -2,7 +2,7 @@ package com.wangjin.doc.base;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.stmt.Statement;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.*;
 
 import java.util.ArrayList;

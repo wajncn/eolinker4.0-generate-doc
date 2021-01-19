@@ -1,4 +1,4 @@
-package com.wangjin.doc.utils;
+package com.wangjin.doc.util;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Console;

@@ -1,5 +1,8 @@
 package com.wangjin.doc.unirest;
 
+import com.wangjin.doc.unirest.request.GetRequest;
+import com.wangjin.doc.unirest.request.HttpRequest;
+import com.wangjin.doc.unirest.request.PostRequest;
 import lombok.SneakyThrows;
 
 public class Unirest {

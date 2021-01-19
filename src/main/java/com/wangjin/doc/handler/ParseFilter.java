@@ -15,7 +15,7 @@ import com.wangjin.doc.domain.RequestInfo;
 import com.wangjin.doc.domain.ResultInfo;
 import com.wangjin.doc.handler.impl.RequestInfoParseFilterImpl;
 import com.wangjin.doc.handler.impl.ResponseInfoParseFilterImpl;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-import static com.wangjin.doc.utils.BaseUtils.paramTypeFormat;
+import static com.wangjin.doc.util.BaseUtils.paramTypeFormat;
 
 /**
  * 解析过滤器 职责: 负责单独的解析功能.

@@ -12,7 +12,7 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.ResultInfo;
 import com.wangjin.doc.handler.ParseFilter;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.AllArgsConstructor;
 
 import java.nio.file.Paths;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.wangjin.doc.utils.BaseUtils.*;
+import static com.wangjin.doc.util.BaseUtils.*;
 
 /**
  * 统一处理返回值

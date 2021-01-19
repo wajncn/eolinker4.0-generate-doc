@@ -17,7 +17,7 @@ import com.wangjin.doc.handler.DocHandler;
 import com.wangjin.doc.handler.ParseHandler;
 import com.wangjin.doc.handler.impl.DocHandlerImpl;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
-import com.wangjin.doc.utils.BaseUtils;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static com.wangjin.doc.utils.BaseUtils.print;
+import static com.wangjin.doc.util.BaseUtils.print;
 
 /**
  * @description:

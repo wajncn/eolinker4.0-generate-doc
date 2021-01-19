@@ -18,8 +18,8 @@ import java.util.Properties;
 
 import static com.wangjin.doc.base.Application.BASE_PATH;
 import static com.wangjin.doc.base.Application.CONTROLLER_PATHS;
-import static com.wangjin.doc.utils.BaseUtils.print;
-import static com.wangjin.doc.utils.BaseUtils.printTips;
+import static com.wangjin.doc.util.BaseUtils.print;
+import static com.wangjin.doc.util.BaseUtils.printTips;
 
 /**
  * 自动执行

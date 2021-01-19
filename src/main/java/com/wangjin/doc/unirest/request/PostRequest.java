@@ -1,4 +1,4 @@
-package com.wangjin.doc.unirest;
+package com.wangjin.doc.unirest.request;
 
 import lombok.SneakyThrows;
 
