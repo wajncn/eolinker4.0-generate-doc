@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.Generate.WeimobDoc'
-version '5.0'
+version '5.1'
 
 repositories {
     mavenCentral()
@@ -56,6 +56,8 @@ Release v5.0版本
  1.refactor: 使用多线程解析文档,提高性能
  2.fix: 已知问题
  3.feat: 支持新框架
+Release v5.1版本
+ 1.fix: windows系统解析异常问题
 </pre>"""
     sinceBuild "145.258"
     untilBuild null
