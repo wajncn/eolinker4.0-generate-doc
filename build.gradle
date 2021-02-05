@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.Generate.WeimobDoc'
-version '5.1'
+version '5.2'
 
 repositories {
     mavenCentral()

@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 license = """{
     "status": "true",
-    "version": "5.1"
+    "version": "5.2"
 }"""
 
 doc_config_properties = """
@@ -26,7 +26,7 @@ doc.update=false
 
 plugin_info = """<?xml version="1.0" encoding="UTF-8"?>
 <plugins>
-    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-5.1.zip" version="5.1">
+    <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-5.2.zip" version="5.2">
     <idea-version since-build="145.258"/>
     <id>com.wangjin.Generate.WeimobDoc</id>
     <name>Generate WeimobDoc</name>
@@ -42,7 +42,7 @@ plugin_info = """<?xml version="1.0" encoding="UTF-8"?>
    </description>
    <change-notes>
             <![CDATA[
-<pre> 
+<pre>
 Release v1.0
  1.feat: 解析Controller到接口文档系统
 Release v1.1
@@ -73,6 +73,8 @@ Release v5.0版本
  3.feat: 支持新框架
 Release v5.1版本
  1.fix: windows系统解析异常问题
+Release v5.2版本
+ 1.fix: 对部分非标准性写法进行容错
 </pre>
 ]]>
     </change-notes>
