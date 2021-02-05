@@ -16,9 +16,9 @@ import com.wangjin.doc.util.BaseUtils;
 import lombok.AllArgsConstructor;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.wangjin.doc.base.Constant.GSON;
 import static com.wangjin.doc.util.BaseUtils.*;
@@ -62,9 +62,18 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
     /**
      * 忽略的返回值
      */
-    private static final List<String> IGNORE_RESULT = new ArrayList<String>(12) {{
+    private static final Set<String> IGNORE_RESULT = new HashSet<String>(12) {{
         this.add("RequestResult");
+        this.add("JSONResult");
     }};
+
+
+    public static void addIGNORE_RESULT(String v) {
+        if (StrUtil.isEmpty(v) || ",".equals(v)) {
+            return;
+        }
+        IGNORE_RESULT.add(v);
+    }
 
 
     private static final ThreadLocal<Page_Flag> PAGE_FLAG = new ThreadLocal<>();

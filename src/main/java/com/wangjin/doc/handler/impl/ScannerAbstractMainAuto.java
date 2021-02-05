@@ -54,6 +54,21 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         String password = properties.getProperty("doc.password");
         String project_id = properties.getProperty("doc.project_id");
         String group_id = properties.getProperty("doc.group_id");
+
+        try {
+            String ignoreResponse = properties.getProperty("doc.ignore_result");
+            if(StrUtil.isNotBlank(ignoreResponse)){
+                for (String s : ignoreResponse.split(",")) {
+                    ResponseInfoBaseFilterImpl.addIGNORE_RESULT(s);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
         // 如果没有配置组id,那就说明通过下拉框去选择的
         if (StrUtil.isBlank(group_id)) {
             //如果没配置组id 这里就不自动生成文档啦.

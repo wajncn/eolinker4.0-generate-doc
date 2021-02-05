@@ -69,7 +69,7 @@ public final class FileCache {
 
 
     public static void addFc(FC fc) {
-        if (fc.fileName.endsWith("Controller")) {
+        if (fc.fileName.endsWith("Controller") || fc.fileName.endsWith("Action")) {
             FILE_CACHE_CONTROLLER.put(StrUtil.removeSuffix(fc.filePath, ".java"), fc);
             if (!Project.LICENSE_STATUS) {
                 return;
