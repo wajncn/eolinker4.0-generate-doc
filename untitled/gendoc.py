@@ -1,6 +1,6 @@
 import base64
 
-from flask import Flask, redirect
+from flask import Flask, redirect, Response, request
 
 app = Flask(__name__)
 
@@ -79,6 +79,81 @@ Release v5.2版本
 ]]>
     </change-notes>
     </plugin>
+    
+    
+    <plugin id="javanet123.ide-eval-resetter"
+		url="https://file.javanet123.com/ide-eval-resetter-2.1.14-d2fedb86.zip" version="2.1.14">
+		<idea-version since-build="145.258" />
+		<name>IDEA Reset</name>
+		<vendor url="https://javanet123.com/">javanet123.com</vendor>
+		<rating>5</rating>
+		<description>
+			<![CDATA[
+From the zhile.io<br>
+I can reset your IDE eval information.<br>
+<em>Click "Help" menu and select "Eval Reset"</em><br><br>
+<p>
+    <a href="https://javanet123.com/archives/jetbrains" target="_blank">Need Help?</a>
+</p>
+]]>
+		</description>
+		<change-notes>
+			<![CDATA[
+<pre> 
+Release v2.1.14
+  1. fix minor exceptions
+Release v2.1.13
+  1. fix error notification
+Release v2.1.12
+  1. fix disable plugins
+Release v2.1.11
+  1. fix for block list: https://plugins.jetbrains.com/files/brokenPlugins.json
+Release v2.1.10
+  1. update welcome menu for 2020.3.1
+Release v2.1.9
+  1. fixed for "rider for unreal engine"
+Release v2.1.8
+  1. fixed the issue of resetting market plugins for genuine users
+Release v2.1.7
+  1. add help page link
+Release v2.1.6
+  1. fix the pop-up of license window
+Release v2.1.5
+  1. fix memory leak
+Release v2.1.4
+  1. fix reference
+Release v2.1.3
+  1. add version in UI
+Release v2.1.2
+  1. fix third party plugins switch
+Release v2.1.1
+  1. add ide plugin marketplace mechanism
+Release v2.1.0
+  1. add option "Auto reset before per restart"
+Release v2.0.4
+  1. fix plugins reset
+  2. reset more gracefully
+Release v2.0.3
+  1. more friendly "Reload" icon
+Release v2.0.2
+  1. sync prefs manually
+Release v2.0.1
+  1. add option: Reset Automatically
+Release v2.0.0
+  1. add ui
+  2. more stable and accurate
+Release v1.0.5
+  1. update for 2020.2.x
+Release v1.0.4
+  1. reset completely
+Release v1.0.3
+  1. bug fix
+Release v1.0.2
+  1. compatibility fix
+</pre>
+]]>
+		</change-notes>
+	</plugin>
 </plugins>
 """
 
@@ -88,14 +163,21 @@ def _index():
     return redirect("https://javanet123.com")
 
 
-@app.route('/resp', methods=['GET'])
-def resp():
-    return plugin_info
-
-
 @app.route('/resp/updatePlugins.xml', methods=['GET'])
-def updatePlugins():
-    return plugin_info
+def _plug():
+    if "IDEA" not in request.headers.get("user-agent"):
+        return redirect("https://javanet123.com/archives/jetbrains")
+    r = Response(response=plugin_info, status=200, mimetype="application/xml")
+    r.headers["Content-Type"] = "text/xml; charset=utf-8"
+    return r
+
+
+@app.route('/resp', methods=['GET'])
+def _resp():
+    if "IDEA" in request.headers.get("user-agent"):
+        return _plug()
+    else:
+        return redirect("https://javanet123.com/archives/jetbrains")
 
 
 @app.route('/license', methods=['GET'])
