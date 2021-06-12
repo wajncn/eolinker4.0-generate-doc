@@ -89,7 +89,7 @@ public abstract class AbstractMain {
 
 
     /**
-     * 打印头部信息
+     * init
      */
     protected abstract void init();
 

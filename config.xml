@@ -1,6 +1,6 @@
 <config>
     <input>
-        <jar in="gen-doc-plugin-3.0-SNAPSHOT.jar" out="obf-gen-doc-plugin-3.0-SNAPSHOT.jar"/>
+        <jar in="gen-doc-plugin-5.2.1.jar" out="obf-gen-doc-plugin-5.2.1.jar"/>
     </input>
 
 

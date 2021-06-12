@@ -85,7 +85,8 @@ public abstract class BaseFilter implements Filter {
 
 
             //检测递归
-            Map<String, Long> collect = Arrays.stream((parentName + "").split(">>")).collect(Collectors.groupingBy(a -> a, Collectors.counting()));
+            Map<String, Long> collect = Arrays.stream((parentName + "").split(">>"))
+                    .collect(Collectors.groupingBy(a -> a, Collectors.counting()));
             String variableDeclaratorName = variableDeclarator.getName().asString();
             if (collect.get(variableDeclaratorName) != null && collect.get(variableDeclaratorName) >= 1) {
                 BaseUtils.printWarn("出现自引用属性:[{}], 最大递归深度默认为:2   :{}", variableDeclaratorName, parentName);
@@ -103,6 +104,11 @@ public abstract class BaseFilter implements Filter {
             if (fc == null) {
                 if (typeName.startsWith("List") || typeName.startsWith("ArrayList")) {
                     paramType.set(paramTypeFormat("List"));
+                    //FIXME Method threw 'java.lang.IndexOutOfBoundsException' exception.
+                    // List 无泛型
+                    if (variableDeclarator.getType().getChildNodes().size() == 1) {
+                        throw new IllegalArgumentException("List 请加入泛型");
+                    }
                     fcChild = FileCache.getFc(variableDeclarator.getType().getChildNodes().get(1).toString());
                 } else {
                     paramType.set(paramTypeFormat(variableDeclarator.getTypeAsString()));
@@ -129,7 +135,8 @@ public abstract class BaseFilter implements Filter {
                             .map(entries -> StrUtil.format("(name:{}, ordinal:{}, comment:{})"
                                     , entries.getName().asString()
                                     , ordinal.getAndIncrement()
-                                    , BaseUtils.reformatMethodComment(entries.getComment().map(Comment::getContent).orElse(Constant.NO_ANNOTATION_FIELD_TEXT))
+                                    , BaseUtils.reformatMethodComment(entries.getComment().map(Comment::getContent)
+                                            .orElse(Constant.NO_ANNOTATION_FIELD_TEXT))
                             ))
                             .collect(Collectors.joining(" ,\n"));
                     atomic_enum_comment.set(StrUtil.format("枚举:{}  \n[{}]", fc_child.getFileName(), enum_comment));
@@ -172,7 +179,8 @@ public abstract class BaseFilter implements Filter {
             }
 
             try {
-                this.parseExtend(jsonArray, typeDeclaration, Optional.ofNullable(parentName).orElse("") + variableDeclarator.getName().asString() + ">>"
+                this.parseExtend(jsonArray, typeDeclaration, Optional.ofNullable(parentName)
+                                .orElse("") + variableDeclarator.getName().asString() + ">>"
                         , request);
             } catch (Exception ignored) {
 

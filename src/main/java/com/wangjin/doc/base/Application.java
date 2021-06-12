@@ -42,7 +42,7 @@ public final class Application {
      */
     public static String GROUP_ID = null;
 
-    public static String HOSTNAME = null;
+    public static String HOST_ADDRESS = null;
 
 
     public static boolean LICENSE_STATUS = false;
@@ -79,9 +79,10 @@ public final class Application {
             abstractMain.exe();
         } catch (NotUseException e) {
             BaseUtils.exit();
-            throw new IllegalArgumentException(Constant.CHECK_URL_MSG);
+            BaseUtils.printError(Constant.CHECK_URL_MSG);
+//            throw new Exception(Constant.CHECK_URL_MSG);
         } catch (Exception e) {
-            BaseUtils.printError("msg:{}", e.getMessage());
+            BaseUtils.printError("{}", e.getMessage());
         }
     }
 

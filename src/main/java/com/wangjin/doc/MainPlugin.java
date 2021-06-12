@@ -24,7 +24,6 @@ import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
 import javax.swing.*;
 import java.awt.*;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -42,34 +41,32 @@ public class MainPlugin extends AnAction {
     protected final static ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(AnActionEvent event) {
         Application.clear();
         try {
-            Project project = e.getData(PlatformDataKeys.PROJECT);
-            VirtualFile[] data = e.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
+            Project project = event.getData(PlatformDataKeys.PROJECT);
+            VirtualFile[] data = event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
             if (data == null || data.length == 0) {
                 Messages.showMessageDialog(project, "请选择Controller", "Error", Messages.getInformationIcon());
                 return;
             }
 
-            handlerSelected(e);
-
-            try {
-                Application.HOSTNAME = InetAddress.getLocalHost().getHostName();
-            } catch (UnknownHostException unknownHostException) {
-                System.out.println("e");
-            }
+            handlerSelected(event);
+            Application.HOST_ADDRESS = InetAddress.getLocalHost().getHostAddress();
             Application.GROUP_ID = null;
             Application.PROJECT = project;
             Application.BASE_PATH = project.getBasePath();
-            Application.CONTROLLER_PATHS = Arrays.stream(data).map(file -> StrUtil.removePrefix(Paths.get(file.getPath()).toString(), "file:/")).collect(Collectors.toList());
+            Application.CONTROLLER_PATHS = Arrays.stream(data)
+                    .map(file -> StrUtil.removePrefix(Paths.get(file.getPath()).toString(), "file:/"))
+                    .collect(Collectors.toList());
             Application.execute(true);
 
             //没有配置group_id 要自定义选择
             if (StrUtil.isEmpty(DocConfig.get().getGroupId())) {
                 selectGroup(project);
             }
-        } finally {
+        } catch (Exception ignored) {
+
         }
 
     }
@@ -93,7 +90,8 @@ public class MainPlugin extends AnAction {
         panel.add(cmb, BorderLayout.NORTH);
         JButton button = new JButton("Generate");
 
-        ComponentPopupBuilder componentPopupBuilder = JBPopupFactory.getInstance().createComponentPopupBuilder(panel, textField);
+        ComponentPopupBuilder componentPopupBuilder = JBPopupFactory.getInstance()
+                .createComponentPopupBuilder(panel, textField);
         JBPopup popup = componentPopupBuilder.createPopup();
 
         button.addActionListener(e1 -> {
@@ -134,7 +132,8 @@ public class MainPlugin extends AnAction {
             return;
         }
 
-        List<String> collect = ReUtil.findAllGroup0(MAPPING_PATTERN, selectedText).stream().map(StrUtil::trim).collect(Collectors.toList());
+        List<String> collect = ReUtil.findAllGroup0(MAPPING_PATTERN, selectedText).stream().map(StrUtil::trim)
+                .collect(Collectors.toList());
 
         collect.forEach(a -> {
             PARSE_HANDLER.getParse().parseAnnotation(a).getResult().ifPresent(annotationExpr -> {

@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.wangjin.Generate.WeimobDoc'
-version '5.2'
+version '5.2.1'
 
 repositories {
     mavenCentral()
@@ -60,6 +60,8 @@ Release v5.1版本
  1.fix: windows系统解析异常问题
 Release v5.2版本
  1.fix: 对部分非标准性写法进行容错
+Release v5.2.1版本
+ 1.fix: 已知问题
 </pre>"""
     sinceBuild "145.258"
     untilBuild null

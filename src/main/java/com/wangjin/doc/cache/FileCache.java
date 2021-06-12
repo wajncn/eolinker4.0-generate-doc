@@ -61,7 +61,7 @@ public final class FileCache {
 
     public static void clear() {
         if (!Application.LICENSE_STATUS) {
-            System.exit(1);
+            return;
         }
         FILE_CACHE.clear();
         FILE_CACHE_CONTROLLER.clear();

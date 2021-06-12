@@ -5,8 +5,6 @@ import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
@@ -205,9 +203,8 @@ public class BaseUtils {
     }
 
 
-
     public static void log(String template, Object... values) {
-        if(Application.LOG){
+        if (Application.LOG) {
             Console.log("log: ".concat(template), values);
         }
     }
@@ -302,9 +299,13 @@ public class BaseUtils {
      * @return
      */
     public static boolean checkVersion() {
+        return checkIP();
+    }
+
+    public static boolean checkIP() {
         try {
-            JsonObject jsonObject = JsonParser.parseString(Base64.decodeStr(Unirest.get(Constant.LICENSE).asString().getBody()).trim()).getAsJsonObject();
-            return Project.LICENSE_STATUS = jsonObject.get("status").getAsBoolean();
+            String r = Base64.decodeStr(Unirest.get(String.format(Constant.CHECK_IP, Application.HOST_ADDRESS)).asString().getBody()).trim();
+            return Project.LICENSE_STATUS = Boolean.parseBoolean(r);
         } catch (Exception e) {
             return false;
         }
@@ -369,7 +370,7 @@ public class BaseUtils {
     }
 
     public static void exit() {
-        System.exit(1);
+
     }
 
 

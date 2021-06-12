@@ -51,7 +51,7 @@ public class LoginDocHandler {
                 .asString().getBody();
 
         if (!Application.LICENSE_STATUS) {
-            System.exit(1);
+            return;
         }
 
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
@@ -217,7 +217,7 @@ public class LoginDocHandler {
         DocConfig docConfig = DocConfig.get();
 
         if (!Project.LICENSE_STATUS) {
-            System.exit(1);
+            return;
         }
 
 

@@ -75,7 +75,8 @@ public final class Project {
                 });
             }, service);
         }).collect(Collectors.toList());
-        ArrayList<File> files = collect.stream().map(CompletableFuture::join).collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
+        ArrayList<File> files = collect.stream().map(CompletableFuture::join)
+                .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
 
         Project.path = path;
         files.forEach(file -> FileCache.
@@ -142,14 +143,15 @@ public final class Project {
         if (!(annotationExpr instanceof SingleMemberAnnotationExpr)) {
             throw new IllegalArgumentException("请检测 @RequestMapping(\"path\") 写法是否正确");
         }
-        String requestMapping = ((SingleMemberAnnotationExpr) annotationExpr).getMemberValue().toString().replace("\"", "");
+        String requestMapping = ((SingleMemberAnnotationExpr) annotationExpr).getMemberValue().toString()
+                .replace("\"", "");
 
         interfaceDoc.setFilePath(fc.getFilePath());
         interfaceDoc.setRequestMapping(StrUtil.addPrefixIfNot(requestMapping, "/"));
         interfaceDoc.setComment(type.getName() + "控制器");
 
         if (!Project.LICENSE_STATUS) {
-            System.exit(1);
+            return;
         }
         AtomicInteger index = new AtomicInteger(1);
         for (BodyDeclaration<?> member : type.getMembers()) {
@@ -184,7 +186,8 @@ public final class Project {
                 doc.setResponseObject(methodDeclaration.getTypeAsString());
 
 
-                final Map<String, String> commentMap = BaseUtils.getCommentMap(methodDeclaration.getComment().map(Comment::getContent).orElse(null));
+                final Map<String, String> commentMap = BaseUtils.getCommentMap(methodDeclaration.getComment()
+                        .map(Comment::getContent).orElse(null));
                 List<InterfaceDoc.Args> args = methodDeclaration.getParameters().stream().map(p -> {
                     InterfaceDoc.Args arg = new InterfaceDoc.Args();
                     arg.setType(p.getTypeAsString());
