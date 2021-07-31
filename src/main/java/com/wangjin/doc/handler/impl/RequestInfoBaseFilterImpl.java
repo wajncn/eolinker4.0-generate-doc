@@ -5,8 +5,6 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;

@@ -177,12 +177,12 @@ public class BaseUtils {
 
     public static void printError(String template, Object... values) {
         Console.error("error: ".concat(template), values);
-        MyNotifier.notifyError(StrUtil.format(template, values));
+        Notifier.notifyError(StrUtil.format(template, values));
     }
 
     public static void printWarn(String template, Object... values) {
         Console.log("warning: ".concat(template), values);
-        MyNotifier.notifyWarn(StrUtil.format(template, values));
+        Notifier.notifyWarn(StrUtil.format(template, values));
     }
 
     public static void printScanner(String msg) {
@@ -195,7 +195,7 @@ public class BaseUtils {
             return;
         }
         Console.log("info: ".concat(template), values);
-        MyNotifier.notifyInfo(StrUtil.format(template, values));
+        Notifier.notifyInfo(StrUtil.format(template, values));
     }
 
 
@@ -212,7 +212,7 @@ public class BaseUtils {
 
     public static void printTips(String template, Object... values) {
         Console.log("tips: ".concat(template), values);
-        MyNotifier.notifyInfo(StrUtil.format(template, values));
+        Notifier.notifyInfo(StrUtil.format(template, values));
     }
 
 

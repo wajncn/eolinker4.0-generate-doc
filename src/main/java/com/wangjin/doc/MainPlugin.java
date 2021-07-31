@@ -39,6 +39,8 @@ import java.util.stream.Collectors;
 public class MainPlugin extends AnAction {
 
     protected final static ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
+    //匹配ER_所在的所有行
+    private static final Pattern MAPPING_PATTERN = Pattern.compile(".*Mapping.*");
 
     @Override
     public void actionPerformed(AnActionEvent event) {
@@ -53,7 +55,7 @@ public class MainPlugin extends AnAction {
 
             handlerSelected(event);
 
-            Application.builder(project.getBasePath(), Arrays.stream(data)
+            Application.builder(project, project.getBasePath(), Arrays.stream(data)
                     .map(file -> StrUtil.removePrefix(Paths.get(file.getPath()).toString(), "file:/"))
                     .collect(Collectors.toList()), null).execute(true);
             //没有配置group_id 要自定义选择
@@ -67,7 +69,6 @@ public class MainPlugin extends AnAction {
         }
 
     }
-
 
     /**
      * 增加下拉框
@@ -101,7 +102,7 @@ public class MainPlugin extends AnAction {
             panel.setVisible(false);
             popup.setUiVisible(false);
 
-            Application.setGROUP_ID(groupListForMap.get(cmb.getSelectedItem().toString())).execute(false);
+            Application.setGroupId(groupListForMap.get(cmb.getSelectedItem().toString())).execute(false);
         });
 
         panel.add(button, BorderLayout.CENTER);
@@ -109,10 +110,6 @@ public class MainPlugin extends AnAction {
         popup.setRequestFocus(true);
         popup.showCenteredInCurrentWindow(project);
     }
-
-    //匹配ER_所在的所有行
-    private static final Pattern MAPPING_PATTERN = Pattern.compile(".*Mapping.*");
-
 
     /**
      * 处理选择代码块

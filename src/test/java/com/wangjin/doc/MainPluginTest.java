@@ -19,7 +19,7 @@ public class MainPluginTest {
     void testFirstTest_win10() throws IOException, InterruptedException {
         Project.LICENSE_STATUS = true;
 
-        Application.BASE_PATH = "C:\\Users\\pc\\IdeaProjects\\guanghui-mini";
+        Application.basePath = "C:\\Users\\pc\\IdeaProjects\\guanghui-mini";
 
         DocConfig docConfig = DocConfig.builder()
                 .username("wangjin")
@@ -31,7 +31,7 @@ public class MainPluginTest {
         DocConfig.init(docConfig);
 
         Project project = new Project();
-        project.init(Application.BASE_PATH);
+        project.init(Application.basePath);
         project.generate(Collections.singletonList("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-wechat\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\employees\\EmployeesController.java"));
 //        BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
 
@@ -43,7 +43,7 @@ public class MainPluginTest {
         Project.LICENSE_STATUS = true;
 
 
-        Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
+        Application.basePath = "/Users/wangjin/IdeaProjects/yipin";
 
         DocConfig docConfig = DocConfig.builder()
                 .username("wangjin")
@@ -55,7 +55,7 @@ public class MainPluginTest {
         DocConfig.init(docConfig);
 
         Project project = new Project();
-        project.init(Application.BASE_PATH);
+        project.init(Application.basePath);
         project.generate(Collections.singletonList("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/DesignOrderController.java"));
         BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
 
@@ -68,7 +68,7 @@ public class MainPluginTest {
         long l = System.currentTimeMillis();
         Project.LICENSE_STATUS = true;
 
-        Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
+        Application.basePath = "/Users/wangjin/IdeaProjects/yipin";
 
         List<String> strings = new ArrayList<>();
         strings.add("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/AdImagesController.java");
@@ -106,7 +106,7 @@ public class MainPluginTest {
         DocConfig.init(docConfig);
 
         Project project = new Project();
-        project.init(Application.BASE_PATH);
+        project.init(Application.basePath);
 
         System.out.println("init time: " + (System.currentTimeMillis() - l) + "");
 

@@ -35,9 +35,14 @@ import static com.wangjin.doc.util.BaseUtils.getMD5Str;
  **/
 public class LoginDocHandler {
     private static final String SUCCESS = "000000";
+    private static final Gson GSON = new Gson();
+    private static final LinkedBlockingQueue<Upload> UPLOAD_DATA = new LinkedBlockingQueue<>(1024);
+    private static final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(Runtime.getRuntime()
+            .availableProcessors(), 24, 1,
+            TimeUnit.MINUTES, new LinkedBlockingQueue<>(4096), new ThreadFactoryBuilder()
+            .setNameFormat("UPLOAD_DATA-pool-%d").build());
     private static Map<String, ApiList> apiLists = new HashMap<>();
     private static String token = null;
-    private static final Gson GSON = new Gson();
 
     public static void login() {
         DocConfig docConfig = DocConfig.get();
@@ -62,7 +67,6 @@ public class LoginDocHandler {
         apiLists = LoginDocHandler.getAllApiList().stream()
                 .collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
     }
-
 
     @SneakyThrows
     public static LinkedHashMap<String, String> getGroupListForMap() {
@@ -99,7 +103,6 @@ public class LoginDocHandler {
         return map;
     }
 
-
     @SneakyThrows
     public static List<GroupList> getGroupList() {
         DocConfig docConfig = DocConfig.get();
@@ -118,7 +121,6 @@ public class LoginDocHandler {
         return parseList(jsonObject.get("groupList").getAsJsonArray(), GroupList.class);
     }
 
-
     private static <T> List<T> parseList(JsonArray array, Class<T> c) {
         List<T> list = new ArrayList<>();
         array.forEach(a -> {
@@ -126,7 +128,6 @@ public class LoginDocHandler {
         });
         return list;
     }
-
 
     @SneakyThrows
     public static List<ProjectList> getProjectList() {
@@ -146,7 +147,6 @@ public class LoginDocHandler {
         return parseList(jsonObject.get("projectList").getAsJsonArray(), ProjectList.class);
     }
 
-
     @SneakyThrows
     public static List<ApiList> getAllApiList() {
         DocConfig docConfig = DocConfig.get();
@@ -165,7 +165,6 @@ public class LoginDocHandler {
 
         return parseList(jsonObject.get("apiList").getAsJsonArray(), ApiList.class);
     }
-
 
     @SneakyThrows
     private static void del(String id) {
@@ -188,21 +187,6 @@ public class LoginDocHandler {
         }
     }
 
-
-    private static final LinkedBlockingQueue<Upload> UPLOAD_DATA = new LinkedBlockingQueue<>(1024);
-    private static final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(Runtime.getRuntime()
-            .availableProcessors(), 24, 1,
-            TimeUnit.MINUTES, new LinkedBlockingQueue<>(4096), new ThreadFactoryBuilder()
-            .setNameFormat("UPLOAD_DATA-pool-%d").build());
-
-    @Builder
-    @Getter
-    public static class Upload {
-        private final String data;
-        private final InterfaceDoc.MethodDoc doc;
-    }
-
-
     /**
      * 上传文档 加入队列中
      *
@@ -212,7 +196,6 @@ public class LoginDocHandler {
     public static void addQueue(String data, InterfaceDoc.MethodDoc doc) {
         UPLOAD_DATA.add(Upload.builder().data(data).doc(doc).build());
     }
-
 
     @SneakyThrows
     private static void upload(String data, InterfaceDoc.MethodDoc doc) {
@@ -248,10 +231,17 @@ public class LoginDocHandler {
         }
     }
 
+    @Builder
+    @Getter
+    public static class Upload {
+        private final String data;
+        private final InterfaceDoc.MethodDoc doc;
+    }
+
     public static class UploadDoc implements Runnable {
 
         @Setter
-        private boolean execute = true;
+        private boolean execute = false;
 
 
         @SneakyThrows
@@ -259,7 +249,7 @@ public class LoginDocHandler {
         public void run() {
             BaseUtils.printTips("监听队列子线程已启动...");
             while (true) {
-                if (!execute) {
+                if (execute) {
                     if (UPLOAD_DATA.isEmpty() && threadPoolExecutor.getActiveCount() == 0) {
                         BaseUtils.printTips("队列为空,监听子线程销毁中...");
                         return;

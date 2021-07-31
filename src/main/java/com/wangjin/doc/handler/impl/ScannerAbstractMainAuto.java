@@ -16,8 +16,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Properties;
 
-import static com.wangjin.doc.base.Application.BASE_PATH;
-import static com.wangjin.doc.base.Application.CONTROLLER_PATHS;
+import static com.wangjin.doc.base.Application.basePath;
+import static com.wangjin.doc.base.Application.controllerPaths;
 import static com.wangjin.doc.util.BaseUtils.print;
 import static com.wangjin.doc.util.BaseUtils.printTips;
 
@@ -35,9 +35,9 @@ public class ScannerAbstractMainAuto extends AbstractMain {
     public void init() {
         Properties properties = new Properties();
         try {
-            File file = new File(BASE_PATH + File.separator + Constant.DOC_CONFIG_PROPERTIES_NAME);
+            File file = new File(basePath + File.separator + Constant.DOC_CONFIG_PROPERTIES_NAME);
             if (!file.exists()) {
-                final File touch = FileUtil.touch(BASE_PATH, Constant.DOC_CONFIG_PROPERTIES_NAME);
+                final File touch = FileUtil.touch(basePath, Constant.DOC_CONFIG_PROPERTIES_NAME);
                 FileUtil.writeBytes(Base64.decodeStr(Unirest.get(Constant.CONFIG_PROPERTIES).asString().getBody())
                         .getBytes(), touch);
                 LocalFileSystem.getInstance().refresh(true);
@@ -73,12 +73,12 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         // 如果没有配置组id,那就说明通过下拉框去选择的
         if (StrUtil.isBlank(group_id)) {
             //如果没配置组id 这里就不自动生成文档啦.
-            create.set(false);
+            CREATE.set(false);
         }
 
         boolean update = Boolean.parseBoolean(properties.getProperty("doc.update"));
 
-        DocConfig.init(DocConfig.builder().controllerPaths(CONTROLLER_PATHS).projectPath(BASE_PATH)
+        DocConfig.init(DocConfig.builder().controllerPaths(controllerPaths).projectPath(basePath)
                 .username(username)
                 .password(password)
                 .projectId(project_id)

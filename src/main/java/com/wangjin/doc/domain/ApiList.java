@@ -64,6 +64,17 @@ public class ApiList {
     private int apiStatus;
 
 
+    public ApiList() {
+
+    }
+
+    public ApiList(String apiName, String apiURI) {
+        this.apiName = apiName;
+
+        this.apiURI = apiURI;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -84,17 +95,6 @@ public class ApiList {
     @Override
     public int hashCode() {
         return Objects.hash(apiName, apiURI);
-
-    }
-
-    public ApiList() {
-
-    }
-
-    public ApiList(String apiName, String apiURI) {
-        this.apiName = apiName;
-
-        this.apiURI = apiURI;
 
     }
 }

@@ -40,16 +40,20 @@ import static com.wangjin.doc.util.BaseUtils.print;
 public final class Project {
 
     public static final Project INSTANCE = new Project();
-    public static boolean LICENSE_STATUS = false;
-
-
     private static final DocHandler DOC_HANDLER = new DocHandlerImpl();
     private static final ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
-
+    public static boolean LICENSE_STATUS = false;
     //项目路径
     public static String path = null;
     //哪个模块的controller
     public static String module = null;
+
+    public static String getModuleName(String file) {
+        if (BaseUtils.isWindows()) {
+            return file.replace(Project.path, "").split(File.separator + File.separator)[1];
+        }
+        return file.replace(Project.path, "").split(File.separator)[1];
+    }
 
     public final void clear() {
         Project.path = null;
@@ -86,14 +90,6 @@ public final class Project {
                         .filePath(file.getPath()).build()));
     }
 
-
-    public static String getModuleName(String file) {
-        if (BaseUtils.isWindows()) {
-            return file.replace(Project.path, "").split(File.separator + File.separator)[1];
-        }
-        return file.replace(Project.path, "").split(File.separator)[1];
-    }
-
     public final void generate(final List<String> filePaths) {
         if (filePaths == null || filePaths.isEmpty()) {
             return;
@@ -113,7 +109,7 @@ public final class Project {
                 BaseUtils.printError("generate Exception", e);
             }
         });
-        uploadDoc.setExecute(false);
+        uploadDoc.setExecute(true);
     }
 
     /**

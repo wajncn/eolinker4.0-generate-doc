@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.TemplateExport;
 import com.wangjin.doc.fifter.Filter;

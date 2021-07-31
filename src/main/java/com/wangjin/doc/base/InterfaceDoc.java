@@ -66,6 +66,15 @@ public class InterfaceDoc {
     @Data
     public static class MethodDoc {
 
+        private String comment;
+        private String requestMapping;
+        private MethodType methodType;
+        private List<Args> requestArgs;
+        private String requestJson;
+        private String responseJson;
+        private String responseObject;
+        private NodeList<Statement> body;
+
         @Override
         public boolean equals(Object o) {
             if (this == o) {
@@ -82,15 +91,6 @@ public class InterfaceDoc {
         public int hashCode() {
             return Objects.hash(requestMapping, methodType);
         }
-
-        private String comment;
-        private String requestMapping;
-        private MethodType methodType;
-        private List<Args> requestArgs;
-        private String requestJson;
-        private String responseJson;
-        private String responseObject;
-        private NodeList<Statement> body;
 
         public void setComment(String comment) {
             this.comment = BaseUtils.replaceIllegalityStr(comment);

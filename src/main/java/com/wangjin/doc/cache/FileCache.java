@@ -1,8 +1,6 @@
 package com.wangjin.doc.cache;
 
 import cn.hutool.core.util.StrUtil;
-import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
 import lombok.Builder;
 import lombok.Getter;

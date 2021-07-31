@@ -34,15 +34,6 @@ public class DocConfig {
         return CONFIG.get();
     }
 
-
-    public boolean isUpdate() {
-        return !Application.getSELECTED_TEXT().isEmpty() || update;
-    }
-
-    public String getGroupId() {
-        return StrUtil.emptyToDefault(Application.GROUP_ID, groupId);
-    }
-
     public static void init(DocConfig docConfig) {
         CONFIG.set(docConfig);
         Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: doc.username");
@@ -50,6 +41,14 @@ public class DocConfig {
         Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: doc.project_id");
         Assert.notEmpty(docConfig.getUrl(), "缺少配置属性: doc.url");
         LoginDocHandler.login();
+    }
+
+    public boolean isUpdate() {
+        return !Application.getSELECTED_TEXT().isEmpty() || update;
+    }
+
+    public String getGroupId() {
+        return StrUtil.emptyToDefault(Application.groupId, groupId);
     }
 
 }

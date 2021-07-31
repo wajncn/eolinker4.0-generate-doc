@@ -21,7 +21,7 @@ public class MainTest {
 
         Project.LICENSE_STATUS = true;
 
-        Application.BASE_PATH = "C:\\Users\\pc\\IdeaProjects\\chiniu";
+        Application.basePath = "C:\\Users\\pc\\IdeaProjects\\chiniu";
         List<String> strings = new ArrayList<>();
         strings.add("C:\\Users\\pc\\IdeaProjects\\chiniu\\chiniu-admin\\src\\main\\java\\com\\wmeimob\\fastboot\\chiniu\\controller\\OrdersController.java");
 
@@ -36,7 +36,7 @@ public class MainTest {
         DocConfig.init(docConfig);
 
         Project project = new Project();
-        project.init(Application.BASE_PATH);
+        project.init(Application.basePath);
 
         System.out.println("init time: " + (System.currentTimeMillis() - l) + "");
 

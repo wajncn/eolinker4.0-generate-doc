@@ -16,7 +16,7 @@ public abstract class AbstractMain {
     /**
      * 是否生成文档
      */
-    protected static final ThreadLocal<Boolean> create = ThreadLocal.withInitial(() -> true);
+    protected static final ThreadLocal<Boolean> CREATE = ThreadLocal.withInitial(() -> true);
 
 
     /**
@@ -24,16 +24,16 @@ public abstract class AbstractMain {
      */
     private static volatile boolean init = true;
 
+    public static void clear() {
+        init = true;
+        CREATE.remove();
+    }
+
     /**
      * 打印头部信息
      */
     private void printHead() {
         print("开始运行...");
-    }
-
-    public static void clear() {
-        init = true;
-        create.remove();
     }
 
     /**
@@ -53,11 +53,11 @@ public abstract class AbstractMain {
                 this.init();
                 init = false;
             }
-            if (create.get()) {
+            if (CREATE.get()) {
                 LoginDocHandler.refreshApiList();
                 this.createDoc();
             }
-            create.remove();
+            CREATE.remove();
         } finally {
             onSuccess();
         }

@@ -34,31 +34,6 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
 
     private static final String RESULT_INFO = "resultInfo";
     private static final String VOID = "void";
-
-
-    @AllArgsConstructor
-    public enum Page_Flag {
-        //老框架的分页
-        PAGE_1_0("list>>") {
-            @Override
-            void handler(JsonArray array) {
-                BaseUtils.getPAGE_INFO().forEach(array::add);
-            }
-        },
-
-        //新框架的分页
-        PAGE_2_0("list>>") {
-            @Override
-            void handler(JsonArray array) {
-                BaseUtils.getPAGE_INFO_new_framework().forEach(array::add);
-            }
-        };
-
-        abstract void handler(JsonArray array);
-
-        public final String listKey;
-    }
-
     /**
      * 忽略的返回值
      */
@@ -66,7 +41,7 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
         this.add("RequestResult");
         this.add("JSONResult");
     }};
-
+    private static final ThreadLocal<Page_Flag> PAGE_FLAG = new ThreadLocal<>();
 
     public static void addIGNORE_RESULT(String v) {
         if (StrUtil.isEmpty(v) || ",".equals(v)) {
@@ -74,10 +49,6 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
         }
         IGNORE_RESULT.add(v);
     }
-
-
-    private static final ThreadLocal<Page_Flag> PAGE_FLAG = new ThreadLocal<>();
-
 
     @Override
     public void filter(InterfaceDoc.MethodDoc doc) {
@@ -113,7 +84,6 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
         super.parseExtend(resultInfos, type, null, false);
     }
 
-
     /**
      * 格式化接口的返回值
      *
@@ -137,7 +107,8 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
 
         if (responseObject.startsWith("PageData<")) {
             //没有加泛型 开始容错处理:
-            responseObject = Optional.ofNullable(ReUtil.findAll("PageData<(\\S+),(\\S+)>", responseObject, 1)).map(a -> a.get(0)).orElse(VOID);
+            responseObject = Optional.ofNullable(ReUtil.findAll("PageData<(\\S+),(\\S+)>", responseObject, 1))
+                    .map(a -> a.get(0)).orElse(VOID);
             PAGE_FLAG.set(Page_Flag.PAGE_2_0);
             return responseObject;
         }
@@ -162,7 +133,6 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
         }
         return responseObject;
     }
-
 
     /**
      * 解析返回值,因为部分开发的接口没加泛型,这个方法的作用就是尽可能的推断出返回值
@@ -199,6 +169,30 @@ public class ResponseInfoBaseFilterImpl extends BaseFilter {
             printWarn("可忽略的异常");
         }
         return responseObject;
+    }
+
+
+    @AllArgsConstructor
+    public enum Page_Flag {
+        //老框架的分页
+        PAGE_1_0("list>>") {
+            @Override
+            void handler(JsonArray array) {
+                BaseUtils.getPAGE_INFO().forEach(array::add);
+            }
+        },
+
+        //新框架的分页
+        PAGE_2_0("list>>") {
+            @Override
+            void handler(JsonArray array) {
+                BaseUtils.getPAGE_INFO_new_framework().forEach(array::add);
+            }
+        };
+
+        public final String listKey;
+
+        abstract void handler(JsonArray array);
     }
 
 }
