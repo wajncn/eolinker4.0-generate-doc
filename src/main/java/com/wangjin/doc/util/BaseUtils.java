@@ -14,6 +14,7 @@ import lombok.Getter;
 
 import java.awt.*;
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -299,16 +300,7 @@ public class BaseUtils {
      * @return
      */
     public static boolean checkVersion() {
-        return checkIP();
-    }
-
-    public static boolean checkIP() {
-        try {
-            String r = Base64.decodeStr(Unirest.get(String.format(Constant.CHECK_IP, Application.HOST_ADDRESS)).asString().getBody()).trim();
-            return Project.LICENSE_STATUS = Boolean.parseBoolean(r);
-        } catch (Exception e) {
-            return false;
-        }
+        return true;
     }
 
     /**
@@ -398,5 +390,12 @@ public class BaseUtils {
 
     public static boolean isWindows() {
         return System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
+    }
+    public static String getHostAddress() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
+            return "127.0.0.1";
+        }
     }
 }

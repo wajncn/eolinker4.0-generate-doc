@@ -45,7 +45,21 @@ public final class Application {
     public static String HOST_ADDRESS = null;
 
 
-    public static boolean LICENSE_STATUS = false;
+    private static final Application APPLICATION = new Application();
+
+    public static Application builder(String BASE_PATH, List<String> CONTROLLER_PATHS, String GROUP_ID) {
+        Application.BASE_PATH = BASE_PATH;
+        Application.HOST_ADDRESS = BaseUtils.getHostAddress();
+        Application.CONTROLLER_PATHS = CONTROLLER_PATHS;
+        Application.GROUP_ID = GROUP_ID;
+        return APPLICATION;
+    }
+
+
+    public static Application setGROUP_ID(String GROUP_ID) {
+        Application.GROUP_ID = GROUP_ID;
+        return APPLICATION;
+    }
 
     /**
      * 选择的方法块
@@ -68,10 +82,11 @@ public final class Application {
         AbstractMain.clear();
     }
 
+
     private static final AbstractMain abstractMain = new ScannerAbstractMainAuto();
 
     @SneakyThrows
-    public static void execute(boolean init) {
+    public void execute(boolean init) {
         try {
             if (init) {
                 AbstractMain.clear();
