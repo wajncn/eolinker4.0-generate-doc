@@ -41,10 +41,6 @@ public class RequestInfoBaseFilterImpl extends BaseFilter {
     @Override
     public void filter(InterfaceDoc.MethodDoc doc) {
         JsonObject obj = super.getJsonObject();
-        if (!Application.LICENSE_STATUS) {
-            return;
-        }
-
         final JsonArray requestInfos = new JsonArray();
         obj.add(REQUEST_INFO, requestInfos);
         for (InterfaceDoc.Args requestArg : doc.getRequestArgs()) {
@@ -53,9 +49,6 @@ public class RequestInfoBaseFilterImpl extends BaseFilter {
     }
 
     private void filter(JsonArray requestInfos, InterfaceDoc.Args requestArg) {
-        if (!Constant.LICENSE_STATUS) {
-            return;
-        }
         FileCache.FC fc = FileCache.getFc(requestArg.getType());
         if (fc == null) {
             if (IGNORE_REQUEST.contains(requestArg.getType())) {

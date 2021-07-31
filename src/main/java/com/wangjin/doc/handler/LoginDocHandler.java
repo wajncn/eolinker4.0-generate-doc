@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
@@ -45,25 +44,23 @@ public class LoginDocHandler {
         String body = "loginName=" + docConfig.getUsername() + "&loginPassword=" + getMD5Str(docConfig.getPassword());
 
 
-        String response = Unirest.post("https://doc.f.wmeimob.com/Guest/login")
+        String response = Unirest.post(docConfig.getUrl() + "/Guest/login")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .body(body)
                 .asString().getBody();
-
-        if (!Application.LICENSE_STATUS) {
-            return;
-        }
 
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
         if (!SUCCESS.equals(jsonObject.get("statusCode").getAsString())) {
             throw new IllegalArgumentException("账号密码错误,无法自动同步到文档系统");
         }
         token = jsonObject.get("JSESSIONID").getAsString();
-        apiLists = LoginDocHandler.getAllApiList().stream().collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
+        apiLists = LoginDocHandler.getAllApiList().stream()
+                .collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
     }
 
     public static void refreshApiList() {
-        apiLists = LoginDocHandler.getAllApiList().stream().collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
+        apiLists = LoginDocHandler.getAllApiList().stream()
+                .collect(Collectors.toMap(k -> k.getApiURI() + k.getApiRequestType(), v -> v, (v1, v2) -> v1));
     }
 
 
@@ -105,9 +102,11 @@ public class LoginDocHandler {
 
     @SneakyThrows
     public static List<GroupList> getGroupList() {
-        String body = "projectID=" + DocConfig.get().getProjectId() + "&groupID=-1&childGroupID=-1";
+        DocConfig docConfig = DocConfig.get();
 
-        String response = Unirest.post("https://doc.f.wmeimob.com/Group/getGroupList")
+        String body = "projectID=" + docConfig.getProjectId() + "&groupID=-1&childGroupID=-1";
+
+        String response = Unirest.post(docConfig.getUrl() + "/Group/getGroupList")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
@@ -131,9 +130,11 @@ public class LoginDocHandler {
 
     @SneakyThrows
     public static List<ProjectList> getProjectList() {
+        DocConfig docConfig = DocConfig.get();
+
         String body = "projectType=-1";
 
-        String response = Unirest.post("https://doc.f.wmeimob.com/Project/getProjectList")
+        String response = Unirest.post(docConfig.getUrl() + "/Project/getProjectList")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
@@ -152,7 +153,7 @@ public class LoginDocHandler {
 
         String body = "projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId() + "&orderBy=3&asc=0";
 
-        String response = Unirest.post("https://doc.f.wmeimob.com/Api/getApiList")
+        String response = Unirest.post(docConfig.getUrl() + "/Api/getApiList")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
@@ -175,7 +176,7 @@ public class LoginDocHandler {
 
         String body = "projectID=" + docConfig.getProjectId() + "&apiID=" + URLUtil.encode("[".concat(id).concat("]"));
 
-        String response = Unirest.post("https://doc.f.wmeimob.com/Api/removeApi")
+        String response = Unirest.post(docConfig.getUrl() + "/Api/removeApi")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)
@@ -189,7 +190,8 @@ public class LoginDocHandler {
 
 
     private static final LinkedBlockingQueue<Upload> UPLOAD_DATA = new LinkedBlockingQueue<>(1024);
-    private static final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 24, 1,
+    private static final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(Runtime.getRuntime()
+            .availableProcessors(), 24, 1,
             TimeUnit.MINUTES, new LinkedBlockingQueue<>(4096), new ThreadFactoryBuilder()
             .setNameFormat("UPLOAD_DATA-pool-%d").build());
 
@@ -234,7 +236,7 @@ public class LoginDocHandler {
 
         String body = "projectID=" + docConfig.getProjectId() + "&groupID=" + StrUtil.blankToDefault(docConfig.getGroupId(), "0") + "&data=" + URLUtil.encode(data);
 
-        String response = Unirest.post("https://doc.f.wmeimob.com/Api/importApi")
+        String response = Unirest.post(docConfig.getUrl() + "/Api/importApi")
                 .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .header("Cookie", "JSESSIONID=" + token)
                 .body(body)

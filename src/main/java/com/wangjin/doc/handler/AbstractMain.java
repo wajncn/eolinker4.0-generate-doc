@@ -1,15 +1,8 @@
 package com.wangjin.doc.handler;
 
-import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.Project;
-import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.util.BaseUtils;
-import lombok.SneakyThrows;
 
-import java.util.concurrent.CompletableFuture;
-
-import static com.wangjin.doc.util.BaseUtils.checkVersion;
 import static com.wangjin.doc.util.BaseUtils.print;
 
 /**
@@ -31,62 +24,17 @@ public abstract class AbstractMain {
      */
     private static volatile boolean init = true;
 
-    @SneakyThrows
-    protected final void sleep() {
-        sleep(300);
-    }
-
-    @SneakyThrows
-    protected final void sleep(long millis) {
-        Thread.sleep(millis);
-    }
-
     /**
      * 打印头部信息
      */
     private void printHead() {
-//        print(Constant.HEADER_TEXT);
-        print("developer: 第一交付中心-开发四组");
+        print("开始运行...");
     }
 
     public static void clear() {
         init = true;
         create.remove();
     }
-
-
-    /**
-     * 异步检测程序非法性
-     *
-     * @param tips
-     */
-    @SneakyThrows
-    protected final void check(boolean tips) {
-        CompletableFuture<Boolean> voidCompletableFuture = CompletableFuture.supplyAsync(() -> {
-            boolean r = checkVersion();
-            if (r) {
-                return Constant.LICENSE_STATUS = true;
-            } else {
-                BaseUtils.exit();
-                return false;
-            }
-        });
-
-        for (; ; ) {
-            if (!voidCompletableFuture.isDone()) {
-                sleep();
-            } else {
-                boolean join = Application.LICENSE_STATUS = voidCompletableFuture.join();
-                if (join) {
-                    System.out.println();
-                    break;
-                }
-                BaseUtils.exit();
-                throw new NotUseException();
-            }
-        }
-    }
-
 
     /**
      * init
@@ -102,7 +50,6 @@ public abstract class AbstractMain {
         try {
             if (init) {
                 this.printHead();
-                this.check(true);
                 this.init();
                 init = false;
             }

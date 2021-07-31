@@ -1,7 +1,6 @@
 package com.wangjin.doc;
 
 import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.util.BaseUtils;
@@ -18,10 +17,7 @@ import java.util.List;
 public class MainPluginTest {
     @Test
     void testFirstTest_win10() throws IOException, InterruptedException {
-        Application.LICENSE_STATUS = true;
         Project.LICENSE_STATUS = true;
-        Constant.LICENSE_STATUS = true;
-
 
         Application.BASE_PATH = "C:\\Users\\pc\\IdeaProjects\\guanghui-mini";
 
@@ -37,16 +33,14 @@ public class MainPluginTest {
         Project project = new Project();
         project.init(Application.BASE_PATH);
         project.generate(Collections.singletonList("C:\\Users\\pc\\IdeaProjects\\guanghui-mini\\guanghui-wechat\\src\\main\\java\\com\\wmeimob\\fastboot\\guanghui\\controller\\employees\\EmployeesController.java"));
-//        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+//        BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
 
         Thread.sleep(100000 * 5);
     }
 
     @Test
     void testFirstTest() throws IOException {
-        Application.LICENSE_STATUS = true;
         Project.LICENSE_STATUS = true;
-        Constant.LICENSE_STATUS = true;
 
 
         Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
@@ -63,7 +57,7 @@ public class MainPluginTest {
         Project project = new Project();
         project.init(Application.BASE_PATH);
         project.generate(Collections.singletonList("/Users/wangjin/IdeaProjects/yipin/yipin-admin/src/main/java/com/wmeimob/fastboot/yipin/controller/DesignOrderController.java"));
-        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+        BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
 
     }
 
@@ -72,10 +66,7 @@ public class MainPluginTest {
     void yipin() throws IOException, InterruptedException {
 
         long l = System.currentTimeMillis();
-
-        Application.LICENSE_STATUS = true;
         Project.LICENSE_STATUS = true;
-        Constant.LICENSE_STATUS = true;
 
         Application.BASE_PATH = "/Users/wangjin/IdeaProjects/yipin";
 
@@ -122,7 +113,7 @@ public class MainPluginTest {
         project.generate(docConfig.getControllerPaths());
 
         System.out.println("generate time: " + (System.currentTimeMillis() - l) + "");
-//        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+//        BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
         System.out.println("---");
         Thread.sleep(3000*30);
     }

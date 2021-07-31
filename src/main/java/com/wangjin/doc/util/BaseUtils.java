@@ -1,20 +1,15 @@
 package com.wangjin.doc.util;
 
-import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.JsonElement;
 import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.Constant;
-import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ResultInfo;
-import com.wangjin.doc.unirest.Unirest;
 import lombok.Getter;
 
 import java.awt.*;
 import java.math.BigInteger;
-import java.net.InetAddress;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -361,41 +356,31 @@ public class BaseUtils {
         return new BigInteger(1, digest).toString(16);
     }
 
-    public static void exit() {
-
-    }
-
 
     public static void openBrowse(String url) {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                System.setProperty("java.awt.headless", "false");
-                // 创建一个URI实例
-                URI uri = URI.create(url);
-                // 获取当前系统桌面扩展
-                Desktop dp = Desktop.getDesktop();
-                // 判断系统桌面是否支持要执行的功能
-                if (dp.isSupported(java.awt.Desktop.Action.BROWSE)) {
-                    // 获取系统默认浏览器打开链接
-                    dp.browse(uri);
-                }
-            } catch (Exception e) {
-                printWarn("打开浏览器失败: url:{}", url);
+        if (!Desktop.isDesktopSupported()) {
+            printWarn("打开浏览器失败: url:{}", url);
+            return;
+        }
+
+        try {
+            System.setProperty("java.awt.headless", "false");
+            // 创建一个URI实例
+            URI uri = URI.create(url);
+            // 获取当前系统桌面扩展
+            Desktop dp = Desktop.getDesktop();
+            // 判断系统桌面是否支持要执行的功能
+            if (dp.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                // 获取系统默认浏览器打开链接
+                dp.browse(uri);
             }
-        } else {
-//            print("打开浏览器失败: ",url);
+        } catch (Exception e) {
+            printWarn("打开浏览器失败: url:{}", url);
         }
     }
 
 
     public static boolean isWindows() {
         return System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
-    }
-    public static String getHostAddress() {
-        try {
-            return InetAddress.getLocalHost().getHostAddress();
-        } catch (Exception e) {
-            return "127.0.0.1";
-        }
     }
 }

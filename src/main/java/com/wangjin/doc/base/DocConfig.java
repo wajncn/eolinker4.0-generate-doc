@@ -21,6 +21,7 @@ public class DocConfig {
 
     private final String projectPath;
     private final List<String> controllerPaths;
+    private final String url;
     private final String username;
     private final String password;
     private final String projectId;
@@ -44,10 +45,10 @@ public class DocConfig {
 
     public static void init(DocConfig docConfig) {
         CONFIG.set(docConfig);
-        Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: username");
-        Assert.notEmpty(docConfig.getPassword(), "缺少配置属性: password");
-        Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: project_id");
-
+        Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: doc.username");
+        Assert.notEmpty(docConfig.getPassword(), "缺少配置属性: doc.password");
+        Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: doc.project_id");
+        Assert.notEmpty(docConfig.getUrl(), "缺少配置属性: doc.url");
         LoginDocHandler.login();
     }
 

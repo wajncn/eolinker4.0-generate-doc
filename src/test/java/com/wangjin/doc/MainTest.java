@@ -1,7 +1,6 @@
 package com.wangjin.doc;
 
 import com.wangjin.doc.base.Application;
-import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.base.Project;
 
@@ -20,9 +19,7 @@ public class MainTest {
 
         long l = System.currentTimeMillis();
 
-        Application.LICENSE_STATUS = true;
         Project.LICENSE_STATUS = true;
-        Constant.LICENSE_STATUS = true;
 
         Application.BASE_PATH = "C:\\Users\\pc\\IdeaProjects\\chiniu";
         List<String> strings = new ArrayList<>();
@@ -46,7 +43,7 @@ public class MainTest {
         project.generate(docConfig.getControllerPaths());
 
         System.out.println("generate time: " + (System.currentTimeMillis() - l) + "");
-//        BaseUtils.openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+//        BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
         System.out.println("---");
         Thread.sleep(3000*30);
     }

@@ -1,7 +1,6 @@
 package com.wangjin.doc.base;
 
 import com.intellij.openapi.project.Project;
-import com.wangjin.doc.exceptions.NotUseException;
 import com.wangjin.doc.handler.AbstractMain;
 import com.wangjin.doc.handler.impl.ScannerAbstractMainAuto;
 import com.wangjin.doc.util.BaseUtils;
@@ -42,14 +41,10 @@ public final class Application {
      */
     public static String GROUP_ID = null;
 
-    public static String HOST_ADDRESS = null;
-
-
     private static final Application APPLICATION = new Application();
 
     public static Application builder(String BASE_PATH, List<String> CONTROLLER_PATHS, String GROUP_ID) {
         Application.BASE_PATH = BASE_PATH;
-        Application.HOST_ADDRESS = BaseUtils.getHostAddress();
         Application.CONTROLLER_PATHS = CONTROLLER_PATHS;
         Application.GROUP_ID = GROUP_ID;
         return APPLICATION;
@@ -92,10 +87,6 @@ public final class Application {
                 AbstractMain.clear();
             }
             abstractMain.exe();
-        } catch (NotUseException e) {
-            BaseUtils.exit();
-            BaseUtils.printError(Constant.CHECK_URL_MSG);
-//            throw new Exception(Constant.CHECK_URL_MSG);
         } catch (Exception e) {
             BaseUtils.printError("{}", e.getMessage());
         }

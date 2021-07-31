@@ -20,6 +20,7 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.handler.LoginDocHandler;
 import com.wangjin.doc.handler.ParseHandler;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
+import com.wangjin.doc.util.BaseUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +61,9 @@ public class MainPlugin extends AnAction {
                 selectGroup(project);
             }
         } catch (Exception ignored) {
-
+            BaseUtils.printError("Exception {}", ignored);
+        } finally {
+            Application.clear();
         }
 
     }

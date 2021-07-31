@@ -38,7 +38,8 @@ public class ScannerAbstractMainAuto extends AbstractMain {
             File file = new File(BASE_PATH + File.separator + Constant.DOC_CONFIG_PROPERTIES_NAME);
             if (!file.exists()) {
                 final File touch = FileUtil.touch(BASE_PATH, Constant.DOC_CONFIG_PROPERTIES_NAME);
-                FileUtil.writeBytes(Base64.decodeStr(Unirest.get(Constant.CONFIG_PROPERTIES).asString().getBody()).getBytes(), touch);
+                FileUtil.writeBytes(Base64.decodeStr(Unirest.get(Constant.CONFIG_PROPERTIES).asString().getBody())
+                        .getBytes(), touch);
                 LocalFileSystem.getInstance().refresh(true);
                 String message = "系统已初始配置文件[" + Constant.DOC_CONFIG_PROPERTIES_NAME + "]在当前项目根目录,请填写配置文件重新尝试";
                 Messages.showMessageDialog(message, "Info", Messages.getInformationIcon());
@@ -54,10 +55,12 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         String password = properties.getProperty("doc.password");
         String project_id = properties.getProperty("doc.project_id");
         String group_id = properties.getProperty("doc.group_id");
+        String url = properties.getProperty("doc.url");
+
 
         try {
             String ignoreResponse = properties.getProperty("doc.ignore_result");
-            if(StrUtil.isNotBlank(ignoreResponse)){
+            if (StrUtil.isNotBlank(ignoreResponse)) {
                 for (String s : ignoreResponse.split(",")) {
                     ResponseInfoBaseFilterImpl.addIGNORE_RESULT(s);
                 }
@@ -65,8 +68,6 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
 
         // 如果没有配置组id,那就说明通过下拉框去选择的
@@ -83,6 +84,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
                 .projectId(project_id)
                 .groupId(group_id)
                 .update(update)
+                .url(StrUtil.removeSuffix(url, "/"))
                 .build());
     }
 
@@ -93,7 +95,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         PROJECT.init(StrUtil.trim(docConfig.getProjectPath()));
         PROJECT.generate(docConfig.getControllerPaths());
         print("success");
-        openBrowse("https://doc.f.wmeimob.com/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+        openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
     }
 
     @Override

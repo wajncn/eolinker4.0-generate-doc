@@ -40,9 +40,6 @@ public final class FileCache {
 
 
     public static FC getFc(String fileName) {
-        if (!Constant.LICENSE_STATUS) {
-            return null;
-        }
         //优先从当前模块缓存拿, 拿不到的在从总的缓存取
         return MODULE_CACHE.getOrDefault(Project.module + fileName, FILE_CACHE.get(fileName));
     }
@@ -60,9 +57,6 @@ public final class FileCache {
 
 
     public static void clear() {
-        if (!Application.LICENSE_STATUS) {
-            return;
-        }
         FILE_CACHE.clear();
         FILE_CACHE_CONTROLLER.clear();
     }
