@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
  **/
 @NoArgsConstructor
 public final class Constant {
-    public static final String CONFIG_PROPERTIES = "https://javanet123.com/gendoc/config_properties";
     public static final String DOC_CONFIG_PROPERTIES_NAME = "doc.properties";
     public static final String TEMPLATE_EXPORT_NAME = "template.export";
     public static final Gson GSON = new Gson();

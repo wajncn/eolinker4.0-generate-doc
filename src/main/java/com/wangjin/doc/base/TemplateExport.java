@@ -1,7 +1,6 @@
 package com.wangjin.doc.base;
 
 import cn.hutool.core.io.IoUtil;
-import com.wangjin.doc.util.BaseUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,9 +15,14 @@ public class TemplateExport {
     @Getter
     private static String templateExport = null;
 
+    @Getter
+    private static String docProperties = null;
+
     static {
         templateExport = IoUtil.read(Objects.requireNonNull(TemplateExport.class.getClassLoader()
                 .getResourceAsStream(Constant.TEMPLATE_EXPORT_NAME)), "UTF-8");
-        BaseUtils.log("loading template.export");
+
+        docProperties = IoUtil.read(Objects.requireNonNull(TemplateExport.class.getClassLoader()
+                .getResourceAsStream(Constant.DOC_CONFIG_PROPERTIES_NAME)), "UTF-8");
     }
 }

@@ -29,12 +29,12 @@ plugin_info = """<?xml version="1.0" encoding="UTF-8"?>
     <plugin id="com.wangjin.Generate.WeimobDoc" url="https://file.javanet123.com/gen-doc-plugin-5.2.zip" version="5.2">
     <idea-version since-build="145.258"/>
     <id>com.wangjin.Generate.WeimobDoc</id>
-    <name>Generate WeimobDoc</name>
+    <name>Generate EolinkerDoc</name>
     <vendor email="wajncn@gmail.com" url="https://javanet123.com/">王进</vendor>
     <description>
             <![CDATA[
 解析Controller到接口微盟文档系统<br>
-    Click Tools -> "Generate WeimobDoc"<br>
+    Click Tools -> "Generate EolinkerDoc"<br>
             该工具由第一交付中心第四部门提供<br>
     <br>
 <a href="https://javanet123.com/archives/weimob">Need Help?<a/><br>
@@ -54,7 +54,7 @@ Release v3.0版本
  1.feat: 支持解析分页参数
  2.feat: 取消默认动态修改文档功能,可通过配置文件来控制
 Release v3.1版本
- 1.正式改名为:Generate WeimobDoc
+ 1.正式改名为:Generate EolinkerDoc
  2.feat: 支持选中方法块更新文档,必须包含[@*Mapping]
 Release v4.0版本
  1.feat: 简化配置文件,操作步骤

@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.intellij' version '0.6.5'
 }
 
-group 'com.wangjin.Generate.WeimobDoc'
-version '5.2.1'
+group 'com.wangjin.Generate.EolinkerDoc'
+version '1.0.0'
 
 repositories {
     mavenCentral()
@@ -28,40 +28,12 @@ intellij {
 patchPluginXml {
     changeNotes """
 <pre>
-Release v1.0
- 1.feat: 解析Controller到接口文档系统
-Release v1.1
- 1.fix: 已知问题
-Release v2.0
- 1.fix: 已知问题
- 2.refactor: 优化解析性能
-Release v3.0版本
- 1.feat: 支持解析分页参数
- 2.feat: 取消默认动态修改文档功能,可通过配置文件来控制
-Release v3.1版本
- 1.正式改名为:Generate WeimobDoc
- 2.feat: 支持选中方法块更新文档,必须包含[@*Mapping]
-Release v4.0版本
- 1.feat: 简化配置文件,操作步骤
- 2.feat: 新增分组下拉框.如果配置了分组id,则不会出现分组下拉框
-Release v4.1版本
- 1.feat: 支持选择多个方法块
- 2.feat: 选择代码块,系统会默认更新文档
-Release v4.2版本 
- 1.feat: 支持解析枚举类
- 2.feat: 文档支持查看按钮
-Release v4.3版本
- 1.fix: 已知问题
-Release v5.0版本
- 1.refactor: 使用多线程解析文档,提高性能
- 2.fix: 已知问题
- 3.feat: 支持新框架
-Release v5.1版本
- 1.fix: windows系统解析异常问题
-Release v5.2版本
- 1.fix: 对部分非标准性写法进行容错
-Release v5.2.1版本
- 1.fix: 已知问题
+Release v1.0.0
+    1.支持`多选Controller`文件进行接口文档同步.
+    2.支持`无限嵌套`,`无限继承`解析.(`自引用`不会死循环,`递归深度为2`).
+    3.支持`动态更新`文档,默认为关闭状态,需要手动开启.
+    4.支持`选择代码块`进行部分接口文档同步.
+    5.支持`选择分组`生成文档.
 </pre>"""
     sinceBuild "145.258"
     untilBuild null

@@ -1,15 +1,13 @@
 <idea-plugin>
     <id>com.wangjin.Generate.WeimobDoc</id>
-    <name>Generate WeimobDoc</name>
+    <name>Generate EolinkerDoc</name>
     <vendor email="wajncn@gmail.com" url="https://javanet123.com/">王进</vendor>
     <description><![CDATA[
-    解析Controller到接口微盟文档系统<br>
-      Click Tools -> "Generate WeimobDoc"<br>
-          该工具由第一交付中心第四部门提供<br>
+    解析Controller到Eolinker4.0文档系统<br>
+      Click Tools -> "Generate EolinkerDoc"<br>
     <br>
-<a href="https://javanet123.com/archives/weimob">Need Help?<a/><br>
+<a href="https://github.com/wajncn/eolinker4.0-generate-doc">Need Help?<a/><br>
     ]]></description>
-
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -21,7 +19,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="Generate WeimobDoc..." description="Generate WeimobDoc">
+        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="Generate EolinkerDoc" description="Generate EolinkerDoc">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>

@@ -13,7 +13,7 @@
 ## 安装方式
 ### 1. 安装方式一(强烈推荐,会有新版本提示)
 >在`Settings/Preferences... -> Plugins  -> Manage Plugin Repos...` 内手动添加第三方插件仓库地址：`https://javanet123.com/gendoc/resp`
->搜索：`Generate WeimobDoc`插件进行安装。如果搜索不到请注意是否做好了上一步？网络是否通畅？
+>搜索：`Generate EolinkerDoc`插件进行安装。如果搜索不到请注意是否做好了上一步？网络是否通畅？
 >插件会提示安装成功。
 
 ### 2. 安装方式二
@@ -27,7 +27,7 @@
 
 ## 使用说明
 >首次使用程序会在项目根目录产生一个配置文件:[`doc.properties`]
->配置完成后选择`Controller`(可多选)后点击`Tools`--->`Generate WeimobDoc`
+>配置完成后选择`Controller`(可多选)后点击`Tools`--->`Generate EolinkerDoc`
 >可选择方法进行单独生成文档(但必须包含`*Mapping`)
 
 ----

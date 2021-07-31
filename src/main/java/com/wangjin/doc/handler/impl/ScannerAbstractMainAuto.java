@@ -1,14 +1,13 @@
 package com.wangjin.doc.handler.impl;
 
-import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.DocConfig;
+import com.wangjin.doc.base.TemplateExport;
 import com.wangjin.doc.handler.AbstractMain;
-import com.wangjin.doc.unirest.Unirest;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -38,8 +37,7 @@ public class ScannerAbstractMainAuto extends AbstractMain {
             File file = new File(basePath + File.separator + Constant.DOC_CONFIG_PROPERTIES_NAME);
             if (!file.exists()) {
                 final File touch = FileUtil.touch(basePath, Constant.DOC_CONFIG_PROPERTIES_NAME);
-                FileUtil.writeBytes(Base64.decodeStr(Unirest.get(Constant.CONFIG_PROPERTIES).asString().getBody())
-                        .getBytes(), touch);
+                FileUtil.writeBytes(TemplateExport.getDocProperties().getBytes(), touch);
                 LocalFileSystem.getInstance().refresh(true);
                 String message = "系统已初始配置文件[" + Constant.DOC_CONFIG_PROPERTIES_NAME + "]在当前项目根目录,请填写配置文件重新尝试";
                 Messages.showMessageDialog(message, "Info", Messages.getInformationIcon());
@@ -100,6 +98,6 @@ public class ScannerAbstractMainAuto extends AbstractMain {
 
     @Override
     protected void onSuccess() {
-
+        print("执行完毕");
     }
 }
