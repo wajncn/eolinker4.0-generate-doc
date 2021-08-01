@@ -63,15 +63,14 @@ public class ScannerAbstractMainAuto extends AbstractMain {
                     ResponseInfoBaseFilterImpl.addIGNORE_RESULT(s);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
 
 
         // 如果没有配置组id,那就说明通过下拉框去选择的
         if (StrUtil.isBlank(group_id)) {
             //如果没配置组id 这里就不自动生成文档啦.
-            CREATE.set(false);
+            CREATE_DOC.set(false);
         }
 
         boolean update = Boolean.parseBoolean(properties.getProperty("doc.update"));
@@ -98,6 +97,5 @@ public class ScannerAbstractMainAuto extends AbstractMain {
 
     @Override
     protected void onSuccess() {
-        print("执行完毕");
     }
 }

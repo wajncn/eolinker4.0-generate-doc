@@ -3,7 +3,6 @@ package com.wangjin.doc.base;
 import com.intellij.openapi.project.Project;
 import com.wangjin.doc.handler.AbstractMain;
 import com.wangjin.doc.handler.impl.ScannerAbstractMainAuto;
-import com.wangjin.doc.util.BaseUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -75,14 +74,10 @@ public final class Application {
 
     @SneakyThrows
     public void execute(boolean init) {
-        try {
-            if (init) {
-                AbstractMain.clear();
-            }
-            ABSTRACT_MAIN.exe();
-        } catch (Exception e) {
-            BaseUtils.printError("{}", e.getMessage());
+        if (init) {
+            AbstractMain.clear();
         }
+        ABSTRACT_MAIN.exe();
     }
 
 }

@@ -3,8 +3,6 @@ package com.wangjin.doc.handler;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.util.BaseUtils;
 
-import static com.wangjin.doc.util.BaseUtils.print;
-
 /**
  * @description:
  * @author: wajn
@@ -16,7 +14,7 @@ public abstract class AbstractMain {
     /**
      * 是否生成文档
      */
-    protected static final ThreadLocal<Boolean> CREATE = ThreadLocal.withInitial(() -> true);
+    protected static final ThreadLocal<Boolean> CREATE_DOC = ThreadLocal.withInitial(() -> true);
 
 
     /**
@@ -26,14 +24,13 @@ public abstract class AbstractMain {
 
     public static void clear() {
         init = true;
-        CREATE.remove();
+        CREATE_DOC.remove();
     }
 
     /**
      * 打印头部信息
      */
     private void printHead() {
-        print("开始运行...");
     }
 
     /**
@@ -53,12 +50,12 @@ public abstract class AbstractMain {
                 this.init();
                 init = false;
             }
-            if (CREATE.get()) {
+            if (CREATE_DOC.get()) {
                 LoginDocHandler.refreshApiList();
                 this.createDoc();
             }
-            CREATE.remove();
         } finally {
+            CREATE_DOC.remove();
             onSuccess();
         }
     }

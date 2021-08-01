@@ -34,12 +34,12 @@ public class DocConfig {
         return CONFIG.get();
     }
 
-    public static void init(DocConfig docConfig) {
+    public static void init(DocConfig docConfig) throws IllegalArgumentException {
         CONFIG.set(docConfig);
+        Assert.notEmpty(docConfig.getUrl(), "缺少配置属性: doc.url");
         Assert.notEmpty(docConfig.getUsername(), "缺少配置属性: doc.username");
         Assert.notEmpty(docConfig.getPassword(), "缺少配置属性: doc.password");
         Assert.notEmpty(docConfig.getProjectId(), "缺少配置属性: doc.project_id");
-        Assert.notEmpty(docConfig.getUrl(), "缺少配置属性: doc.url");
         LoginDocHandler.login();
     }
 
