@@ -63,7 +63,7 @@ public class MainPlugin extends AnAction {
                 selectGroup(project);
             }
         } catch (Exception ignored) {
-            BaseUtils.printError("Exception {}", ignored);
+            BaseUtils.printError(ignored.getMessage());
         } finally {
             Application.clear();
         }
