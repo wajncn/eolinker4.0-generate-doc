@@ -17,8 +17,6 @@ import java.util.List;
 public class MainPluginTest {
     @Test
     void testFirstTest_win10() throws IOException, InterruptedException {
-        Project.LICENSE_STATUS = true;
-
         Application.basePath = "C:\\Users\\pc\\IdeaProjects\\guanghui-mini";
 
         DocConfig docConfig = DocConfig.builder()
@@ -40,9 +38,6 @@ public class MainPluginTest {
 
     @Test
     void testFirstTest() throws IOException {
-        Project.LICENSE_STATUS = true;
-
-
         Application.basePath = "/Users/wangjin/IdeaProjects/yipin";
 
         DocConfig docConfig = DocConfig.builder()
@@ -66,8 +61,6 @@ public class MainPluginTest {
     void yipin() throws IOException, InterruptedException {
 
         long l = System.currentTimeMillis();
-        Project.LICENSE_STATUS = true;
-
         Application.basePath = "/Users/wangjin/IdeaProjects/yipin";
 
         List<String> strings = new ArrayList<>();

@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.wangjin.Generate.WeimobDoc</id>
+    <id>com.wangjin.Generate.EolinkerDoc</id>
     <name>Generate EolinkerDoc</name>
     <vendor email="wajncn@gmail.com" url="https://javanet123.com/">王进</vendor>
     <description><![CDATA[

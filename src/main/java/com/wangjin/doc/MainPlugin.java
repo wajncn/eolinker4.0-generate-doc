@@ -65,7 +65,6 @@ public class MainPlugin extends AnAction {
         } catch (Exception ignored) {
             BaseUtils.printError(ignored.getMessage());
         } finally {
-            Application.clear();
         }
 
     }

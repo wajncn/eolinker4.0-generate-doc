@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.base.InterfaceDoc;
-import com.wangjin.doc.base.Project;
 import com.wangjin.doc.domain.ApiList;
 import com.wangjin.doc.domain.GroupList;
 import com.wangjin.doc.domain.ProjectList;
@@ -200,12 +199,6 @@ public class LoginDocHandler {
     @SneakyThrows
     private static void upload(String data, InterfaceDoc.MethodDoc doc) {
         DocConfig docConfig = DocConfig.get();
-
-        if (!Project.LICENSE_STATUS) {
-            return;
-        }
-
-
         ApiList apiList = apiLists.get(doc.getRequestMapping() + doc.getMethodType().getApiRequestType());
         if (apiList != null) {
             if (docConfig.isUpdate()) {

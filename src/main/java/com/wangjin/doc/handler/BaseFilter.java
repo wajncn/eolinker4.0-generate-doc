@@ -60,11 +60,6 @@ public abstract class BaseFilter implements Filter {
         if (members.isEmpty()) {
             return;
         }
-        if (!Project.LICENSE_STATUS) {
-            return;
-        }
-
-
 //        NodeList<BodyDeclaration<?>> members = type.getMembers();
         members.forEach(member -> {
             if (!(member instanceof FieldDeclaration)) {

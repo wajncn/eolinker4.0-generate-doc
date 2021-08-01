@@ -38,11 +38,9 @@ import static com.wangjin.doc.util.BaseUtils.print;
  **/
 @NoArgsConstructor
 public final class Project {
-
     public static final Project INSTANCE = new Project();
     private static final DocHandler DOC_HANDLER = new DocHandlerImpl();
     private static final ParseHandler<CompilationUnit> PARSE_HANDLER = new JavaParseHandlerImpl();
-    public static boolean LICENSE_STATUS = false;
     //项目路径
     public static String path = null;
     //哪个模块的controller
@@ -146,9 +144,6 @@ public final class Project {
         interfaceDoc.setRequestMapping(StrUtil.addPrefixIfNot(requestMapping, "/"));
         interfaceDoc.setComment(type.getName() + "控制器");
 
-        if (!Project.LICENSE_STATUS) {
-            return;
-        }
         AtomicInteger index = new AtomicInteger(1);
         for (BodyDeclaration<?> member : type.getMembers()) {
             if (!(member instanceof MethodDeclaration)) {

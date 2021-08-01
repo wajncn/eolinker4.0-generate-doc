@@ -19,8 +19,6 @@ public class MainTest {
 
         long l = System.currentTimeMillis();
 
-        Project.LICENSE_STATUS = true;
-
         Application.basePath = "C:\\Users\\pc\\IdeaProjects\\chiniu";
         List<String> strings = new ArrayList<>();
         strings.add("C:\\Users\\pc\\IdeaProjects\\chiniu\\chiniu-admin\\src\\main\\java\\com\\wmeimob\\fastboot\\chiniu\\controller\\OrdersController.java");
