@@ -2,6 +2,8 @@
 
 ## 本项目遵循Apache License
 
+## eolinker4.0项目地址为: https://github.com/wajncn/eolinker4.0
+
 ## 最新版本
 
 > `v1.0.0`
