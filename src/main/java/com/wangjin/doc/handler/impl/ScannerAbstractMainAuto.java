@@ -4,10 +4,12 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
+import com.wangjin.doc.base.Application;
 import com.wangjin.doc.base.Constant;
 import com.wangjin.doc.base.DocConfig;
 import com.wangjin.doc.base.TemplateExport;
 import com.wangjin.doc.handler.AbstractMain;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -17,7 +19,6 @@ import java.util.Properties;
 
 import static com.wangjin.doc.base.Application.basePath;
 import static com.wangjin.doc.base.Application.controllerPaths;
-import static com.wangjin.doc.util.BaseUtils.print;
 import static com.wangjin.doc.util.BaseUtils.printTips;
 
 /**
@@ -91,11 +92,21 @@ public class ScannerAbstractMainAuto extends AbstractMain {
         DocConfig docConfig = DocConfig.get();
         PROJECT.init(StrUtil.trim(docConfig.getProjectPath()));
         PROJECT.generate(docConfig.getControllerPaths());
-        print("success");
-        openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+
+        synchronized (lock) {
+            lock.wait();
+        }
     }
 
     @Override
     protected void onSuccess() {
+        try {
+            DocConfig docConfig = DocConfig.get();
+            openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+        } catch (Exception e) {
+            BaseUtils.printError(e.getMessage());
+        } finally {
+            Application.clear();
+        }
     }
 }

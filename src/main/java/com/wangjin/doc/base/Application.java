@@ -1,8 +1,10 @@
 package com.wangjin.doc.base;
 
 import com.intellij.openapi.project.Project;
+import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.handler.AbstractMain;
 import com.wangjin.doc.handler.impl.ScannerAbstractMainAuto;
+import com.wangjin.doc.util.BaseUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -62,12 +64,14 @@ public final class Application {
 
 
     public static void clear() {
-        System.out.println("Clear Stack...");
+        BaseUtils.printTips("Clear Stack...");
         groupId = null;
         controllerPaths = null;
         project = null;
         basePath = null;
         SELECTED_TEXT.clear();
+        FileCache.clear();
+        DocConfig.clear();
         AbstractMain.clear();
     }
 

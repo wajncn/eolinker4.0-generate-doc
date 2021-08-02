@@ -56,6 +56,7 @@ public final class FileCache {
 
     public static void clear() {
         FILE_CACHE.clear();
+        MODULE_CACHE.clear();
         FILE_CACHE_CONTROLLER.clear();
     }
 

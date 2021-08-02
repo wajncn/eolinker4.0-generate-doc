@@ -44,17 +44,15 @@ public class MainPlugin extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
-        Application.clear();
         try {
+            Application.clear();
             Project project = event.getData(PlatformDataKeys.PROJECT);
             VirtualFile[] data = event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
             if (data == null || data.length == 0) {
                 Messages.showMessageDialog(project, "请选择Controller", "Error", Messages.getInformationIcon());
                 return;
             }
-
             handlerSelected(event);
-
             Application.builder(project, project.getBasePath(), Arrays.stream(data)
                     .map(file -> StrUtil.removePrefix(Paths.get(file.getPath()).toString(), "file:/"))
                     .collect(Collectors.toList()), null).execute(true);
@@ -64,9 +62,7 @@ public class MainPlugin extends AnAction {
             }
         } catch (Exception ignored) {
             BaseUtils.printError(ignored.getMessage());
-        } finally {
         }
-
     }
 
     /**

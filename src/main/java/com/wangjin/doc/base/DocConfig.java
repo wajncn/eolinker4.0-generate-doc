@@ -34,6 +34,10 @@ public class DocConfig {
         return CONFIG.get();
     }
 
+    public static void clear() {
+        CONFIG.remove();
+    }
+
     public static void init(DocConfig docConfig) throws IllegalArgumentException {
         CONFIG.set(docConfig);
         Assert.notEmpty(docConfig.getUrl(), "缺少配置属性: doc.url");

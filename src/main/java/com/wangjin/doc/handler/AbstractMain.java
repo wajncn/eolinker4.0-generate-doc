@@ -42,6 +42,7 @@ public abstract class AbstractMain {
 
     protected abstract void onSuccess();
 
+    protected static final Object lock = new Object();
 
     public final void exe() {
         try {
@@ -55,8 +56,10 @@ public abstract class AbstractMain {
                 this.createDoc();
             }
         } finally {
+            if (CREATE_DOC.get()) {
+                onSuccess();
+            }
             CREATE_DOC.remove();
-            onSuccess();
         }
     }
 

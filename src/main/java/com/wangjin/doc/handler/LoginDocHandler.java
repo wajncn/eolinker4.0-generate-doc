@@ -244,6 +244,9 @@ public class LoginDocHandler {
             while (true) {
                 if (execute) {
                     if (UPLOAD_DATA.isEmpty() && threadPoolExecutor.getActiveCount() == 0) {
+                        synchronized (AbstractMain.lock) {
+                            AbstractMain.lock.notify();
+                        }
                         BaseUtils.printTips("队列为空,监听子线程销毁中...");
                         return;
                     }
