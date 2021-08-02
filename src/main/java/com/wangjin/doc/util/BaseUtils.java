@@ -3,6 +3,8 @@ package com.wangjin.doc.util;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.google.gson.JsonElement;
 import com.wangjin.doc.base.Application;
 import com.wangjin.doc.domain.ResultInfo;
@@ -382,5 +384,30 @@ public class BaseUtils {
 
     public static boolean isWindows() {
         return System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
+    }
+
+
+    public static boolean isRequired(NodeList<AnnotationExpr> annotationExprs) {
+        try {
+            for (AnnotationExpr annotation : annotationExprs) {
+                if (StrUtil.startWithAny(annotation.getNameAsString(),
+                        "Not",
+                        "Future",
+                        "Max",
+                        "Min",
+                        "Negative",
+                        "Null",
+                        "Past",
+                        "Pattern",
+                        "Positive",
+                        "Size",
+                        "Email",
+                        "Assert")) {
+                    return true;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return false;
     }
 }

@@ -102,5 +102,6 @@ public class InterfaceDoc {
         private String type;
         private String field;
         private String comment;
+        private boolean required;
     }
 }

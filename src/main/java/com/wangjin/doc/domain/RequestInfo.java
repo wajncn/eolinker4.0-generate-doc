@@ -29,8 +29,11 @@ public class RequestInfo {
     @SerializedName("default")
     private final String defaultV = "";
 
+    /**
+     * 0就是必填  1就是不填
+     */
     @SerializedName("paramNotNull")
-    private final String paramNotNull = "0";
+    private final String paramNotNull;
 
     @SerializedName("$index")
     private final String index = "0";

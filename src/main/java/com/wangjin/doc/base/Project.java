@@ -183,6 +183,7 @@ public final class Project {
                     InterfaceDoc.Args arg = new InterfaceDoc.Args();
                     arg.setType(p.getTypeAsString());
                     arg.setField(p.getName().asString());
+                    arg.setRequired(BaseUtils.isRequired(member.getAnnotations()));
                     arg.setComment(Optional.ofNullable(commentMap.get(p.getName().asString())).orElse(""));
                     return arg;
                 }).collect(Collectors.toList());

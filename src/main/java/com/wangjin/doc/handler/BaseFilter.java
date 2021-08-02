@@ -9,7 +9,6 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wangjin.doc.base.Constant;
-import com.wangjin.doc.base.Project;
 import com.wangjin.doc.cache.FileCache;
 import com.wangjin.doc.domain.RequestInfo;
 import com.wangjin.doc.domain.ResultInfo;
@@ -60,8 +59,10 @@ public abstract class BaseFilter implements Filter {
         if (members.isEmpty()) {
             return;
         }
-//        NodeList<BodyDeclaration<?>> members = type.getMembers();
         members.forEach(member -> {
+
+            final boolean required = BaseUtils.isRequired(member.getAnnotations());
+
             if (!(member instanceof FieldDeclaration)) {
                 return;
             }
@@ -150,6 +151,7 @@ public abstract class BaseFilter implements Filter {
                         .paramKey(Optional.ofNullable(parentName).orElse("") + variableDeclarator.getName().asString())
                         .paramName(BaseUtils.reformatMethodComment(commentText))
                         .paramValue(typeName.contains("Date") ? "yyyy-MM-dd HH:mm:ss" : (commentText.length() > 10 ? StrUtil.center("", 50, "　") + "\n" + BaseUtils.reformatMethodComment(commentText, 999) : ""))
+                        .paramNotNull(required ? "0" : "1")
                         .build()));
             } else {
                 jsonArray.add(GSON.toJsonTree(ResultInfo.builder()

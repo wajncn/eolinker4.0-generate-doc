@@ -59,6 +59,7 @@ public class RequestInfoBaseFilterImpl extends BaseFilter {
                     .paramName(BaseUtils.reformatMethodComment(requestArg.getComment()))
                     .paramValue((requestArg.getComment().length() > 10
                             ? StrUtil.center("", 50, "　") + "\n" + BaseUtils.reformatMethodComment(requestArg.getComment(), 999) : ""))
+                    .paramNotNull(requestArg.isRequired() ? "0" : "1")
                     .build()));
             return;
         }
