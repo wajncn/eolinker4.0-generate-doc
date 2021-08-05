@@ -27,4 +27,27 @@
 > 配置完成后选择`Controller`(可多选)后点击`Tools`--->`Generate EolinkerDoc`
 > 可选择方法进行单独生成文档(但必须包含`*Mapping`)
 
+
+
+```properties
+# https://github.com/wajncn/eolinker4.0-generate-doc
+
+# (必填)文档系统的网关地址
+doc.url=
+# (必填)文档系统登录的账号
+doc.username=
+# (必填)文档系统登录的密码
+doc.password=
+# (必填)文档系统项目id 打开项目后,浏览器地址栏可以看到项目的ID
+doc.project_id=
+
+# 以下为个性化设置
+# (非必填)文档系统分组的id 打开项目后,点击分组,浏览器地址栏能看到分组的ID. 如果该项没有配置,则在生成时会出现分组下拉框
+doc.group_id=
+# (非必填)是否动态根据分组id和请求路径修改接口 默认为false
+#        该项配置只对通过文件生成文档有效. 手动通过选择代码块生成会默认更新文档
+doc.update=
+# (非必填)忽略解析的return对象,多个以英文逗号分割 如:RequestResult,JSONResult
+doc.ignore_result=
+```
 如有`BUG`或`建议`,请提交issues或pr

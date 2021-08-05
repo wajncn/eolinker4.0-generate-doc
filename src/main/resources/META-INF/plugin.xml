@@ -3,23 +3,30 @@
     <name>Generate EolinkerDoc</name>
     <vendor email="wajncn@gmail.com" url="https://javanet123.com/">王进</vendor>
     <description><![CDATA[
-    解析Controller到Eolinker4.0文档系统<br>
+    Parse Controller to Eolinker 4.0 doc system<br>
+    > 1.Support `Multi-select Controller` file for interface document synchronization. <br/>
+    > 2.Support `infinite nesting`, `infinite inheritance` parsing. (`self-reference` will not infinite loop, `recursion depth is 2`). <br/>
+    > 3.Support `Dynamic update` document, the default is closed state, you need to manually open it. <br/>
+    > 4.Support `Select code block` to synchronize part of the interface document. Modify the document by default <br/>
+    > 5.Support `Select Group` to generate documents.
       Click Tools -> "Generate EolinkerDoc"<br>
     <br>
 <a href="https://github.com/wajncn/eolinker4.0-generate-doc">Need Help?<a/><br>
+<a href="https://javanet123.com/">about me<a/><br>
     ]]></description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
-<!--    <depends>com.intellij.modules.ultimate</depends>-->
+    <!--    <depends>com.intellij.modules.ultimate</depends>-->
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
-        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="Generate EolinkerDoc" description="Generate EolinkerDoc">
+        <action id="MainPlugin" class="com.wangjin.doc.MainPlugin" text="Generate EolinkerDoc"
+                description="Generate EolinkerDoc">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>

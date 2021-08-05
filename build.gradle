@@ -29,11 +29,11 @@ patchPluginXml {
     changeNotes """
 <pre>
 Release v1.0.0
-    1.支持`多选Controller`文件进行接口文档同步.
-    2.支持`无限嵌套`,`无限继承`解析.(`自引用`不会死循环,`递归深度为2`).
-    3.支持`动态更新`文档,默认为关闭状态,需要手动开启.
-    4.支持`选择代码块`进行部分接口文档同步.
-    5.支持`选择分组`生成文档.
+    1.Support `Multi-select Controller` file for interface document synchronization. <br/>
+    2.Support `infinite nesting`, `infinite inheritance` parsing. (`self-reference` will not infinite loop, `recursion depth is 2`). <br/>
+    3.Support `Dynamic update` document, the default is closed state, you need to manually open it. <br/>
+    4.Support `Select code block` to synchronize part of the interface document. Modify the document by default <br/>
+    5.Support `Select Group` to generate documents.
 </pre>"""
     sinceBuild "145.258"
     untilBuild null
