@@ -292,15 +292,6 @@ public class BaseUtils {
 
 
     /**
-     * 检测客户端是否还能使用. 异步调用的时候改方法不能抛出异常. 打包进ex4j会出现程序正常使用问题
-     *
-     * @return
-     */
-    public static boolean checkVersion() {
-        return true;
-    }
-
-    /**
      * 该方法主要是把方法注释的param参数解析成map
      *
      * @param str

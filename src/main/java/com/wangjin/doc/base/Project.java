@@ -67,16 +67,13 @@ public final class Project {
         }
         ExecutorService service = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), 200,
                 0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(1024), new ThreadPoolExecutor.AbortPolicy());
+                new LinkedBlockingQueue<>(1024), new ThreadPoolExecutor.AbortPolicy());
 
-        List<CompletableFuture<List<File>>> collect = Arrays.stream(FileUtil.ls(path)).map(file -> {
-            return CompletableFuture.supplyAsync(() -> {
-                return FileUtil.loopFiles(file, pathname -> {
+        List<CompletableFuture<List<File>>> collect = Arrays.stream(FileUtil.ls(path))
+                .map(file -> CompletableFuture.supplyAsync(() -> FileUtil.loopFiles(file, pathname -> {
                     String filter = pathname.getPath();
                     return filter.endsWith(".java");
-                });
-            }, service);
-        }).collect(Collectors.toList());
+                }), service)).collect(Collectors.toList());
         ArrayList<File> files = collect.stream().map(CompletableFuture::join)
                 .collect(ArrayList::new, ArrayList::addAll, ArrayList::addAll);
 

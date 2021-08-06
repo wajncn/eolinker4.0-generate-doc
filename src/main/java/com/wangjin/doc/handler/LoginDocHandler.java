@@ -122,9 +122,7 @@ public class LoginDocHandler {
 
     private static <T> List<T> parseList(JsonArray array, Class<T> c) {
         List<T> list = new ArrayList<>();
-        array.forEach(a -> {
-            list.add(GSON.fromJson(a.getAsJsonObject(), c));
-        });
+        array.forEach(a -> list.add(GSON.fromJson(a.getAsJsonObject(), c)));
         return list;
     }
 

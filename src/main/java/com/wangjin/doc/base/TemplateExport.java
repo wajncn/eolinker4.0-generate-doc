@@ -13,10 +13,10 @@ import java.util.Objects;
 @NoArgsConstructor
 public class TemplateExport {
     @Getter
-    private static String templateExport = null;
+    private static String templateExport;
 
     @Getter
-    private static String docProperties = null;
+    private static String docProperties;
 
     static {
         templateExport = IoUtil.read(Objects.requireNonNull(TemplateExport.class.getClassLoader()

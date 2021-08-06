@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-abstract class BaseRequest<R extends HttpRequest> implements HttpRequest<R> {
+abstract class BaseRequest<R extends HttpRequest<R>> implements HttpRequest<R> {
 
     static final ThreadLocal<HttpURLConnection> HTTP_URL_CONNECTION_THREAD_LOCAL = new ThreadLocal<>();
 
