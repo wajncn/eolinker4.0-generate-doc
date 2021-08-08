@@ -46,7 +46,7 @@ public final class Project {
     //哪个模块的controller
     public static String module = null;
 
-    public static String getModuleName(String file) {
+    public static String getModuleName(final String file) {
         if (BaseUtils.isWindows()) {
             return file.replace(Project.path, "").split(File.separator + File.separator)[1];
         }
@@ -108,6 +108,8 @@ public final class Project {
     }
 
     /**
+     * generate
+     *
      * @param filePath 不要带.java后缀
      * @throws IOException
      */
@@ -118,13 +120,13 @@ public final class Project {
             return;
         }
 
-        InterfaceDoc interfaceDoc = new InterfaceDoc();
+        final InterfaceDoc interfaceDoc = new InterfaceDoc();
 
-        CompilationUnit compilationUnit = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
+        final CompilationUnit compilationUnit = PARSE_HANDLER.handler(Paths.get(fc.getFilePath()));
 
         Assert.isTrue(!compilationUnit.getTypes().isEmpty(), "系统检测该文档非标准Controller filePath:{}", filePath);
 
-        TypeDeclaration<?> type = compilationUnit.getType(0);
+        final TypeDeclaration<?> type = compilationUnit.getType(0);
 
         AnnotationExpr annotationExpr = type.getAnnotationByName("RequestMapping").orElse(null);
         if (annotationExpr == null) {
@@ -141,7 +143,14 @@ public final class Project {
         interfaceDoc.setRequestMapping(StrUtil.addPrefixIfNot(requestMapping, "/"));
         interfaceDoc.setComment(type.getName() + "控制器");
 
-        AtomicInteger index = new AtomicInteger(1);
+        this.buidlerInterfaceDoc(interfaceDoc, type);
+
+        //接口文档计算解析完成. 开始生产文档json
+        DOC_HANDLER.handler(interfaceDoc);
+    }
+
+    private void buidlerInterfaceDoc(final InterfaceDoc interfaceDoc, final TypeDeclaration<?> type) {
+        final AtomicInteger index = new AtomicInteger(1);
         for (BodyDeclaration<?> member : type.getMembers()) {
             if (!(member instanceof MethodDeclaration)) {
 //                暂不处理这种类型
@@ -197,9 +206,6 @@ public final class Project {
                 interfaceDoc.addMethodDoc(doc);
             }
         }
-
-        //接口文档计算解析完成. 开始生产文档json
-        DOC_HANDLER.handler(interfaceDoc);
     }
 
 

@@ -76,6 +76,11 @@ public final class Application {
     }
 
 
+    /**
+     * execute
+     *
+     * @param init 是否初始化
+     */
     @SneakyThrows
     public void execute(boolean init) {
         if (init) {
