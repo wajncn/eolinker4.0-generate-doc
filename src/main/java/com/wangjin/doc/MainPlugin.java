@@ -45,6 +45,7 @@ public class MainPlugin extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent event) {
         try {
+
             Application.clear();
             Project project = event.getData(PlatformDataKeys.PROJECT);
             VirtualFile[] data = event.getData(PlatformDataKeys.VIRTUAL_FILE_ARRAY);
@@ -52,7 +53,10 @@ public class MainPlugin extends AnAction {
                 Messages.showMessageDialog(project, "请选择Controller", "Error", Messages.getInformationIcon());
                 return;
             }
-            handlerSelected(event);
+
+            // 这里去处理动态选择下拉框
+            this.handlerSelected(event);
+
             Application.builder(project, project.getBasePath(), Arrays.stream(data)
                     .map(file -> StrUtil.removePrefix(Paths.get(file.getPath()).toString(), "file:/"))
                     .collect(Collectors.toList()), null).execute(true);
