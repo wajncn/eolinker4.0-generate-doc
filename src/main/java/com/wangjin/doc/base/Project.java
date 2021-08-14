@@ -101,7 +101,7 @@ public final class Project {
                 print("开始生成: {}", file);
                 generate(StrUtil.removeSuffix(file, ".java"));
             } catch (Exception e) {
-                BaseUtils.printError("generate Exception", e);
+                BaseUtils.printError("generate Exception:{}", e);
             }
         });
         uploadDoc.setExecute(true);

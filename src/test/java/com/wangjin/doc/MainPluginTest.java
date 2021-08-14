@@ -11,6 +11,8 @@ import com.wangjin.doc.base.InterfaceDoc;
 import com.wangjin.doc.base.Project;
 import com.wangjin.doc.handler.ParseHandler;
 import com.wangjin.doc.handler.impl.JavaParseHandlerImpl;
+import com.wangjin.doc.handler.impl.ResponseInfoBaseFilterImpl;
+import com.wangjin.doc.util.BaseUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,17 +28,19 @@ public class MainPluginTest {
 
 
     @Test
-    void yipin() throws IOException, InterruptedException {
+    void test() throws IOException, InterruptedException {
         long l = System.currentTimeMillis();
-        Application.basePath = "/Users/wangjin/IdeaProjects/yipin";
+        Application.basePath = "/Users/wangjin/IdeaProjects/chaintrade";
         List<String> strings = new ArrayList<>();
-        strings.add("AdImagesController path");
+        strings.add("/Users/wangjin/IdeaProjects/chaintrade/admin/src/main/java/com/spark/bitrade/controller/loan/LossThresholdController.java");
+
+        ResponseInfoBaseFilterImpl.addIGNORE_RESULT("MessageResult");
         DocConfig docConfig = DocConfig.builder()
-                .url("wangjin")
+                .url("https://doc.javanet123.com/")
                 .username("wangjin")
-                .password("123456")
-                .projectId("408")
-                .groupId("2985")
+                .password("wangjin")
+                .projectId("1")
+                .groupId("19")
                 .controllerPaths(strings)
                 .update(true)
                 .build();
@@ -48,7 +52,7 @@ public class MainPluginTest {
         System.out.println("init time: " + (System.currentTimeMillis() - l) + "");
         project.generate(docConfig.getControllerPaths());
         System.out.println("generate time: " + (System.currentTimeMillis() - l) + "");
-//        BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
+        BaseUtils.openBrowse(docConfig.getUrl() + "/index.html#/home/project/inside/api/list?projectID=" + docConfig.getProjectId() + "&groupID=" + docConfig.getGroupId());
         System.out.println("---");
         Thread.sleep(3000 * 30);
     }
